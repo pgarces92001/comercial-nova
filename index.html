@@ -209,6 +209,8 @@ tr.totrow td{font-weight:600;background:var(--surface-2)}
 textarea{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 11px;font:inherit;color:inherit;resize:vertical;box-shadow:var(--shadow-sm)}
 textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
 @media (max-width:760px){.pagos{grid-template-columns:1fr}.caja-hero .ch-r{align-items:flex-start;text-align:left}}
+.daynav{display:flex;align-items:center;gap:6px}
+.daynav input[type=date]{height:32px;padding:0 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:inherit;font:inherit;font-size:.85rem}
 .pager{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 20px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted);flex-wrap:wrap}
 .pager div{display:flex;gap:6px}
 
@@ -678,7 +680,7 @@ const MODULOS = [
   {id:'panel', nombre:'Panel general', corto:'Panel', grupo:'General', desc:'Resumen de la operación de hoy y de los últimos siete días.', roles:['admin']},
   {id:'venta', nombre:'Venta y facturación', corto:'Venta y facturación', grupo:'General', desc:'Registra ventas, emite facturas y consulta las facturas emitidas.', roles:['admin','cajero']},
   {id:'caja', nombre:'Apertura y cierre de caja', corto:'Caja', grupo:'General', desc:'Abre tu caja con el fondo de cambio y ciérrala con el arqueo del día.', roles:['admin','cajero']},
-  {id:'reporte', nombre:'Reporte de ventas', corto:'Reporte de ventas', grupo:'General', desc:'Ventas totales con el desglose por efectivo, tarjeta y transferencia.', roles:['admin','cajero']},
+  {id:'reporte', nombre:'Reporte de ventas diarias', corto:'Ventas del día', grupo:'General', desc:'Ventas de cada día con el desglose por efectivo, tarjeta y transferencia.', roles:['admin','cajero']},
   {id:'historial', nombre:'Ventas', corto:'Ventas', grupo:'General', desc:'Todas las facturas emitidas, con totales e impuestos.', roles:['admin']},
   {id:'inventario', nombre:'Inventario', corto:'Inventario', grupo:'Catálogo', desc:'Productos, precios y existencias en bodega.', roles:['admin']},
   {id:'clientes', nombre:'Clientes', corto:'Clientes', grupo:'Catálogo', desc:'Cédula y RUC validados con el dígito verificador del Registro Civil y el SRI.', roles:['admin']},
@@ -690,7 +692,7 @@ function puede(mod){ const m = MODULOS.find(x=>x.id===mod); return !!(sesion && 
 const esAdmin = ()=> sesion && sesion.rol==='admin';
 const inicio = ()=> puede('panel') ? 'panel' : 'venta';
 let ventaTab = 'nueva', cliSel = '9999999999999';
-const repState = {periodo:'hoy', vendedor:'', pago:''};
+const repState = {fecha:'', vendedor:'', pago:''};
 
 /* ---------- Caja: apertura, cierre y desglose por forma de pago ---------- */
 const PAGOS = ['Efectivo','Tarjeta','Transferencia'];
@@ -1164,14 +1166,6 @@ function formUsuario(u){
 }
 
 /* ---------- Vistas de Caja y Reporte de ventas ---------- */
-function filtroPeriodo(v){
-  const f = new Date(v.fecha), now = new Date();
-  if(repState.periodo==='hoy') return dayKey(f)===dayKey(now);
-  if(repState.periodo==='7d') return now - f < 7*864e5;
-  if(repState.periodo==='mes') return f.getMonth()===now.getMonth() && f.getFullYear()===now.getFullYear();
-  if(repState.periodo==='caja'){ const c=cajaAbierta(sesion.usuario); return !!c && v.caja_id===c.id; }
-  return true;
-}
 function tarjetasPago(d){
   return `<div class="pagos">${PAGOS.map(p=>{ const pct = d.total ? d[p]/d.total*100 : 0;
     return `<div class="card pago-card"><div class="pc-top"><span class="pc-ic pc-${p.toLowerCase()}">${ic(PAGO_IC[p])}</span><span>${p}</span></div>
@@ -1274,36 +1268,49 @@ function verArqueo(id){
     ${c.observacion?`<div class="note">${ic('info')}${esc(c.observacion)}</div>`:''}
   </div>`, `<button class="btn" id="cerrar">Listo</button>`, ()=>$('#cerrar').onclick=closeModal, true);
 }
+const isoDia = d => { const x=new Date(d); return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0'); };
+const fechaDia = s => { const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d,12); };
 views.reporte = function(){
-  if(repState.periodo==='caja' && !cajaAbierta(sesion.usuario)) repState.periodo='hoy';
-  const base = db.ventas.filter(v=>(esAdmin() ? (!repState.vendedor || v.vendedor===repState.vendedor) : v.vendedor===sesion.usuario) && filtroPeriodo(v));
+  const hoyIso = isoDia(Date.now());
+  if(!repState.fecha || repState.fecha>hoyIso) repState.fecha = hoyIso;
+  const dia = fechaDia(repState.fecha), esHoy = repState.fecha===hoyIso;
+  const base = db.ventas.filter(v=>(esAdmin() ? (!repState.vendedor || v.vendedor===repState.vendedor) : v.vendedor===sesion.usuario) && isoDia(v.fecha)===repState.fecha);
   const d = desglose(base);
-  const per = [['hoy','Hoy'],...(cajaAbierta(sesion.usuario)?[['caja','Caja actual']]:[]),['7d','7 días'],['mes','Este mes'],['todo','Todo']];
-  const dias = {}; base.forEach(v=>{ const k=dayKey(v.fecha); (dias[k]=dias[k]||{f:v.fecha,l:[]}).l.push(v); });
-  const filas = Object.values(dias).sort((a,b)=>new Date(b.f)-new Date(a.f)).map(x=>({f:x.f, d:desglose(x.l)}));
   const colors = {Efectivo:'var(--c1)',Tarjeta:'var(--c2)',Transferencia:'var(--c3)'};
-  return `<div class="pagehead"><div><h1>Reporte de ventas</h1><p>${esAdmin()?'Ventas de la tienda':'Tus ventas'} con el desglose por forma de pago.</p></div>
+  const titulo = dia.toLocaleDateString('es-EC',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const porVend = {}; base.forEach(v=>{ (porVend[v.vendedor]=porVend[v.vendedor]||[]).push(v); });
+  const filasV = Object.entries(porVend).map(([u,l])=>({u, n:(db.usuarios.find(x=>x.usuario===u)||{}).nombre||u, d:desglose(l)})).sort((a,b)=>b.d.total-a.d.total);
+  const horas = {}; base.forEach(v=>{ const h=new Date(v.fecha).getHours(); (horas[h]=horas[h]||[]).push(v); });
+  const filasH = Object.keys(horas).map(Number).sort((a,b)=>a-b).map(h=>({h, d:desglose(horas[h])}));
+  const tabla = (rows, col, lab) => `<div class="tablewrap"><table><thead><tr><th>${col}</th><th class="num">Fact.</th><th class="num">Efectivo</th><th class="num">Tarjeta</th><th class="num">Transferencia</th><th class="num">Total</th></tr></thead><tbody>
+      ${rows.map(x=>`<tr><td>${lab(x)}</td><td class="num">${x.d.n}</td><td class="num">${money(x.d.Efectivo)}</td><td class="num">${money(x.d.Tarjeta)}</td><td class="num">${money(x.d.Transferencia)}</td><td class="num cell-main">${money(x.d.total)}</td></tr>`).join('')}
+      <tr class="totrow"><td>Total del día</td><td class="num">${d.n}</td><td class="num">${money(d.Efectivo)}</td><td class="num">${money(d.Tarjeta)}</td><td class="num">${money(d.Transferencia)}</td><td class="num">${money(d.total)}</td></tr></tbody></table></div>`;
+  const detalle = esAdmin() && !repState.vendedor
+    ? {t:'Ventas del día por vendedor', s:'Cuánto cobró cada usuario en cada forma de pago', h: tabla(filasV,'Vendedor',x=>`<div class="cell-main">${esc(x.n)}</div><div class="cell-sub">${esc(x.u)}</div>`)}
+    : {t:'Ventas del día por hora', s:'Facturas agrupadas por hora de emisión', h: tabla(filasH,'Hora',x=>`${String(x.h).padStart(2,'0')}:00 – ${String(x.h).padStart(2,'0')}:59`)};
+  return `<div class="pagehead"><div><h1>Reporte de ventas diarias</h1><p>${esAdmin()?'Ventas de la tienda':'Tus ventas'} del <b style="text-transform:capitalize">${titulo}</b>, con el desglose por forma de pago.</p></div>
     <div class="head-actions">${esAdmin()?`<select id="rep-ven" aria-label="Vendedor"><option value="">Todos los vendedores</option>${db.usuarios.map(u=>`<option value="${esc(u.usuario)}" ${repState.vendedor===u.usuario?'selected':''}>${esc(u.nombre)}</option>`).join('')}</select>`:''}
-    <div class="seg" id="rep-per" role="group" aria-label="Periodo">${per.map(([v,t])=>`<button type="button" data-v="${v}" class="${repState.periodo===v?'on':''}">${t}</button>`).join('')}</div></div></div>
+    <div class="daynav"><button type="button" class="btn ghost sm" id="rep-prev" aria-label="Día anterior">‹</button><input type="date" id="rep-fecha" value="${repState.fecha}" max="${hoyIso}" aria-label="Fecha del reporte"><button type="button" class="btn ghost sm" id="rep-next" aria-label="Día siguiente" ${esHoy?'disabled':''}>›</button>${esHoy?'':'<button type="button" class="btn ghost sm" id="rep-hoy">Hoy</button>'}</div></div></div>
     <div class="kpis" style="grid-template-columns:repeat(3,minmax(0,1fr))">
-      <div class="card kpi"><div class="lbl">${ic('money')}Total vendido</div><div class="val">${money(d.total)}</div><div class="foot"><span>con IVA</span></div></div>
-      <div class="card kpi"><div class="lbl">${ic('historial')}Facturas</div><div class="val">${d.n}</div></div>
+      <div class="card kpi"><div class="lbl">${ic('money')}Total vendido ${esHoy?'hoy':'en el día'}</div><div class="val">${money(d.total)}</div><div class="foot"><span>con IVA</span></div></div>
+      <div class="card kpi"><div class="lbl">${ic('historial')}Facturas del día</div><div class="val">${d.n}</div></div>
       <div class="card kpi"><div class="lbl">${ic('ticket')}Ticket promedio</div><div class="val">${money(d.n?d.total/d.n:0)}</div></div>
     </div>
     ${tarjetasPago(d)}
     <div class="grid2">
-      <div class="card"><div class="card-h bordered"><div><h2>Ventas por día y forma de pago</h2><div class="sub">USD con IVA</div></div></div><div class="card-b flush">${filas.length?`<div class="tablewrap"><table><thead><tr><th>Fecha</th><th class="num">Efectivo</th><th class="num">Tarjeta</th><th class="num">Transferencia</th><th class="num">Total</th></tr></thead><tbody>
-        ${filas.map(x=>`<tr><td>${fmtDate(x.f)}</td><td class="num">${money(x.d.Efectivo)}</td><td class="num">${money(x.d.Tarjeta)}</td><td class="num">${money(x.d.Transferencia)}</td><td class="num cell-main">${money(x.d.total)}</td></tr>`).join('')}
-        <tr class="totrow"><td>Total</td><td class="num">${money(d.Efectivo)}</td><td class="num">${money(d.Tarjeta)}</td><td class="num">${money(d.Transferencia)}</td><td class="num">${money(d.total)}</td></tr>
-      </tbody></table></div>`:empty('reporte','No hay ventas en este periodo.')}</div></div>
-      <div class="card"><div class="card-h"><div><h2>Distribución</h2><div class="sub">Participación de cada forma de pago</div></div></div><div class="card-b"><div class="donutwrap">${donut(PAGOS.map(p=>({n:p,c:colors[p],v:d[p]})))}<div class="legend">${PAGOS.map(p=>`<div><i style="background:${colors[p]}"></i><span>${p}</span><b class="num">${d.total?(d[p]/d.total*100).toFixed(1):'0.0'}%</b></div>`).join('')}</div></div></div></div>
+      <div class="card"><div class="card-h bordered"><div><h2>${detalle.t}</h2><div class="sub">${detalle.s}</div></div></div><div class="card-b flush">${base.length?detalle.h:empty('reporte','No hay ventas registradas en este día.')}</div></div>
+      <div class="card"><div class="card-h"><div><h2>Distribución del día</h2><div class="sub">Participación de cada forma de pago</div></div></div><div class="card-b"><div class="donutwrap">${donut(PAGOS.map(p=>({n:p,c:colors[p],v:d[p]})))}<div class="legend">${PAGOS.map(p=>`<div><i style="background:${colors[p]}"></i><span>${p}</span><b class="num">${d.total?(d[p]/d.total*100).toFixed(1):'0.0'}%</b></div>`).join('')}</div></div></div></div>
     </div>
-    <div class="card"><div class="card-h bordered"><div><h2>Facturas del periodo</h2><div class="sub">Filtra por forma de pago</div></div>
+    <div class="card"><div class="card-h bordered"><div><h2>Facturas del día</h2><div class="sub">Filtra por forma de pago</div></div>
       <div class="seg" id="rep-pago">${[['','Todas'],...PAGOS.map(p=>[p,p])].map(([v,t])=>`<button type="button" data-v="${v}" class="${repState.pago===v?'on':''}">${t}</button>`).join('')}</div></div>
-      <div class="card-b flush">${tablaVentas([...base].filter(v=>!repState.pago||(v.pago||'Efectivo')===repState.pago).reverse().slice(0,50))}</div></div>`;
+      <div class="card-b flush">${tablaVentas([...base].filter(v=>!repState.pago||(v.pago||'Efectivo')===repState.pago).reverse())}</div></div>`;
 };
 binders.reporte = function(){
-  $$('#rep-per button').forEach(b=>b.onclick=()=>{ repState.periodo=b.dataset.v; route(); });
+  const mover = n => { const x=fechaDia(repState.fecha); x.setDate(x.getDate()+n); repState.fecha=isoDia(x); route(); };
+  $('#rep-prev').onclick=()=>mover(-1);
+  const nx=$('#rep-next'); if(nx) nx.onclick=()=>mover(1);
+  const h=$('#rep-hoy'); if(h) h.onclick=()=>{ repState.fecha=isoDia(Date.now()); route(); };
+  $('#rep-fecha').onchange=e=>{ if(e.target.value){ repState.fecha=e.target.value; route(); } };
   $$('#rep-pago button').forEach(b=>b.onclick=()=>{ repState.pago=b.dataset.v; route(); });
   const s=$('#rep-ven'); if(s) s.onchange=()=>{ repState.vendedor=s.value; route(); };
   $$('[data-ver]').forEach(b=>b.onclick=()=>verFactura(b.dataset.ver));
