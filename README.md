@@ -6,4 +6,12 @@ Sistema de gestión comercial para una tienda de tecnología: punto de venta y f
 
 Proyecto integrador · Lenguajes de Programación · Universidad Espíritu Santo (UEES)
 
-> Aplicación de demostración académica. Los datos se guardan en el navegador de cada usuario y las facturas no tienen validez tributaria.
+## Base de datos
+
+Los datos (usuarios, productos, clientes y ventas) están en una base de datos **Supabase (PostgreSQL)** compartida por todos los usuarios, con actualización en tiempo real.
+
+- Cada factura se emite con la función `registrar_venta`, que descuenta el stock y crea la factura en una sola transacción. Si dos cajeros venden la última unidad al mismo tiempo, solo uno lo consigue.
+- El script completo de la base de datos está en [`supabase/comercial-nova-supabase.sql`](supabase/comercial-nova-supabase.sql).
+- Si la base de datos no responde, la página trabaja solo en el navegador (localStorage).
+
+> Aplicación de demostración académica. Las facturas no tienen validez tributaria.

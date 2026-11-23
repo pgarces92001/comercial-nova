@@ -11,6 +11,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <style>
 /* Layout: SaaS claro — menú lateral blanco fijo, barra superior con búsqueda global y acciones, contenido en tarjetas con aire */
 :root{
@@ -64,6 +65,8 @@ nav a.on{background:var(--brand-soft);color:var(--brand)}
 nav a .badge{margin-left:auto;font-size:.68rem;font-weight:600;background:var(--badbg);color:var(--bad);padding:1px 7px;border-radius:99px}
 .sidecard{margin-top:auto;display:flex;flex-direction:column;gap:10px}
 .demo{border:1px dashed var(--line-strong);border-radius:9px;padding:10px 12px;font-size:.76rem;color:var(--muted);display:flex;flex-direction:column;gap:7px}
+.demo .conn{display:flex;gap:8px;align-items:flex-start;color:var(--ok)}
+.demo .conn i{width:8px;height:8px;border-radius:50%;background:var(--ok);flex:none;margin-top:5px;box-shadow:0 0 0 3px var(--okbg)}
 .demo button{align-self:flex-start;background:none;border:0;padding:0;color:var(--brand);font-weight:600;cursor:pointer;font-size:.76rem}
 .me{display:flex;align-items:center;gap:10px;padding:8px;border-radius:9px;border:1px solid var(--line)}
 .me .who{display:flex;flex-direction:column;line-height:1.25;min-width:0;flex:1}
@@ -394,7 +397,7 @@ input:focus,select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0
     <div class="login-top"><div class="brandmark" data-logo><div class="name">Comercial Nova<small>Tecnología · Sistema de gestión</small></div></div><button class="icon-btn" id="ltheme" type="button" aria-label="Cambiar tema"></button></div>
     <div class="login-main">
       <form class="login-box" id="flogin" novalidate>
-        <span class="eyebrow"><i></i>Sistema en línea</span>
+        <span class="eyebrow"><i></i><span id="l-online">Conectando…</span></span>
         <h2>Inicia sesión en tu cuenta</h2>
         <p class="lead">Accede al punto de venta, inventario y reportes de la tienda.</p>
         <div class="field" id="fu-user"><label for="l-user">Usuario</label>
@@ -568,7 +571,63 @@ async function hashClave(usuario, clave){
 }
 let db;
 function load(){ try{ const raw = localStorage.getItem(KEY); if(raw){ db = JSON.parse(raw); return; } db = seed(); const old = localStorage.getItem('comercial-nova-v2') || localStorage.getItem('comercial-nova-v1'); if(old){ const o = JSON.parse(old); if(o.usuarios) db.usuarios = o.usuarios; } }catch(e){ db = seed(); } }
-function save(){ try{ localStorage.setItem(KEY, JSON.stringify(db)); }catch(e){} }
+function save(){ if(nube) return; try{ localStorage.setItem(KEY, JSON.stringify(db)); }catch(e){} }
+
+/* ---------- Base de datos compartida (Supabase) ---------- */
+// Si SUPA_URL y SUPA_KEY tienen valor, todos los usuarios comparten la misma base de datos en tiempo real.
+// Si están vacías o la conexión falla, el sistema trabaja solo en este navegador (localStorage).
+const SUPA_URL = 'https://vnzhjixamekopqxjcscm.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZuemhqaXhhbWVrb3BxeGpjc2NtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTU0NTUxNjgsImV4cCI6MjExMTAzMTE2OH0.dLPUi5EcRoRoRrh44_Mn0RmqTLeidC0E0kdfcaTBujg'; // clave pública (anon)
+let sb = null, nube = false, recargaTimer = 0;
+const num = v => v===null||v===undefined ? 0 : Number(v);
+async function cargarNube(){
+  const [p,c,u,v] = await Promise.all([
+    sb.from('productos').select('*').order('codigo'),
+    sb.from('clientes').select('*'),
+    sb.from('usuarios').select('*'),
+    sb.from('ventas').select('*').order('numero')
+  ]);
+  const err = p.error||c.error||u.error||v.error; if(err) throw err;
+  const ventas = v.data.map(x=>({...x, subtotal:num(x.subtotal), iva:num(x.iva), total:num(x.total), items:(x.items||[]).map(i=>({...i, precio:num(i.precio), cant:num(i.cant)}))}));
+  const cf = c.data.filter(x=>x.fija), otros = c.data.filter(x=>!x.fija).sort((a,b)=>a.nombre.localeCompare(b.nombre,'es'));
+  db = {
+    productos: p.data.map(x=>({...x, precio:num(x.precio), stock:num(x.stock), minimo:num(x.minimo)})),
+    clientes: [...cf, ...otros],
+    usuarios: u.data.sort((a,b)=>(b.fijo?1:0)-(a.fijo?1:0) || a.usuario.localeCompare(b.usuario)),
+    ventas,
+    seq: ventas.reduce((m,x)=>Math.max(m, parseInt(x.numero.slice(8),10)||0), 0)
+  };
+}
+async function conectarNube(){
+  if(!SUPA_URL || !SUPA_KEY || !window.supabase) return false;
+  try{
+    sb = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+    await cargarNube(); nube = true;
+    sb.channel('comercial-nova').on('postgres_changes', {event:'*', schema:'public'}, ()=>{
+      clearTimeout(recargaTimer); recargaTimer = setTimeout(async()=>{ try{ await cargarNube(); refrescarPantalla(); }catch(e){} }, 250);
+    }).subscribe();
+    return true;
+  }catch(e){ console.warn('Sin conexión a la base de datos', e); sb = null; nube = false; load(); return false; }
+}
+// Guarda un cambio: en la nube si hay conexión; si no, en este navegador
+async function guardar(tabla, accion, fila, clave){
+  if(!nube){ save(); return true; }
+  const q = accion==='borrar' ? sb.from(tabla).delete().eq(clave, fila) : sb.from(tabla).upsert(fila);
+  const { error } = await q;
+  if(error){ toast('No se pudo guardar en la base de datos. Revisa tu conexión.', true); try{ await cargarNube(); }catch(e){} route(); return false; }
+  return true;
+}
+let refrescarVenta = null;
+function refrescarPantalla(){
+  if(!sesion){ drawPreview(); return; }
+  const yo = db.usuarios.find(u=>u.usuario===sesion.usuario);
+  if(!yo){ $('#logout').click(); toast('Tu usuario fue eliminado por un administrador', true); return; }
+  if($('#modal').innerHTML){ return; }
+  const v = (location.hash||'').slice(1);
+  if(v==='venta' && ventaTab==='nueva' && refrescarVenta){ refrescarVenta(); drawBell(); return; }
+  if(document.activeElement && document.activeElement.matches('input,select,textarea') && $('#main').contains(document.activeElement)) return;
+  const y = window.scrollY; route(); window.scrollTo(0,y);
+}
 load();
 if(!db.usuarios) db.usuarios = usuariosBase();
 if(!db.usuarios.some(u=>u.usuario==='pgarces')) db.usuarios.unshift(usuariosBase()[0]);
@@ -731,7 +790,7 @@ const views = {
       <div class="card"><div class="toolbar"><div class="search">${ic('search')}<input type="search" id="pq" placeholder="Buscar producto o código" aria-label="Buscar producto"></div></div>
         <div class="chips" id="chips"><button type="button" class="chip on" data-c="">Todos</button>${cats.map(c=>`<button type="button" class="chip" data-c="${esc(c)}">${esc(c)}</button>`).join('')}</div>
         <div class="prodlist" id="plist"></div></div>
-      <div class="card sticky"><div class="card-h bordered"><div><h2>Factura</h2><div class="sub mono">001-001-${String(db.seq+1).padStart(9,'0')}</div></div><button class="btn ghost sm" id="clear">Vaciar</button></div>
+      <div class="card sticky"><div class="card-h bordered"><div><h2>Factura</h2><div class="sub mono">${nube?'N.º se asigna al emitir':'001-001-'+String(db.seq+1).padStart(9,'0')}</div></div><button class="btn ghost sm" id="clear">Vaciar</button></div>
         <div class="card-b stack">
           <div class="field"><label for="cli">Cliente</label><div style="display:flex;gap:6px"><select id="cli" style="flex:1;min-width:0">${db.clientes.map(c=>`<option value="${c.id}" ${c.id===cliSel?'selected':''}>${esc(c.nombre)} · ${c.id}</option>`).join('')}</select><button type="button" class="btn ghost" id="newcli" title="Registrar cliente nuevo" aria-label="Registrar cliente nuevo">${ic('plus')}</button></div></div>
           <div id="cart"></div>
@@ -834,7 +893,7 @@ const binders = {
         return `<tr class="grp"><td colspan="6"><div class="grp-in"><span class="cc-ic sm" style="background:${bg};color:${fg}">${catIc(c)}</span><b>${esc(c)}</b><span class="cell-sub">${ps.length} ${ps.length===1?'producto':'productos'} · ${ps.reduce((a,p)=>a+p.stock,0)} u. · ${money(ps.reduce((a,p)=>a+p.precio*p.stock,0))}</span></div></td></tr>${ps.map(row).join('')}`; }).join('') : `<tr><td colspan="6">${empty('search','Ningún producto coincide con los filtros.')}</td></tr>`;
       $('#invfoot').innerHTML = `<span>Mostrando ${list.length} de ${db.productos.length} productos</span>`;
       $$('[data-edit]').forEach(b=>b.onclick=()=>formProducto(db.productos.find(p=>p.codigo===b.dataset.edit)));
-      $$('[data-del]').forEach(b=>armDelete(b,()=>{ db.productos=db.productos.filter(p=>p.codigo!==b.dataset.del); save(); toast('Producto eliminado'); route(); }));
+      $$('[data-del]').forEach(b=>armDelete(b,async()=>{ const c=b.dataset.del; db.productos=db.productos.filter(p=>p.codigo!==c); if(await guardar('productos','borrar',c,'codigo')){ toast('Producto eliminado'); route(); } }));
     };
     $('#q').oninput=e=>{ invState.q=e.target.value; draw(); };
     $$('#catgrid .catcard').forEach(b=>b.onclick=()=>{ invState.cat=b.dataset.cat; $$('#catgrid .catcard').forEach(x=>x.classList.toggle('on',x===b)); draw(); });
@@ -887,18 +946,35 @@ const binders = {
       drawCambio();
     };
     const drawAll = ()=>{ drawProds(); drawCart(); };
+    refrescarVenta = ()=>{ cart = cart.map(c=>{ const p=db.productos.find(x=>x.codigo===c.codigo); return p ? {...c, cant:Math.min(c.cant,p.stock)} : null; }).filter(c=>c&&c.cant>0); drawAll(); };
     $('#pq').oninput=drawProds;
     $$('#chips .chip').forEach(b=>b.onclick=()=>{ catSel=b.dataset.c; $$('#chips .chip').forEach(x=>x.classList.toggle('on',x===b)); drawProds(); });
     $$('input[name=pago]').forEach(r=>r.onchange=drawCambio);
     $('#recibido').oninput=drawCambio;
     $('#clear').onclick=()=>{ cart=[]; drawAll(); };
-    $('#cobrar').onclick=()=>{
+    $('#cobrar').onclick=async()=>{
       if(!cart.length) return;
       const cli = db.clientes.find(c=>c.id===$('#cli').value);
       const total = totalCart();
       const pago = document.querySelector('input[name=pago]:checked').value;
       if(cli.id==='9999999999999' && total>50){ toast('Una factura a consumidor final no puede superar $50. Selecciona un cliente.', true); return; }
       if(pago==='Efectivo' && $('#recibido').value!=='' && parseFloat($('#recibido').value)<total){ toast('El efectivo recibido es menor que el total', true); return; }
+      if(nube){
+        const btn=$('#cobrar'); btn.disabled=true; btn.textContent='Emitiendo factura…';
+        const { data, error } = await sb.rpc('registrar_venta', { p_cliente:{id:cli.id, nombre:cli.nombre}, p_items:cart.map(c=>({codigo:c.codigo, cant:c.cant})), p_pago:pago, p_vendedor:sesion.usuario });
+        if(error){
+          const m = error.message||'';
+          if(m.startsWith('STOCK_INSUFICIENTE')){ const [,prod,quedan]=m.split('|'); toast(`Stock insuficiente: ${prod} (quedan ${quedan}). Otro vendedor acaba de venderlo.`, true); }
+          else if(m.startsWith('CONSUMIDOR_FINAL_50')) toast('Una factura a consumidor final no puede superar $50. Selecciona un cliente.', true);
+          else if(m.startsWith('PRODUCTO_NO_EXISTE')) toast('Uno de los productos ya no existe en el inventario.', true);
+          else toast('No se pudo emitir la factura. Revisa tu conexión e intenta de nuevo.', true);
+          try{ await cargarNube(); }catch(e){}
+          cart = cart.map(c=>{ const p=db.productos.find(x=>x.codigo===c.codigo); return p ? {...c, cant:Math.min(c.cant,p.stock)} : null; }).filter(c=>c&&c.cant>0);
+          drawAll(); return;
+        }
+        try{ await cargarNube(); }catch(e){}
+        cart=[]; toast('Factura '+data.numero+' emitida'); route(); verFactura(data.numero); return;
+      }
       cart.forEach(c=>{ db.productos.find(p=>p.codigo===c.codigo).stock -= c.cant; });
       db.seq++; const v = makeVenta(db.seq, cli, cart, new Date().toISOString()); v.vendedor = sesion.usuario; v.pago = pago;
       db.ventas.push(v); save(); cart=[]; toast('Factura '+v.numero+' emitida'); route(); verFactura(v.numero);
@@ -910,7 +986,7 @@ const binders = {
       const q = $('#cq').value.toLowerCase();
       const list = db.clientes.filter(c=>c.nombre.toLowerCase().includes(q)||c.id.includes(q));
       $('#crows').innerHTML = list.length ? list.map(c=>{ const vs=db.ventas.filter(v=>v.cliente.id===c.id); const tipo=c.id==='9999999999999'?'Consumidor final':c.id.length===13?'RUC':'Cédula'; return `<tr><td><div class="person"><span class="avatar">${initials(c.nombre)}</span><span class="cell-main">${esc(c.nombre)}</span></div></td><td><div class="code">${c.id}</div><div class="cell-sub">${tipo}</div></td><td>${esc(c.telefono||'—')}</td><td class="num">${vs.length}</td><td class="num cell-main">${money(vs.reduce((a,v)=>a+v.total,0))}</td><td><div class="rowactions">${c.fija||!esAdmin()?'':`<button class="btn danger sm" data-del="${c.id}">Eliminar</button>`}</div></td></tr>`; }).join('') : `<tr><td colspan="6">${empty('search','Ningún cliente coincide con la búsqueda.')}</td></tr>`;
-      $$('[data-del]').forEach(b=>armDelete(b,()=>{ db.clientes=db.clientes.filter(c=>c.id!==b.dataset.del); save(); toast('Cliente eliminado'); route(); }));
+      $$('[data-del]').forEach(b=>armDelete(b,async()=>{ const id=b.dataset.del; db.clientes=db.clientes.filter(c=>c.id!==id); if(await guardar('clientes','borrar',id,'id')){ toast('Cliente eliminado'); route(); } }));
     };
     $('#cq').oninput=draw; $('#addc').onclick=()=>formCliente(); draw();
   },
@@ -930,7 +1006,7 @@ const binders = {
   usuarios(){
     $('#addu').onclick=()=>formUsuario(null);
     $$('[data-clave]').forEach(b=>b.onclick=()=>formUsuario(db.usuarios.find(u=>u.usuario===b.dataset.clave)));
-    $$('[data-delu]').forEach(b=>armDelete(b,()=>{ db.usuarios=db.usuarios.filter(u=>u.usuario!==b.dataset.delu); save(); toast('Usuario eliminado'); route(); }));
+    $$('[data-delu]').forEach(b=>armDelete(b,async()=>{ const u=b.dataset.delu; db.usuarios=db.usuarios.filter(x=>x.usuario!==u); if(await guardar('usuarios','borrar',u,'usuario')){ toast('Usuario eliminado'); route(); } }));
   }
 };
 
@@ -948,7 +1024,7 @@ function formProducto(p){
       <label for="f-min">Stock mínimo<input type="number" id="f-min" step="1" min="0" value="${p?p.minimo:5}"><span class="help">Debajo de este número se genera una alerta.</span></label>
       <div class="err full" id="f-err"></div></form>`, FOOT, ()=>{
       $('#f-can').onclick=closeModal;
-      $('#fm').onsubmit=e=>{
+      $('#fm').onsubmit=async e=>{
         e.preventDefault();
         const d = {codigo:$('#f-cod').value.trim().toUpperCase(), categoria:$('#f-cat').value.trim(), nombre:$('#f-nom').value.trim(), precio:parseFloat($('#f-pre').value), stock:parseInt($('#f-stk').value,10), minimo:parseInt($('#f-min').value,10)};
         let err='';
@@ -958,7 +1034,7 @@ function formProducto(p){
         else if(!(d.stock>=0)||!(d.minimo>=0)) err='El stock y el mínimo deben ser números enteros desde 0.';
         if(err){ $('#f-err').textContent=err; return; }
         if(nuevo) db.productos.push(d); else Object.assign(p,d);
-        save(); closeModal(); toast(nuevo?'Producto agregado':'Producto actualizado'); route();
+        closeModal(); if(await guardar('productos','guardar',d)){ toast(nuevo?'Producto agregado':'Producto actualizado'); route(); }
       };
     });
 }
@@ -969,7 +1045,7 @@ function formCliente(onSaved){
       <label class="full" for="c-tel">Teléfono<input type="text" id="c-tel" inputmode="tel"></label>
       <div class="err full" id="c-err"></div></form>`, FOOT, ()=>{
       $('#f-can').onclick=closeModal;
-      $('#fm').onsubmit=e=>{
+      $('#fm').onsubmit=async e=>{
         e.preventDefault();
         const id=$('#c-id').value.trim(), nombre=$('#c-nom').value.trim(), telefono=$('#c-tel').value.trim();
         let err='';
@@ -977,7 +1053,7 @@ function formCliente(onSaved){
         else if(db.clientes.some(c=>c.id===id)) err='Ese cliente ya está registrado.';
         else if(nombre.length<3) err='Escribe el nombre completo del cliente.';
         if(err){ $('#c-err').textContent=err; return; }
-        db.clientes.push({id,nombre,telefono}); save(); closeModal(); if(onSaved) onSaved(id); toast('Cliente agregado'); route();
+        const nc={id,nombre,telefono}; db.clientes.push(nc); closeModal(); if(!(await guardar('clientes','guardar',nc))) return; if(onSaved) onSaved(id); toast('Cliente agregado'); route();
       };
     });
 }
@@ -1003,9 +1079,8 @@ function formUsuario(u){
         else if(p1!==p2) err='Las dos claves no coinciden.';
         if(err){ $('#u-err').textContent=err; return; }
         const hash = await hashClave(usuario, p1);
-        if(nuevo) db.usuarios.push({usuario, nombre:$('#u-nom').value.trim(), rol:$('#u-rol').value, hash});
-        else u.hash = hash;
-        save(); closeModal(); toast(nuevo?'Usuario agregado':'Clave actualizada'); route();
+        let fila; if(nuevo){ fila={usuario, nombre:$('#u-nom').value.trim(), rol:$('#u-rol').value, hash, fijo:false}; db.usuarios.push(fila); } else { u.hash = hash; fila={usuario:u.usuario, nombre:u.nombre, rol:u.rol, hash, fijo:!!u.fijo}; }
+        closeModal(); if(await guardar('usuarios','guardar',fila)){ toast(nuevo?'Usuario agregado':'Clave actualizada'); route(); }
       };
     });
 }
@@ -1066,7 +1141,10 @@ function route(){
   $('#nav').innerHTML = grupos.map(g=>`<div class="navgroup"><div class="navlabel">${g}</div>${mods.filter(m=>m.grupo===g).map(m=>`<a href="#${m.id}" class="${m.id===name?'on':''}" ${m.id===name?'aria-current="page"':''}>${ic(m.id)}<span>${m.corto}</span>${m.id==='inventario'&&nBajos?`<span class="badge">${nBajos}</span>`:''}</a>`).join('')}</div>`).join('');
   $('#me').innerHTML = `<span class="avatar">${initials(sesion.nombre)}</span><span class="who"><b>${esc(sesion.nombre)}</b><span>${sesion.rol==='admin'?'Administrador':'Cajero'} · ${esc(sesion.usuario)}</span></span>`;
   $('#demo').hidden = !esAdmin();
+  $('#demo').innerHTML = nube ? '<span class="conn"><i></i>Conectado a la base de datos compartida. Los cambios se ven al instante en todos los equipos.</span>' : '<span>Los datos se guardan en este navegador.</span><button id="reset" type="button">Restaurar datos de ejemplo</button>';
+  const rb=$('#reset'); if(rb) rb.onclick=resetDatos;
   drawBell(); drawThemeBtn(); $('#pop').innerHTML='';
+  refrescarVenta = null;
   $('#main').innerHTML = views[name]();
   binders[name]();
   $$('[data-ver]').forEach(b=>b.onclick=()=>verFactura(b.dataset.ver));
@@ -1080,7 +1158,7 @@ $('#cmdk').onclick=openPalette;
 $('#bell').onclick=e=>{ e.stopPropagation(); togglePop(); };
 $('#theme').onclick=()=>setTheme(isDark()?'light':'dark');
 $('#logout').onclick=()=>{ memUser=null; ventaTab='nueva'; cliSel='9999999999999'; try{ sessionStorage.removeItem('cn-sesion'); }catch(e){} cart=[]; history.replaceState(null,'',location.pathname+location.search); route(); };
-$('#reset').onclick=()=>{ const keep=db.usuarios; db=seed(); db.usuarios=keep; save(); cart=[]; toast('Datos de ejemplo restaurados'); route(); };
+function resetDatos(){ if(nube) return; const keep=db.usuarios; db=seed(); db.usuarios=keep; save(); cart=[]; toast('Datos de ejemplo restaurados'); route(); }
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){ closeModal(); $('#pop').innerHTML=''; document.body.classList.remove('nav-open'); }
   if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='k'){ e.preventDefault(); openPalette(); }
@@ -1147,7 +1225,7 @@ function drawPreview(){
   drawThemeBtn(); startSlides();
   setTimeout(()=>{ const f = $('#l-user').value ? $('#l-pass') : $('#l-user'); if(!$('#login').hidden && document.activeElement===document.body) f.focus(); }, 60);
 }
-route();
+(async()=>{ await conectarNube(); $('#l-online').textContent = nube ? 'Conectado a la base de datos' : 'Modo sin conexión (este navegador)'; route(); })();
 </script>
 
 </body>
