@@ -179,6 +179,36 @@ tr.grp td{background:var(--surface-2);padding-top:9px;padding-bottom:9px;border-
 tr.grp:hover{background:none}
 .grp-in{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .grp-in b{font-weight:600;font-size:.86rem}
+.cajabar{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;margin-bottom:16px;font-size:.86rem;flex-wrap:wrap}
+.cajabar>span{flex:1;min-width:200px}
+.cajabar.ok{background:var(--okbg);color:var(--ok)} .cajabar.bad{background:var(--badbg);color:var(--bad)}
+.cajabar b{font-weight:600}
+.caja-hero{display:flex;justify-content:space-between;gap:20px;padding:22px 24px;margin-bottom:16px;flex-wrap:wrap;background:linear-gradient(135deg,var(--surface),var(--brand-softer))}
+.caja-hero.closed{background:var(--surface)}
+.caja-hero .ch-l{flex:1 1 320px;min-width:0;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.caja-hero h2{margin:0;font-size:1.25rem;font-weight:700;letter-spacing:-.02em}
+.caja-hero p{margin:0;color:var(--muted);max-width:60ch}
+.caja-hero .ch-r{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:6px;text-align:right}
+.caja-hero .lbl{font-size:.78rem;color:var(--muted)}
+.caja-hero .big{font-size:1.9rem;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums;margin-bottom:6px}
+.pagos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:16px}
+.pago-card{padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.pc-top{display:flex;align-items:center;gap:10px;font-weight:600;font-size:.9rem}
+.pc-ic{width:32px;height:32px;border-radius:9px;display:grid;place-items:center}
+.pc-ic svg{width:17px;height:17px}
+.pc-ic.pc-efectivo{background:var(--brand-soft);color:var(--c1)} .pc-ic.pc-tarjeta{background:var(--warnbg);color:var(--warn)} .pc-ic.pc-transferencia{background:var(--okbg);color:var(--c3)}
+.pago-card .val{font-size:1.5rem;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.pc-bar{height:6px;background:var(--hover);border-radius:3px;overflow:hidden}
+.pc-bar i{display:block;height:100%;border-radius:3px}
+.pc-bar i.pc-efectivo{background:var(--c1)} .pc-bar i.pc-tarjeta{background:var(--c2)} .pc-bar i.pc-transferencia{background:var(--c3)}
+.pago-card .foot{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted)}
+table.arqueo{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+table.arqueo td{padding:9px 14px}
+table.arqueo tr.tot td{font-weight:600;background:var(--surface-2)}
+tr.totrow td{font-weight:600;background:var(--surface-2)}
+textarea{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 11px;font:inherit;color:inherit;resize:vertical;box-shadow:var(--shadow-sm)}
+textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
+@media (max-width:760px){.pagos{grid-template-columns:1fr}.caja-hero .ch-r{align-items:flex-start;text-align:left}}
 .pager{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 20px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted);flex-wrap:wrap}
 .pager div{display:flex;gap:6px}
 
@@ -389,7 +419,6 @@ input:focus,select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0
 @media (max-width:560px){.kpis{grid-template-columns:1fr}.form{grid-template-columns:1fr}.ride .meta{grid-template-columns:1fr}.ride-h{grid-template-columns:1fr}.ride-h .doc{text-align:left}th,td{padding-left:14px;padding-right:14px}.cmdk span{font-size:.8rem}}
 @media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 </style>
-
 </head>
 <body>
 <div class="login" id="login" hidden>
@@ -476,6 +505,9 @@ const IC = {
   money:'<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/>',
   card:'<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>',
   transfer:'<path d="M7 7h13l-4-4M17 17H4l4 4"/>',
+  caja:'<rect x="3" y="10" width="18" height="10" rx="2"/><path d="M7 10V5h10v5M7 15h.01M11 15h2M16 15h1"/>',
+  reporte:'<path d="M21 12a9 9 0 1 1-9-9v9z"/><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"/>',
+  lockopen:'<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 7.5-2"/>',
   alert:'<path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17h.01"/>', x:'<path d="M18 6 6 18M6 6l12 12"/>',
   check:'<path d="M20 6 9 17l-5-5"/>', cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
   bell:'<path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/>',
@@ -558,7 +590,7 @@ function seed(){
       v.vendedor='cajero'; v.pago=pagos[(d+k)%3]; ventas.push(v);
     }
   }
-  return {productos, clientes, ventas, seq:n, usuarios:usuariosBase()};
+  return {productos, clientes, ventas, seq:n, usuarios:usuariosBase(), cajas:[]};
 }
 function makeVenta(seq, cli, items, fecha){
   const subtotal = r2(items.reduce((a,i)=>a+i.precio*i.cant,0));
@@ -581,13 +613,14 @@ const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsI
 let sb = null, nube = false, recargaTimer = 0;
 const num = v => v===null||v===undefined ? 0 : Number(v);
 async function cargarNube(){
-  const [p,c,u,v] = await Promise.all([
+  const [p,c,u,v,k] = await Promise.all([
     sb.from('productos').select('*').order('codigo'),
     sb.from('clientes').select('*'),
     sb.from('usuarios').select('*'),
-    sb.from('ventas').select('*').order('numero')
+    sb.from('ventas').select('*').order('numero'),
+    sb.from('cajas').select('*').order('apertura')
   ]);
-  const err = p.error||c.error||u.error||v.error; if(err) throw err;
+  const err = p.error||c.error||u.error||v.error||k.error; if(err) throw err;
   const ventas = v.data.map(x=>({...x, subtotal:num(x.subtotal), iva:num(x.iva), total:num(x.total), items:(x.items||[]).map(i=>({...i, precio:num(i.precio), cant:num(i.cant)}))}));
   const cf = c.data.filter(x=>x.fija), otros = c.data.filter(x=>!x.fija).sort((a,b)=>a.nombre.localeCompare(b.nombre,'es'));
   db = {
@@ -595,7 +628,8 @@ async function cargarNube(){
     clientes: [...cf, ...otros],
     usuarios: u.data.sort((a,b)=>(b.fijo?1:0)-(a.fijo?1:0) || a.usuario.localeCompare(b.usuario)),
     ventas,
-    seq: ventas.reduce((m,x)=>Math.max(m, parseInt(x.numero.slice(8),10)||0), 0)
+    seq: ventas.reduce((m,x)=>Math.max(m, parseInt(x.numero.slice(8),10)||0), 0),
+    cajas: k.data.map(x=>{ const o={...x}; ['monto_inicial','ventas_total','efectivo','tarjeta','transferencia','efectivo_esperado','efectivo_contado','diferencia'].forEach(f=>{ if(o[f]!==null&&o[f]!==undefined) o[f]=num(o[f]); }); return o; })
   };
 }
 async function conectarNube(){
@@ -630,6 +664,7 @@ function refrescarPantalla(){
 }
 load();
 if(!db.usuarios) db.usuarios = usuariosBase();
+if(!db.cajas) db.cajas = [];
 if(!db.usuarios.some(u=>u.usuario==='pgarces')) db.usuarios.unshift(usuariosBase()[0]);
 
 /* ---------- Tema ---------- */
@@ -642,6 +677,8 @@ try{ const t=localStorage.getItem('cn-theme'); if(t) document.documentElement.da
 const MODULOS = [
   {id:'panel', nombre:'Panel general', corto:'Panel', grupo:'General', desc:'Resumen de la operación de hoy y de los últimos siete días.', roles:['admin']},
   {id:'venta', nombre:'Venta y facturación', corto:'Venta y facturación', grupo:'General', desc:'Registra ventas, emite facturas y consulta las facturas emitidas.', roles:['admin','cajero']},
+  {id:'caja', nombre:'Apertura y cierre de caja', corto:'Caja', grupo:'General', desc:'Abre tu caja con el fondo de cambio y ciérrala con el arqueo del día.', roles:['admin','cajero']},
+  {id:'reporte', nombre:'Reporte de ventas', corto:'Reporte de ventas', grupo:'General', desc:'Ventas totales con el desglose por efectivo, tarjeta y transferencia.', roles:['admin','cajero']},
   {id:'historial', nombre:'Ventas', corto:'Ventas', grupo:'General', desc:'Todas las facturas emitidas, con totales e impuestos.', roles:['admin']},
   {id:'inventario', nombre:'Inventario', corto:'Inventario', grupo:'Catálogo', desc:'Productos, precios y existencias en bodega.', roles:['admin']},
   {id:'clientes', nombre:'Clientes', corto:'Clientes', grupo:'Catálogo', desc:'Cédula y RUC validados con el dígito verificador del Registro Civil y el SRI.', roles:['admin']},
@@ -653,6 +690,41 @@ function puede(mod){ const m = MODULOS.find(x=>x.id===mod); return !!(sesion && 
 const esAdmin = ()=> sesion && sesion.rol==='admin';
 const inicio = ()=> puede('panel') ? 'panel' : 'venta';
 let ventaTab = 'nueva', cliSel = '9999999999999';
+const repState = {periodo:'hoy', vendedor:'', pago:''};
+
+/* ---------- Caja: apertura, cierre y desglose por forma de pago ---------- */
+const PAGOS = ['Efectivo','Tarjeta','Transferencia'];
+const PAGO_IC = {Efectivo:'money', Tarjeta:'card', Transferencia:'transfer'};
+const cajaAbierta = u => (db.cajas||[]).find(c=>c.usuario===u && !c.cierre) || null;
+const ventasDeCaja = c => db.ventas.filter(v=>v.caja_id===c.id);
+function desglose(lista){
+  const r = {total:0, n:lista.length, Efectivo:0, Tarjeta:0, Transferencia:0, nEfectivo:0, nTarjeta:0, nTransferencia:0};
+  lista.forEach(v=>{ const p=v.pago||'Efectivo'; r[p]=r2(r[p]+v.total); r['n'+p]++; r.total=r2(r.total+v.total); });
+  return r;
+}
+async function abrirCaja(monto){
+  if(nube){
+    const { error } = await sb.rpc('abrir_caja', { p_usuario:sesion.usuario, p_monto:monto });
+    if(error){ toast(error.message.startsWith('CAJA_YA_ABIERTA') ? 'Ya tienes una caja abierta.' : 'No se pudo abrir la caja. Revisa tu conexión.', true); try{ await cargarNube(); }catch(e){} return false; }
+    try{ await cargarNube(); }catch(e){} return true;
+  }
+  if(cajaAbierta(sesion.usuario)){ toast('Ya tienes una caja abierta.', true); return false; }
+  const id = (db.cajas.reduce((m,c)=>Math.max(m,c.id),0))+1;
+  db.cajas.push({id, usuario:sesion.usuario, apertura:new Date().toISOString(), monto_inicial:r2(monto), cierre:null, observacion:''}); save(); return true;
+}
+async function cerrarCaja(contado, obs){
+  if(nube){
+    const { data, error } = await sb.rpc('cerrar_caja', { p_usuario:sesion.usuario, p_contado:contado, p_obs:obs });
+    if(error){ toast(error.message.startsWith('CAJA_NO_ABIERTA') ? 'No tienes una caja abierta.' : 'No se pudo cerrar la caja. Revisa tu conexión.', true); try{ await cargarNube(); }catch(e){} return null; }
+    try{ await cargarNube(); }catch(e){} return data.id;
+  }
+  const c = cajaAbierta(sesion.usuario); if(!c) return null;
+  const d = desglose(ventasDeCaja(c));
+  Object.assign(c, {cierre:new Date().toISOString(), num_facturas:d.n, ventas_total:d.total, efectivo:d.Efectivo, tarjeta:d.Tarjeta, transferencia:d.Transferencia,
+    efectivo_esperado:r2(c.monto_inicial+d.Efectivo), efectivo_contado:r2(contado), diferencia:r2(contado-(c.monto_inicial+d.Efectivo)), observacion:obs||''});
+  save(); return c.id;
+}
+function difTxt(d){ return Math.abs(d)<0.005 ? '<span class="pill ok">Cuadra</span>' : d<0 ? `<span class="pill bad">Faltante ${money(-d)}</span>` : `<span class="pill warn">Sobrante ${money(d)}</span>`; }
 
 /* ---------- Validación cédula / RUC (Ecuador, módulo 10) ---------- */
 function validarCedula(c){
@@ -786,7 +858,10 @@ const views = {
     }
     const cats = [...new Set(db.productos.map(p=>p.categoria))].sort(catSort);
     if(!db.clientes.some(c=>c.id===cliSel)) cliSel='9999999999999';
-    return head + `<div class="pos">
+    const miCaja = cajaAbierta(sesion.usuario);
+    const aviso = miCaja ? `<div class="cajabar ok">${ic('caja')}<span><b>Caja abierta</b> desde las ${fmtTime(miCaja.apertura)} · fondo inicial ${money(miCaja.monto_inicial)}</span><a href="#caja" class="btn ghost sm">Ver caja</a></div>`
+                         : `<div class="cajabar bad">${ic('alert')}<span><b>Tu caja está cerrada.</b> Ábrela con el fondo de cambio para empezar a facturar.</span><button type="button" class="btn sm" id="abrir-desde-venta">Abrir caja</button></div>`;
+    return head + aviso + `<div class="pos">
       <div class="card"><div class="toolbar"><div class="search">${ic('search')}<input type="search" id="pq" placeholder="Buscar producto o código" aria-label="Buscar producto"></div></div>
         <div class="chips" id="chips"><button type="button" class="chip on" data-c="">Todos</button>${cats.map(c=>`<button type="button" class="chip" data-c="${esc(c)}">${esc(c)}</button>`).join('')}</div>
         <div class="prodlist" id="plist"></div></div>
@@ -952,8 +1027,10 @@ const binders = {
     $$('input[name=pago]').forEach(r=>r.onchange=drawCambio);
     $('#recibido').oninput=drawCambio;
     $('#clear').onclick=()=>{ cart=[]; drawAll(); };
+    const bAb=$('#abrir-desde-venta'); if(bAb) bAb.onclick=()=>formAbrirCaja();
     $('#cobrar').onclick=async()=>{
       if(!cart.length) return;
+      if(!cajaAbierta(sesion.usuario)){ toast('Abre tu caja antes de emitir facturas.', true); formAbrirCaja(); return; }
       const cli = db.clientes.find(c=>c.id===$('#cli').value);
       const total = totalCart();
       const pago = document.querySelector('input[name=pago]:checked').value;
@@ -967,6 +1044,7 @@ const binders = {
           if(m.startsWith('STOCK_INSUFICIENTE')){ const [,prod,quedan]=m.split('|'); toast(`Stock insuficiente: ${prod} (quedan ${quedan}). Otro vendedor acaba de venderlo.`, true); }
           else if(m.startsWith('CONSUMIDOR_FINAL_50')) toast('Una factura a consumidor final no puede superar $50. Selecciona un cliente.', true);
           else if(m.startsWith('PRODUCTO_NO_EXISTE')) toast('Uno de los productos ya no existe en el inventario.', true);
+          else if(m.startsWith('CAJA_CERRADA')) toast('Tu caja está cerrada. Ábrela para seguir facturando.', true);
           else toast('No se pudo emitir la factura. Revisa tu conexión e intenta de nuevo.', true);
           try{ await cargarNube(); }catch(e){}
           cart = cart.map(c=>{ const p=db.productos.find(x=>x.codigo===c.codigo); return p ? {...c, cant:Math.min(c.cant,p.stock)} : null; }).filter(c=>c&&c.cant>0);
@@ -976,7 +1054,7 @@ const binders = {
         cart=[]; toast('Factura '+data.numero+' emitida'); route(); verFactura(data.numero); return;
       }
       cart.forEach(c=>{ db.productos.find(p=>p.codigo===c.codigo).stock -= c.cant; });
-      db.seq++; const v = makeVenta(db.seq, cli, cart, new Date().toISOString()); v.vendedor = sesion.usuario; v.pago = pago;
+      db.seq++; const v = makeVenta(db.seq, cli, cart, new Date().toISOString()); v.vendedor = sesion.usuario; v.pago = pago; v.caja_id = cajaAbierta(sesion.usuario).id;
       db.ventas.push(v); save(); cart=[]; toast('Factura '+v.numero+' emitida'); route(); verFactura(v.numero);
     };
     drawAll();
@@ -1084,6 +1162,152 @@ function formUsuario(u){
       };
     });
 }
+
+/* ---------- Vistas de Caja y Reporte de ventas ---------- */
+function filtroPeriodo(v){
+  const f = new Date(v.fecha), now = new Date();
+  if(repState.periodo==='hoy') return dayKey(f)===dayKey(now);
+  if(repState.periodo==='7d') return now - f < 7*864e5;
+  if(repState.periodo==='mes') return f.getMonth()===now.getMonth() && f.getFullYear()===now.getFullYear();
+  if(repState.periodo==='caja'){ const c=cajaAbierta(sesion.usuario); return !!c && v.caja_id===c.id; }
+  return true;
+}
+function tarjetasPago(d){
+  return `<div class="pagos">${PAGOS.map(p=>{ const pct = d.total ? d[p]/d.total*100 : 0;
+    return `<div class="card pago-card"><div class="pc-top"><span class="pc-ic pc-${p.toLowerCase()}">${ic(PAGO_IC[p])}</span><span>${p}</span></div>
+      <div class="val">${money(d[p])}</div>
+      <div class="pc-bar"><i class="pc-${p.toLowerCase()}" style="width:${pct.toFixed(1)}%"></i></div>
+      <div class="foot"><span>${d['n'+p]} ${d['n'+p]===1?'factura':'facturas'}</span><span class="num">${pct.toFixed(1)}%</span></div></div>`; }).join('')}</div>`;
+}
+views.caja = function(){
+  const c = cajaAbierta(sesion.usuario);
+  const historial = [...db.cajas].filter(x=>esAdmin()||x.usuario===sesion.usuario).sort((a,b)=>new Date(b.apertura)-new Date(a.apertura));
+  let top;
+  if(c){
+    const d = desglose(ventasDeCaja(c)), esperado = r2(c.monto_inicial + d.Efectivo);
+    top = `<div class="card caja-hero"><div class="ch-l"><span class="pill ok">Caja abierta</span><h2>Caja de ${esc(sesion.nombre)}</h2>
+        <p>Abierta el ${fmtDate(c.apertura)} a las ${fmtTime(c.apertura)} con un fondo de <b>${money(c.monto_inicial)}</b>.</p></div>
+        <div class="ch-r"><div class="lbl">Efectivo esperado en caja</div><div class="big">${money(esperado)}</div><button class="btn" id="cerrar-caja">${ic('lock')}Cerrar caja</button></div></div>
+      <div class="kpis" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+        <div class="card kpi"><div class="lbl">${ic('money')}Vendido en esta caja</div><div class="val">${money(d.total)}</div><div class="foot"><span>${d.n} facturas</span></div></div>
+        <div class="card kpi"><div class="lbl">${ic('caja')}Fondo inicial + efectivo</div><div class="val">${money(esperado)}</div><div class="foot"><span>${money(c.monto_inicial)} de fondo + ${money(d.Efectivo)} cobrados en efectivo</span></div></div>
+      </div>
+      ${tarjetasPago(d)}
+      <div class="card" style="margin-bottom:16px"><div class="card-h bordered"><div><h2>Facturas de esta caja</h2><div class="sub">Emitidas desde la apertura</div></div><a href="#venta" class="btn ghost sm">Nueva factura</a></div><div class="card-b flush">${tablaVentas([...ventasDeCaja(c)].reverse())}</div></div>`;
+  } else {
+    const ult = historial.find(x=>x.usuario===sesion.usuario && x.cierre);
+    top = `<div class="card caja-hero closed"><div class="ch-l"><span class="pill bad">Caja cerrada</span><h2>Abre tu caja para empezar a vender</h2>
+        <p>Registra el efectivo con el que inicias el turno (fondo de cambio). Al cerrar, el sistema calcula cuánto efectivo debe haber y lo compara con lo que cuentes.</p></div>
+        <div class="ch-r">${ult?`<div class="lbl">Último cierre · ${fmtDate(ult.cierre)}</div><div class="big">${money(ult.ventas_total)}</div><div class="cell-sub" style="margin-bottom:10px">${difTxt(ult.diferencia)}</div>`:''}<button class="btn" id="abrir-caja">${ic('lockopen')}Abrir caja</button></div></div>`;
+  }
+  return `<div class="pagehead"><div><h1>Apertura y cierre de caja</h1><p>${esAdmin()?'Tu caja y el historial de cierres de todos los usuarios.':'Tu caja del turno y tus cierres anteriores.'}</p></div></div>
+    ${top}
+    <div class="card"><div class="card-h bordered"><div><h2>Historial de cajas</h2><div class="sub">${historial.length} ${historial.length===1?'registro':'registros'}</div></div></div>
+    <div class="card-b flush">${historial.length?`<div class="tablewrap"><table><thead><tr><th>Apertura</th>${esAdmin()?'<th>Usuario</th>':''}<th>Cierre</th><th class="num">Fondo</th><th class="num">Ventas</th><th class="num">Efectivo esperado</th><th class="num">Contado</th><th>Arqueo</th><th></th></tr></thead><tbody>
+      ${historial.map(x=>`<tr><td><div>${fmtDate(x.apertura)}</div><div class="cell-sub">${fmtTime(x.apertura)}</div></td>${esAdmin()?`<td class="code">${esc(x.usuario)}</td>`:''}<td>${x.cierre?`<div>${fmtDate(x.cierre)}</div><div class="cell-sub">${fmtTime(x.cierre)}</div>`:'<span class="pill ok">Abierta</span>'}</td><td class="num">${money(x.monto_inicial)}</td><td class="num">${x.cierre?money(x.ventas_total):money(desglose(ventasDeCaja(x)).total)}</td><td class="num">${x.cierre?money(x.efectivo_esperado):'—'}</td><td class="num">${x.cierre?money(x.efectivo_contado):'—'}</td><td>${x.cierre?difTxt(x.diferencia):'<span class="cell-sub">En curso</span>'}</td><td><div class="rowactions">${x.cierre?`<button class="btn ghost sm" data-arqueo="${x.id}">Ver arqueo</button>`:''}</div></td></tr>`).join('')}
+    </tbody></table></div>`:empty('caja','Aún no hay cajas registradas.')}</div></div>`;
+};
+binders.caja = function(){
+  const a=$('#abrir-caja'); if(a) a.onclick=()=>formAbrirCaja();
+  const c=$('#cerrar-caja'); if(c) c.onclick=()=>formCerrarCaja();
+  $$('[data-arqueo]').forEach(b=>b.onclick=()=>verArqueo(+b.dataset.arqueo));
+  $$('[data-ver]').forEach(b=>b.onclick=()=>verFactura(b.dataset.ver));
+};
+function formAbrirCaja(){
+  if(cajaAbierta(sesion.usuario)){ location.hash='#caja'; return; }
+  openModal('Abrir caja', 'Cuenta el efectivo con el que empiezas el turno.', `<form class="form" id="fm" novalidate>
+      <label class="full" for="ac-monto">Fondo inicial en efectivo (USD)<input type="number" id="ac-monto" step="0.01" min="0" placeholder="0.00"><span class="help">Billetes y monedas para dar cambio. Si empiezas sin efectivo, escribe 0.</span></label>
+      <div class="err full" id="ac-err"></div></form>`,
+    `<button type="button" class="btn ghost" id="f-can">Cancelar</button><button class="btn" type="submit" form="fm">${ic('lockopen')}Abrir caja</button>`, ()=>{
+    $('#f-can').onclick=closeModal;
+    $('#fm').onsubmit=async e=>{ e.preventDefault();
+      const v=$('#ac-monto').value.trim(), m=parseFloat(v);
+      if(v===''||isNaN(m)||m<0){ $('#ac-err').textContent='Escribe el monto inicial: un número desde 0.'; return; }
+      closeModal(); if(await abrirCaja(m)){ toast('Caja abierta con '+money(m)); route(); } };
+  });
+}
+function formCerrarCaja(){
+  const c = cajaAbierta(sesion.usuario); if(!c) return;
+  const d = desglose(ventasDeCaja(c)), esperado = r2(c.monto_inicial + d.Efectivo);
+  openModal('Cerrar caja', `Abierta el ${fmtDate(c.apertura)} a las ${fmtTime(c.apertura)} · ${d.n} facturas`, `<form id="fm" novalidate class="stack">
+      <table class="arqueo"><tbody>
+        <tr><td>Fondo inicial</td><td class="num">${money(c.monto_inicial)}</td></tr>
+        <tr><td>+ Ventas en efectivo</td><td class="num">${money(d.Efectivo)}</td></tr>
+        <tr class="tot"><td>Efectivo esperado en caja</td><td class="num">${money(esperado)}</td></tr>
+        <tr><td>Ventas con tarjeta</td><td class="num">${money(d.Tarjeta)}</td></tr>
+        <tr><td>Ventas por transferencia</td><td class="num">${money(d.Transferencia)}</td></tr>
+        <tr class="tot"><td>Total vendido</td><td class="num">${money(d.total)}</td></tr>
+      </tbody></table>
+      <label class="field" for="cc-contado">Efectivo contado en caja (USD)<input type="number" id="cc-contado" step="0.01" min="0" placeholder="${esperado.toFixed(2)}"></label>
+      <div class="change"><span>Diferencia</span><span id="cc-dif"><span class="cell-sub">Escribe el efectivo contado</span></span></div>
+      <label class="field" for="cc-obs">Observación (opcional)<textarea id="cc-obs" rows="2" placeholder="Ej.: faltante por cambio mal entregado"></textarea></label>
+      <div class="err" id="cc-err"></div></form>`,
+    `<button type="button" class="btn ghost" id="f-can">Cancelar</button><button class="btn" type="submit" form="fm">${ic('lock')}Cerrar caja</button>`, ()=>{
+    $('#f-can').onclick=closeModal;
+    $('#cc-contado').oninput=()=>{ const v=parseFloat($('#cc-contado').value); $('#cc-dif').innerHTML = isNaN(v) ? '<span class="cell-sub">Escribe el efectivo contado</span>' : difTxt(r2(v-esperado)); };
+    $('#fm').onsubmit=async e=>{ e.preventDefault();
+      const v=$('#cc-contado').value.trim(), m=parseFloat(v);
+      if(v===''||isNaN(m)||m<0){ $('#cc-err').textContent='Escribe el efectivo que contaste en caja.'; return; }
+      const obs=$('#cc-obs').value.trim();
+      closeModal(); const id = await cerrarCaja(m, obs);
+      if(id){ toast('Caja cerrada'); route(); verArqueo(id); } };
+  }, true);
+}
+function verArqueo(id){
+  const c = db.cajas.find(x=>x.id===id); if(!c || !c.cierre) return;
+  const u = db.usuarios.find(x=>x.usuario===c.usuario);
+  openModal('Arqueo de caja', `${esc(u?u.nombre:c.usuario)} · ${fmtDate(c.apertura)}`, `<div class="ride">
+    <div class="ride-h"><div class="em">${LOGO_SVG}<div><b>${EMPRESA.razon}</b><div class="cell-sub">RUC ${EMPRESA.ruc}</div></div></div>
+      <div class="doc"><div class="t">CIERRE DE CAJA</div><div class="code">N.º ${String(c.id).padStart(6,'0')}</div></div></div>
+    <div class="meta"><div><span>Usuario</span>${esc(u?u.nombre:c.usuario)} (${esc(c.usuario)})</div><div><span>Facturas emitidas</span>${c.num_facturas}</div>
+      <div><span>Apertura</span>${fmtDate(c.apertura)} · ${fmtTime(c.apertura)}</div><div><span>Cierre</span>${fmtDate(c.cierre)} · ${fmtTime(c.cierre)}</div></div>
+    <table class="arqueo" style="margin-top:14px"><tbody>
+      <tr><td>Ventas en efectivo</td><td class="num">${money(c.efectivo)}</td></tr>
+      <tr><td>Ventas con tarjeta</td><td class="num">${money(c.tarjeta)}</td></tr>
+      <tr><td>Ventas por transferencia</td><td class="num">${money(c.transferencia)}</td></tr>
+      <tr class="tot"><td>Total vendido</td><td class="num">${money(c.ventas_total)}</td></tr>
+      <tr><td>Fondo inicial</td><td class="num">${money(c.monto_inicial)}</td></tr>
+      <tr><td>Efectivo esperado (fondo + efectivo)</td><td class="num">${money(c.efectivo_esperado)}</td></tr>
+      <tr><td>Efectivo contado</td><td class="num">${money(c.efectivo_contado)}</td></tr>
+      <tr class="tot"><td>Resultado del arqueo</td><td class="num">${difTxt(c.diferencia)}</td></tr>
+    </tbody></table>
+    ${c.observacion?`<div class="note">${ic('info')}${esc(c.observacion)}</div>`:''}
+  </div>`, `<button class="btn" id="cerrar">Listo</button>`, ()=>$('#cerrar').onclick=closeModal, true);
+}
+views.reporte = function(){
+  if(repState.periodo==='caja' && !cajaAbierta(sesion.usuario)) repState.periodo='hoy';
+  const base = db.ventas.filter(v=>(esAdmin() ? (!repState.vendedor || v.vendedor===repState.vendedor) : v.vendedor===sesion.usuario) && filtroPeriodo(v));
+  const d = desglose(base);
+  const per = [['hoy','Hoy'],...(cajaAbierta(sesion.usuario)?[['caja','Caja actual']]:[]),['7d','7 días'],['mes','Este mes'],['todo','Todo']];
+  const dias = {}; base.forEach(v=>{ const k=dayKey(v.fecha); (dias[k]=dias[k]||{f:v.fecha,l:[]}).l.push(v); });
+  const filas = Object.values(dias).sort((a,b)=>new Date(b.f)-new Date(a.f)).map(x=>({f:x.f, d:desglose(x.l)}));
+  const colors = {Efectivo:'var(--c1)',Tarjeta:'var(--c2)',Transferencia:'var(--c3)'};
+  return `<div class="pagehead"><div><h1>Reporte de ventas</h1><p>${esAdmin()?'Ventas de la tienda':'Tus ventas'} con el desglose por forma de pago.</p></div>
+    <div class="head-actions">${esAdmin()?`<select id="rep-ven" aria-label="Vendedor"><option value="">Todos los vendedores</option>${db.usuarios.map(u=>`<option value="${esc(u.usuario)}" ${repState.vendedor===u.usuario?'selected':''}>${esc(u.nombre)}</option>`).join('')}</select>`:''}
+    <div class="seg" id="rep-per" role="group" aria-label="Periodo">${per.map(([v,t])=>`<button type="button" data-v="${v}" class="${repState.periodo===v?'on':''}">${t}</button>`).join('')}</div></div></div>
+    <div class="kpis" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+      <div class="card kpi"><div class="lbl">${ic('money')}Total vendido</div><div class="val">${money(d.total)}</div><div class="foot"><span>con IVA</span></div></div>
+      <div class="card kpi"><div class="lbl">${ic('historial')}Facturas</div><div class="val">${d.n}</div></div>
+      <div class="card kpi"><div class="lbl">${ic('ticket')}Ticket promedio</div><div class="val">${money(d.n?d.total/d.n:0)}</div></div>
+    </div>
+    ${tarjetasPago(d)}
+    <div class="grid2">
+      <div class="card"><div class="card-h bordered"><div><h2>Ventas por día y forma de pago</h2><div class="sub">USD con IVA</div></div></div><div class="card-b flush">${filas.length?`<div class="tablewrap"><table><thead><tr><th>Fecha</th><th class="num">Efectivo</th><th class="num">Tarjeta</th><th class="num">Transferencia</th><th class="num">Total</th></tr></thead><tbody>
+        ${filas.map(x=>`<tr><td>${fmtDate(x.f)}</td><td class="num">${money(x.d.Efectivo)}</td><td class="num">${money(x.d.Tarjeta)}</td><td class="num">${money(x.d.Transferencia)}</td><td class="num cell-main">${money(x.d.total)}</td></tr>`).join('')}
+        <tr class="totrow"><td>Total</td><td class="num">${money(d.Efectivo)}</td><td class="num">${money(d.Tarjeta)}</td><td class="num">${money(d.Transferencia)}</td><td class="num">${money(d.total)}</td></tr>
+      </tbody></table></div>`:empty('reporte','No hay ventas en este periodo.')}</div></div>
+      <div class="card"><div class="card-h"><div><h2>Distribución</h2><div class="sub">Participación de cada forma de pago</div></div></div><div class="card-b"><div class="donutwrap">${donut(PAGOS.map(p=>({n:p,c:colors[p],v:d[p]})))}<div class="legend">${PAGOS.map(p=>`<div><i style="background:${colors[p]}"></i><span>${p}</span><b class="num">${d.total?(d[p]/d.total*100).toFixed(1):'0.0'}%</b></div>`).join('')}</div></div></div></div>
+    </div>
+    <div class="card"><div class="card-h bordered"><div><h2>Facturas del periodo</h2><div class="sub">Filtra por forma de pago</div></div>
+      <div class="seg" id="rep-pago">${[['','Todas'],...PAGOS.map(p=>[p,p])].map(([v,t])=>`<button type="button" data-v="${v}" class="${repState.pago===v?'on':''}">${t}</button>`).join('')}</div></div>
+      <div class="card-b flush">${tablaVentas([...base].filter(v=>!repState.pago||(v.pago||'Efectivo')===repState.pago).reverse().slice(0,50))}</div></div>`;
+};
+binders.reporte = function(){
+  $$('#rep-per button').forEach(b=>b.onclick=()=>{ repState.periodo=b.dataset.v; route(); });
+  $$('#rep-pago button').forEach(b=>b.onclick=()=>{ repState.pago=b.dataset.v; route(); });
+  const s=$('#rep-ven'); if(s) s.onchange=()=>{ repState.vendedor=s.value; route(); };
+  $$('[data-ver]').forEach(b=>b.onclick=()=>verFactura(b.dataset.ver));
+};
 
 /* ---------- Búsqueda global (Ctrl K) ---------- */
 function openPalette(){
@@ -1227,6 +1451,5 @@ function drawPreview(){
 }
 (async()=>{ await conectarNube(); $('#l-online').textContent = nube ? 'Conectado a la base de datos' : 'Modo sin conexión (este navegador)'; route(); })();
 </script>
-
 </body>
 </html>
