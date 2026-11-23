@@ -224,6 +224,34 @@ textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(-
 .sri-steps i svg{width:13px;height:13px}
 .sri-steps b{display:block;font-size:.88rem} .sri-steps span{font-size:.8rem;color:var(--muted)}
 .note.bad{background:var(--badbg);color:var(--bad)}
+.paygrid.four{grid-template-columns:repeat(4,1fr)}
+.mixgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-bottom:8px}
+.mixgrid .field{min-width:0}.mixgrid input{width:100%;min-width:0;box-sizing:border-box}
+.dsc input::-webkit-inner-spin-button,.dsc input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.dsc input{-moz-appearance:textfield;appearance:textfield}
+.meta .pill{align-self:flex-start;width:fit-content}
+.sum span:last-child{white-space:nowrap}
+.dsc{display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+.dsc input{width:46px;height:24px;padding:0 4px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:inherit;font:inherit;font-size:.78rem;text-align:right}
+.dscrow{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.84rem;color:var(--muted);padding:2px 0}
+.dscrow .dsc input{width:56px;height:30px;font-size:.86rem}
+.bad-t{color:var(--bad)!important} .ok-t{color:var(--ok)!important}
+.btn.danger-solid{background:var(--bad);border-color:var(--bad);color:#fff}
+.btn.danger-solid:hover{filter:brightness(.95)}
+.anulada-bar{display:flex;gap:10px;align-items:flex-start;background:var(--badbg);color:var(--bad);border:1px solid color-mix(in srgb,var(--bad) 35%,transparent);border-radius:10px;padding:10px 12px;margin-bottom:14px;font-size:.86rem}
+.anulada-bar svg{width:18px;height:18px;flex:0 0 18px;margin-top:1px}
+.ride.is-anulada{position:relative}
+.ride.is-anulada::after{content:"ANULADA";position:absolute;top:45%;left:50%;transform:translate(-50%,-50%) rotate(-18deg);font-size:4.5rem;font-weight:800;letter-spacing:.1em;color:var(--bad);opacity:.09;pointer-events:none}
+tr.row-anulada td{opacity:.62} tr.row-anulada td:first-child,tr.row-anulada td:last-child{opacity:1}
+label.check{display:flex;align-items:center;gap:8px;font-size:.86rem;cursor:pointer}
+.cpl-h,.cpl{display:grid;grid-template-columns:minmax(0,1fr) 70px 96px 88px 30px;gap:8px;align-items:center}
+.cpl-h{font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding-bottom:4px;border-bottom:1px solid var(--line)}
+.cpl{padding:6px 0;border-bottom:1px solid var(--line)}
+.cpl select,.cpl input{height:34px;min-width:0;width:100%;border:1px solid var(--line);border-radius:8px;padding:0 8px;background:var(--surface);color:inherit;font:inherit;font-size:.84rem}
+.cpl .x{width:30px;height:30px;border:0;background:none;color:var(--muted);cursor:pointer;border-radius:6px;display:grid;place-items:center}
+.cpl .x:hover{background:var(--hover);color:var(--bad)} .cpl .x svg{width:15px;height:15px}
+.taglist{display:flex;flex-wrap:wrap;gap:6px}
+@media (max-width:600px){.paygrid.four{grid-template-columns:repeat(2,1fr)}.cpl-h{display:none}.cpl{grid-template-columns:1fr 1fr;}.cpl select{grid-column:1/-1}}
+[hidden]{display:none!important}
 .pager{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 20px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted);flex-wrap:wrap}
 .pager div{display:flex;gap:6px}
 
@@ -532,6 +560,15 @@ const IC = {
   menu:'<path d="M4 6h16M4 12h16M4 18h16"/>', eye:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
   eyeoff:'<path d="M3 3l18 18M10.6 5.1A10 10 0 0 1 12 5c6.5 0 10 7 10 7a17 17 0 0 1-3.2 4M6.6 6.6C3.8 8.3 2 12 2 12s3.5 7 10 7a9.7 9.7 0 0 0 5.4-1.6M9.9 9.9a3 3 0 0 0 4.2 4.2"/>',
   sri:'<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 14l2 2 4-4"/>',
+  compras:'<path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/>',
+  kardex:'<path d="M4 4h16v16H4zM4 9h16M9 9v11"/><path d="M12 13h5M12 16h5"/>',
+  rentabilidad:'<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>',
+  bitacora:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  ban:'<circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/>',
+  print:'<path d="M6 9V3h12v6M6 18H4a1 1 0 0 1-1-1v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1h-2"/><rect x="6" y="14" width="12" height="7" rx="1"/>',
+  mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+  excel:'<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M9 12l5 6M14 12l-5 6"/>',
+  mixto:'<circle cx="8" cy="12" r="5"/><rect x="11" y="8" width="10" height="8" rx="1.5"/>',
   ticket:'<path d="M3 7a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v10a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2z"/><path d="M9 9h6M9 13h4"/>',
   arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>', user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>', lock:'<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>', shield:'<path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/>', info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>'
 };
@@ -544,7 +581,7 @@ const IVA = 0.15;
 const KEY = 'comercial-nova-v3';
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
-const r2 = n => Math.round(n*100)/100;
+const r2 = n => Math.round((n + (n>=0?1:-1)*1e-9)*100)/100;
 const money = n => '$' + r2(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmtDate = d => new Date(d).toLocaleDateString('es-EC',{day:'2-digit',month:'short',year:'numeric'});
@@ -585,7 +622,7 @@ function seed(){
     ['P016','SSD Samsung 990 EVO Plus 1 TB','Almacenamiento',89.90,18,8],
     ['P017','Router TP-Link Deco BE25 Wi-Fi 7 (2 u.)','Redes',199.00,4,3],
     ['P018','Tablet Samsung Galaxy Tab S10 FE','Tablets',499.00,5,3]
-  ].map(([codigo,nombre,categoria,precio,stock,minimo])=>({codigo,nombre,categoria,precio,stock,minimo}));
+  ].map(([codigo,nombre,categoria,precio,stock,minimo])=>({codigo,nombre,categoria,precio,stock,minimo,costo:Math.round(precio*72)/100}));
   const clientes = [
     {id:'9999999999999',nombre:'Consumidor final',telefono:'',fija:true},
     {id:'0912345675',nombre:'María Fernanda Andrade',telefono:'0991234567'},
@@ -607,12 +644,19 @@ function seed(){
     }
   }
   const hoy0 = new Date().setHours(0,0,0,0); ventas.forEach(v=>{ if(new Date(v.fecha)<hoy0){ v.sri_estado='Autorizada'; v.sri_fecha=new Date(new Date(v.fecha).getTime()+12e4).toISOString(); } });
-  return {productos, clientes, ventas, seq:n, usuarios:usuariosBase(), cajas:[]};
+  return {productos, clientes, ventas, seq:n, usuarios:usuariosBase(), cajas:[], compras:[], bitacora:[], ncSeq:0, compraSeq:0};
 }
-function makeVenta(seq, cli, items, fecha){
-  const subtotal = r2(items.reduce((a,i)=>a+i.precio*i.cant,0));
-  const iva = r2(subtotal*IVA);
-  return {numero:'001-001-'+String(seq).padStart(9,'0'), fecha, cliente:{id:cli.id,nombre:cli.nombre}, items:items.map(i=>({...i})), subtotal, iva, total:r2(subtotal+iva), estado:'Emitida', sri_estado:'Pendiente', sri_fecha:null, sri_mensaje:''};
+function makeVenta(seq, cli, items, fecha, pct){
+  const its = items.map(i=>({codigo:i.codigo, nombre:i.nombre, precio:i.precio, cant:i.cant, desc:i.desc||0, costo:i.costo!==undefined?i.costo:Math.round(i.precio*72)/100}));
+  const k = calcFactura(its, pct||0);
+  return {numero:'001-001-'+String(seq).padStart(9,'0'), fecha, cliente:{id:cli.id,nombre:cli.nombre}, items:its, subtotal:k.sub, iva:k.iva, total:k.total, descuento:k.descuento, desc_pct:pct||0, pagos:[], estado:'Emitida', sri_estado:'Pendiente', sri_fecha:null, sri_mensaje:''};
+}
+function normalizarDB(){
+  if(!db.cajas) db.cajas = []; if(!db.compras) db.compras = []; if(!db.bitacora) db.bitacora = [];
+  db.productos.forEach(normProducto);
+  db.clientes.forEach(c=>{ if(c.correo===undefined||c.correo===null) c.correo=''; });
+  db.ventas.forEach(normVenta);
+  if(!db.movimientos) db.movimientos = kardexInicial();
 }
 async function hashClave(usuario, clave){
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(usuario+':'+clave));
@@ -638,7 +682,7 @@ async function cargarNube(){
     sb.from('cajas').select('*').order('apertura')
   ]);
   const err = p.error||c.error||u.error||v.error||k.error; if(err) throw err;
-  const ventas = v.data.map(x=>normSri({...x, subtotal:num(x.subtotal), iva:num(x.iva), total:num(x.total), items:(x.items||[]).map(i=>({...i, precio:num(i.precio), cant:num(i.cant)}))}));
+  const ventas = v.data.map(x=>({...x, subtotal:num(x.subtotal), iva:num(x.iva), total:num(x.total), items:(x.items||[]).map(i=>({...i, precio:num(i.precio), cant:num(i.cant)}))}));
   const cf = c.data.filter(x=>x.fija), otros = c.data.filter(x=>!x.fija).sort((a,b)=>a.nombre.localeCompare(b.nombre,'es'));
   db = {
     productos: p.data.map(x=>({...x, precio:num(x.precio), stock:num(x.stock), minimo:num(x.minimo)})),
@@ -648,6 +692,16 @@ async function cargarNube(){
     seq: ventas.reduce((m,x)=>Math.max(m, parseInt(x.numero.slice(8),10)||0), 0),
     cajas: k.data.map(x=>{ const o={...x}; ['monto_inicial','ventas_total','efectivo','tarjeta','transferencia','efectivo_esperado','efectivo_contado','diferencia'].forEach(f=>{ if(o[f]!==null&&o[f]!==undefined) o[f]=num(o[f]); }); return o; })
   };
+  // Tablas de operación (si aún no existen en la base de datos, quedan vacías)
+  const [mv,cp,bt] = await Promise.all([
+    sb.from('movimientos').select('*').order('id'),
+    sb.from('compras').select('*').order('id'),
+    sb.from('bitacora').select('*').order('id',{ascending:false}).limit(1000)
+  ]);
+  db.movimientos = mv.error ? [] : mv.data.map(m=>({...m, costo:num(m.costo)}));
+  db.compras = cp.error ? [] : cp.data.map(c=>({...c, total:num(c.total), items:(c.items||[]).map(i=>({...i, costo:num(i.costo), cant:num(i.cant)}))}));
+  db.bitacora = bt.error ? [] : bt.data;
+  normalizarDB();
 }
 async function conectarNube(){
   if(!SUPA_URL || !SUPA_KEY || !window.supabase) return false;
@@ -661,12 +715,16 @@ async function conectarNube(){
   }catch(e){ console.warn('Sin conexión a la base de datos', e); sb = null; nube = false; load(); return false; }
 }
 // Guarda un cambio: en la nube si hay conexión; si no, en este navegador
-async function guardar(tabla, accion, fila, clave){
-  if(!nube){ save(); return true; }
+const AUD = {productos:'producto', clientes:'cliente', usuarios:'usuario'};
+async function guardar(tabla, accion, fila, clave, txt){
+  if(tabla==='productos' && accion!=='borrar' && sesion) fila.modificado_por = sesion.usuario;
+  const det = accion==='borrar' ? String(fila) : [fila.codigo||fila.id||fila.usuario, fila.nombre].filter(Boolean).join(' · ');
+  const log = ()=> bitacora(txt || (accion==='borrar' ? 'Eliminó '+AUD[tabla] : 'Guardó '+AUD[tabla]), det);
+  if(!nube){ save(); log(); return true; }
   const q = accion==='borrar' ? sb.from(tabla).delete().eq(clave, fila) : sb.from(tabla).upsert(fila);
   const { error } = await q;
   if(error){ toast('No se pudo guardar en la base de datos. Revisa tu conexión.', true); try{ await cargarNube(); }catch(e){} route(); return false; }
-  return true;
+  log(); return true;
 }
 let refrescarVenta = null;
 function refrescarPantalla(){
@@ -681,7 +739,7 @@ function refrescarPantalla(){
 }
 load();
 if(!db.usuarios) db.usuarios = usuariosBase();
-if(!db.cajas) db.cajas = []; db.ventas.forEach(normSri);
+
 if(!db.usuarios.some(u=>u.usuario==='pgarces')) db.usuarios.unshift(usuariosBase()[0]);
 
 /* ---------- Tema ---------- */
@@ -698,16 +756,20 @@ const MODULOS = [
   {id:'reporte', nombre:'Reporte de ventas diarias', corto:'Ventas del día', grupo:'General', desc:'Ventas de cada día con el desglose por efectivo, tarjeta y transferencia.', roles:['admin','cajero']},
   {id:'historial', nombre:'Ventas', corto:'Ventas', grupo:'General', desc:'Todas las facturas emitidas, con totales e impuestos.', roles:['admin']},
   {id:'sri', nombre:'Estado de facturas', corto:'Estado de facturas', grupo:'General', desc:'Si la factura está emitida y en qué estado de autorización del SRI se encuentra.', roles:['admin']},
+  {id:'rentabilidad', nombre:'Más vendidos y margen', corto:'Más vendidos y margen', grupo:'General', desc:'Unidades vendidas, utilidad y margen de ganancia por producto.', roles:['admin']},
   {id:'inventario', nombre:'Inventario', corto:'Inventario', grupo:'Catálogo', desc:'Productos, precios y existencias en bodega.', roles:['admin']},
+  {id:'compras', nombre:'Compras a proveedores', corto:'Compras', grupo:'Catálogo', desc:'Entrada de mercadería: suma stock y actualiza el costo promedio.', roles:['admin']},
+  {id:'kardex', nombre:'Kardex', corto:'Kardex', grupo:'Catálogo', desc:'Historial de entradas, salidas y saldo de cada producto.', roles:['admin']},
   {id:'clientes', nombre:'Clientes', corto:'Clientes', grupo:'Catálogo', desc:'Cédula y RUC validados con el dígito verificador del Registro Civil y el SRI.', roles:['admin']},
-  {id:'usuarios', nombre:'Usuarios y permisos', corto:'Usuarios', grupo:'Configuración', desc:'Quién puede ingresar al sistema y qué módulos puede usar.', roles:['admin']}
+  {id:'usuarios', nombre:'Usuarios y permisos', corto:'Usuarios', grupo:'Configuración', desc:'Quién puede ingresar al sistema y qué módulos puede usar.', roles:['admin']},
+  {id:'bitacora', nombre:'Bitácora de auditoría', corto:'Bitácora', grupo:'Configuración', desc:'Quién hizo qué y cuándo dentro del sistema.', roles:['admin']}
 ];
 let sesion = null, memUser = null;
 function getSesion(){ let u = memUser; try{ u = sessionStorage.getItem('cn-sesion') || memUser; }catch(e){} return db.usuarios.find(x=>x.usuario===u) || null; }
 function puede(mod){ const m = MODULOS.find(x=>x.id===mod); return !!(sesion && m && m.roles.includes(sesion.rol)); }
 const esAdmin = ()=> sesion && sesion.rol==='admin';
 const inicio = ()=> puede('panel') ? 'panel' : 'venta';
-let ventaTab = 'nueva', cliSel = '9999999999999';
+let ventaTab = 'nueva', cliSel = '9999999999999', descFact = 0;
 const repState = {fecha:'', vendedor:'', pago:''};
 
 /* ---------- Caja: apertura, cierre y desglose por forma de pago ---------- */
@@ -717,18 +779,19 @@ const cajaAbierta = u => (db.cajas||[]).find(c=>c.usuario===u && !c.cierre) || n
 const ventasDeCaja = c => db.ventas.filter(v=>v.caja_id===c.id);
 function desglose(lista){
   const r = {total:0, n:lista.length, Efectivo:0, Tarjeta:0, Transferencia:0, nEfectivo:0, nTarjeta:0, nTransferencia:0};
-  lista.forEach(v=>{ const p=v.pago||'Efectivo'; r[p]=r2(r[p]+v.total); r['n'+p]++; r.total=r2(r.total+v.total); });
+  r.n = 0;
+  lista.filter(activa).forEach(v=>{ r.n++; r.total=r2(r.total+v.total); const ps=pagosDe(v); ps.forEach(p=>{ r[p.forma]=r2(r[p.forma]+num(p.monto)); }); new Set(ps.map(p=>p.forma)).forEach(f=>r['n'+f]++); });
   return r;
 }
 async function abrirCaja(monto){
   if(nube){
     const { error } = await sb.rpc('abrir_caja', { p_usuario:sesion.usuario, p_monto:monto });
     if(error){ toast(error.message.startsWith('CAJA_YA_ABIERTA') ? 'Ya tienes una caja abierta.' : 'No se pudo abrir la caja. Revisa tu conexión.', true); try{ await cargarNube(); }catch(e){} return false; }
-    try{ await cargarNube(); }catch(e){} return true;
+    bitacora('Abrió caja', 'Fondo inicial '+money(monto)); try{ await cargarNube(); }catch(e){} return true;
   }
   if(cajaAbierta(sesion.usuario)){ toast('Ya tienes una caja abierta.', true); return false; }
   const id = (db.cajas.reduce((m,c)=>Math.max(m,c.id),0))+1;
-  db.cajas.push({id, usuario:sesion.usuario, apertura:new Date().toISOString(), monto_inicial:r2(monto), cierre:null, observacion:''}); save(); return true;
+  db.cajas.push({id, usuario:sesion.usuario, apertura:new Date().toISOString(), monto_inicial:r2(monto), cierre:null, observacion:''}); bitacora('Abrió caja', 'Fondo inicial '+money(monto)); save(); return true;
 }
 async function cerrarCaja(contado, obs){
   if(nube){
@@ -740,7 +803,7 @@ async function cerrarCaja(contado, obs){
   const d = desglose(ventasDeCaja(c));
   Object.assign(c, {cierre:new Date().toISOString(), num_facturas:d.n, ventas_total:d.total, efectivo:d.Efectivo, tarjeta:d.Tarjeta, transferencia:d.Transferencia,
     efectivo_esperado:r2(c.monto_inicial+d.Efectivo), efectivo_contado:r2(contado), diferencia:r2(contado-(c.monto_inicial+d.Efectivo)), observacion:obs||''});
-  save(); return c.id;
+  bitacora('Cerró caja', `Caja ${c.id} · ventas ${money(d.total)} · diferencia ${money(c.diferencia)}`); save(); return c.id;
 }
 function difTxt(d){ return Math.abs(d)<0.005 ? '<span class="pill ok">Cuadra</span>' : d<0 ? `<span class="pill bad">Faltante ${money(-d)}</span>` : `<span class="pill warn">Sobrante ${money(d)}</span>`; }
 
@@ -775,7 +838,7 @@ function armDelete(btn, fn){ btn.addEventListener('click',()=>{ if(btn.classList
 function niceMax(v){ if(v<=0) return 10; const p=Math.pow(10,Math.floor(Math.log10(v))); const m=v/p; return (m<=1?1:m<=2?2:m<=2.5?2.5:m<=5?5:10)*p; }
 function delta(a,b){ if(!b) return ''; const d=(a-b)/b*100; return `<span class="delta ${d>=0?'up':'down'}">${d>=0?'↑':'↓'} ${Math.abs(d).toFixed(1)}%</span>`; }
 function empty(icon, text){ return `<div class="empty">${ic(icon)}<span>${text}</span></div>`; }
-const sum = l => l.reduce((a,v)=>a+v.total,0);
+const sum = l => l.reduce((a,v)=>a+(v.estado==='Anulada'?0:v.total),0);
 function serie7(fn){ return [...Array(7)].map((_,i)=>{ const d=new Date(Date.now()-(6-i)*864e5); const k=dayKey(d); return {d, v: fn(db.ventas.filter(x=>dayKey(x.fecha)===k))}; }); }
 function sparkline(vals){
   const W=88,H=32, max=Math.max(...vals,1), min=Math.min(...vals,0);
@@ -849,7 +912,7 @@ const views = {
     if(invState.cat && !cats.includes(invState.cat)) invState.cat='';
     const card = (c, label, prods)=>{ const bajos=prods.filter(p=>p.stock<=p.minimo).length, [bg,fg]=c?catColor(c):['var(--brand-soft)','var(--brand)'];
       return `<button type="button" class="catcard ${invState.cat===c?'on':''}" data-cat="${esc(c)}"><span class="cc-ic" style="background:${bg};color:${fg}">${c?catIc(c):ic('inventario')}</span><span class="cc-txt"><b>${esc(label)}</b><span>${prods.length} ${prods.length===1?'producto':'productos'} · ${prods.reduce((a,p)=>a+p.stock,0)} u.</span></span>${bajos?`<span class="cc-alert" title="${bajos} por reponer">${bajos}</span>`:''}</button>`; };
-    return `<div class="pagehead"><div><h1>Inventario</h1><p>${db.productos.length} productos en ${cats.length} categorías · valor en bodega ${money(valor)} a precio sin IVA</p></div><div class="head-actions"><button class="btn" id="add">${ic('plus')}Agregar producto</button></div></div>
+    return `<div class="pagehead"><div><h1>Inventario</h1><p>${db.productos.length} productos en ${cats.length} categorías · valor en bodega ${money(valor)} a precio sin IVA</p></div><div class="head-actions">${btnExport('inv')}<button class="btn" id="add">${ic('plus')}Agregar producto</button></div></div>
     <div class="catgrid" id="catgrid">${card('','Todas',db.productos)}${cats.map(c=>card(c,c,db.productos.filter(p=>p.categoria===c))).join('')}</div>
     <div class="card">
       <div class="toolbar"><div class="search">${ic('search')}<input type="search" id="q" placeholder="Buscar por nombre o código" aria-label="Buscar producto" value="${esc(invState.q)}"></div>
@@ -887,10 +950,12 @@ const views = {
         <div class="card-b stack">
           <div class="field"><label for="cli">Cliente</label><div style="display:flex;gap:6px"><select id="cli" style="flex:1;min-width:0">${db.clientes.map(c=>`<option value="${c.id}" ${c.id===cliSel?'selected':''}>${esc(c.nombre)} · ${c.id}</option>`).join('')}</select><button type="button" class="btn ghost" id="newcli" title="Registrar cliente nuevo" aria-label="Registrar cliente nuevo">${ic('plus')}</button></div></div>
           <div id="cart"></div>
+          <label class="dscrow" for="descg"><span>Descuento a toda la factura <span class="cell-sub">(máx. ${maxDesc()}%)</span></span><span class="dsc"><input type="number" id="descg" min="0" max="${maxDesc()}" step="1" placeholder="0">%</span></label>
           <div class="totals" id="tot"></div>
           <div class="divider"></div>
-          <div class="field">Forma de pago<div class="paygrid">${[['Efectivo','money'],['Tarjeta','card'],['Transferencia','transfer']].map(([p,i],k)=>`<label>${ic(i)}<input type="radio" name="pago" value="${p}" ${k===0?'checked':''}>${p}</label>`).join('')}</div></div>
+          <div class="field">Forma de pago<div class="paygrid four">${[['Efectivo','money'],['Tarjeta','card'],['Transferencia','transfer'],['Mixto','mixto']].map(([p,i],k)=>`<label>${ic(i)}<input type="radio" name="pago" value="${p}" ${k===0?'checked':''}>${p}</label>`).join('')}</div></div>
           <div id="efectivo"><label class="field" for="recibido">Efectivo recibido<input type="number" id="recibido" step="0.01" min="0" placeholder="0.00"></label><div class="change"><span>Cambio a entregar</span><b id="cambio">$0.00</b></div></div>
+          <div id="mixto" hidden><div class="mixgrid"><label class="field" for="mix-tar">Con tarjeta<input type="number" id="mix-tar" step="0.01" min="0" placeholder="0.00"></label><label class="field" for="mix-tra">Por transferencia<input type="number" id="mix-tra" step="0.01" min="0" placeholder="0.00"></label></div><div class="change"><span>Saldo a cobrar en efectivo</span><b id="mix-ef">$0.00</b></div></div>
           <button class="btn block" id="cobrar">Emitir factura</button>
         </div></div>
     </div>`;
@@ -904,25 +969,27 @@ const views = {
 
   historial(){
     const top = {};
-    db.ventas.forEach(v=>v.items.forEach(i=>{ top[i.codigo]=top[i.codigo]||{nombre:i.nombre,cant:0,total:0}; top[i.codigo].cant+=i.cant; top[i.codigo].total+=i.precio*i.cant; }));
+    db.ventas.filter(activa).forEach(v=>v.items.forEach(i=>{ top[i.codigo]=top[i.codigo]||{nombre:i.nombre,cant:0,total:0}; top[i.codigo].cant+=i.cant; top[i.codigo].total+=i.precio*i.cant; }));
     const ranking = Object.values(top).sort((a,b)=>b.total-a.total).slice(0,5);
     const maxR = ranking[0] ? ranking[0].total : 1;
-    const tot = db.ventas.reduce((a,v)=>({s:a.s+v.subtotal,i:a.i+v.iva,t:a.t+v.total}),{s:0,i:0,t:0});
+    const act = db.ventas.filter(activa), dg = desglose(db.ventas);
+    const tot = act.reduce((a,v)=>({s:a.s+v.subtotal,i:a.i+v.iva,t:a.t+v.total}),{s:0,i:0,t:0});
     const colors = {Efectivo:'var(--c1)',Tarjeta:'var(--c2)',Transferencia:'var(--c3)'};
-    const parts = ['Efectivo','Tarjeta','Transferencia'].map(p=>({n:p,c:colors[p],v:db.ventas.filter(v=>(v.pago||'Efectivo')===p).reduce((a,v)=>a+v.total,0)}));
-    return `<div class="pagehead"><div><h1>Ventas</h1><p>${db.ventas.length} facturas emitidas en el período.</p></div></div>
+    const parts = ['Efectivo','Tarjeta','Transferencia'].map(p=>({n:p,c:colors[p],v:dg[p]}));
+    const nAn = db.ventas.length - act.length;
+    return `<div class="pagehead"><div><h1>Ventas</h1><p>${act.length} facturas válidas${nAn?` · ${nAn} anulada${nAn>1?'s':''}`:''}. Los totales no incluyen facturas anuladas.</p></div></div>
     <div class="kpis">
       <div class="card kpi"><div class="lbl">${ic('money')}Subtotal sin IVA</div><div class="val">${money(tot.s)}</div></div>
       <div class="card kpi"><div class="lbl">${ic('historial')}IVA 15% cobrado</div><div class="val">${money(tot.i)}</div></div>
       <div class="card kpi"><div class="lbl">${ic('cal')}Total facturado</div><div class="val">${money(tot.t)}</div></div>
-      <div class="card kpi"><div class="lbl">${ic('ticket')}Ticket promedio</div><div class="val">${money(db.ventas.length?tot.t/db.ventas.length:0)}</div></div>
+      <div class="card kpi"><div class="lbl">${ic('ticket')}Ticket promedio</div><div class="val">${money(act.length?tot.t/act.length:0)}</div></div>
     </div>
     <div class="grid2 even">
       <div class="card"><div class="card-h"><div><h2>Productos más vendidos</h2><div class="sub">Por monto facturado sin IVA</div></div></div><div class="card-b">${ranking.length?`<div class="rank">${ranking.map(r=>`<div><div class="r1"><span>${esc(r.nombre)}</span><span class="num">${money(r.total)}</span></div><div class="track"><i style="width:${r.total/maxR*100}%"></i></div><div class="cell-sub" style="margin-top:4px">${r.cant} unidades</div></div>`).join('')}</div>`:empty('historial','Aún no hay ventas.')}</div></div>
       <div class="card"><div class="card-h"><div><h2>Forma de pago</h2><div class="sub">Distribución del total facturado</div></div></div><div class="card-b"><div class="donutwrap">${donut(parts)}<div class="legend">${parts.map(p=>`<div><i style="background:${p.c}"></i><span>${p.n}</span><b class="num">${money(p.v)}</b></div>`).join('')}</div></div></div></div>
     </div>
     <div class="card"><div class="toolbar"><div class="search">${ic('search')}<input type="search" id="hq" placeholder="Buscar por factura o cliente" aria-label="Buscar factura"></div>
-      <select id="hp" aria-label="Forma de pago"><option value="">Todas las formas de pago</option><option>Efectivo</option><option>Tarjeta</option><option>Transferencia</option></select></div>
+      <select id="hp" aria-label="Forma de pago"><option value="">Todas las formas de pago</option><option>Efectivo</option><option>Tarjeta</option><option>Transferencia</option><option value="Anulada">Solo anuladas</option></select></div>
       <div id="hrows"></div><div class="pager" id="hpager"></div></div>`;
   },
 
@@ -939,31 +1006,37 @@ const views = {
 
 function tablaVentas(list){
   if(!list.length) return empty('historial','No hay facturas que coincidan.');
-  const pagoIc = {Efectivo:'money',Tarjeta:'card',Transferencia:'transfer'};
+  const pagoIc = {Efectivo:'money',Tarjeta:'card',Transferencia:'transfer',Mixto:'mixto'};
   return `<div class="tablewrap"><table><thead><tr><th>Factura</th><th>Cliente</th><th>Forma de pago</th><th>Fecha</th><th class="num">Total</th><th></th></tr></thead><tbody>
-  ${list.map(v=>{ const p=v.pago||'Efectivo'; return `<tr><td class="code">${v.numero}</td><td><div class="person"><span class="avatar">${initials(v.cliente.nombre)}</span><span class="cell-main">${esc(v.cliente.nombre)}</span></div></td><td><span class="pill plain">${ic(pagoIc[p])}${p}</span></td><td><div>${fmtDate(v.fecha)}</div><div class="cell-sub">${fmtTime(v.fecha)}</div></td><td class="num cell-main">${money(v.total)}</td><td><div class="rowactions"><button class="btn ghost sm" data-ver="${v.numero}">Ver</button></div></td></tr>`; }).join('')}
+  ${list.map(v=>{ const p=v.pago||'Efectivo'; return `<tr class="${activa(v)?'':'row-anulada'}"><td><div class="code">${v.numero}</div>${activa(v)?'':'<span class="pill bad">Anulada</span>'}</td><td><div class="person"><span class="avatar">${initials(v.cliente.nombre)}</span><span class="cell-main">${esc(v.cliente.nombre)}</span></div></td><td><span class="pill plain" title="${esc(pagoTxt(v))}">${ic(pagoIc[p]||'money')}${p}</span></td><td><div>${fmtDate(v.fecha)}</div><div class="cell-sub">${fmtTime(v.fecha)}</div></td><td class="num cell-main">${money(v.total)}</td><td><div class="rowactions"><button class="btn ghost sm" data-ver="${v.numero}">Ver</button></div></td></tr>`; }).join('')}
   </tbody></table></div>`;
 }
 
 function verFactura(num){
   const v = db.ventas.find(x=>x.numero===num); if(!v) return;
-  const body = `<div class="ride">
-    <div class="ride-h"><div class="em">${LOGO_SVG}<div><b>${EMPRESA.razon}</b><div class="cell-sub">RUC ${EMPRESA.ruc}</div><div class="cell-sub">${EMPRESA.dir}</div></div></div>
-      <div class="doc"><div class="t">FACTURA</div><div class="code">No. ${v.numero}</div><div class="cell-sub">Ambiente: Pruebas</div></div></div>
+  const anulada = !activa(v);
+  const body = `<div class="ride ${anulada?'is-anulada':''}">
+    ${anulada?`<div class="anulada-bar">${ic('ban')}<div><b>FACTURA ANULADA</b> el ${fmtDate(v.anulada_fecha)} por ${esc(v.anulada_por)} · Nota de crédito ${v.nc_numero}<div class="cell-sub">Motivo: ${esc(v.anulada_motivo)}</div></div></div>`:''}
+    ${docEncabezado('FACTURA', v.numero)}
     <div class="meta">
       <div><span>Cliente</span>${esc(v.cliente.nombre)}</div><div><span>Identificación</span><span class="mono" style="color:var(--ink);font-size:.82rem">${v.cliente.id}</span></div>
-      <div><span>Fecha de emisión</span>${fmtDate(v.fecha)} · ${fmtTime(v.fecha)}</div><div><span>Forma de pago</span>${v.pago||'Efectivo'}</div>
-      <div><span>Atendido por</span>${esc(v.vendedor||'—')}</div>
+      <div><span>Fecha de emisión</span>${fmtDate(v.fecha)} · ${fmtTime(v.fecha)}</div><div><span>Forma de pago</span>${pagoTxt(v)}</div>
+      <div><span>Atendido por</span>${esc(v.vendedor||'—')}</div><div><span>Estado</span>${estadoPill(v)}</div>
     </div>
-    <div class="tablewrap"><table><thead><tr><th>Cód.</th><th>Descripción</th><th class="num">Cant.</th><th class="num">P. unit.</th><th class="num">Total</th></tr></thead><tbody>
-    ${v.items.map(i=>`<tr><td class="code">${i.codigo}</td><td>${esc(i.nombre)}</td><td class="num">${i.cant}</td><td class="num">${money(i.precio)}</td><td class="num">${money(i.precio*i.cant)}</td></tr>`).join('')}
-    </tbody></table></div>
-    <div class="sum"><div><span>Subtotal 15%</span><span>${money(v.subtotal)}</span></div><div><span>Subtotal 0%</span><span>$0.00</span></div><div><span>IVA 15%</span><span>${money(v.iva)}</span></div><div class="g"><span>Valor total</span><span>${money(v.total)}</span></div></div>
+    ${tablaItems(v)}${sumaDoc(v)}
     <div class="meta" style="margin-top:12px"><div><span>Estado SRI</span>${sriPill(normSri(v))}</div><div><span>Clave de acceso</span><span class="mono" style="font-size:.72rem;word-break:break-all;color:var(--ink)">${claveAcceso(v)}</span></div></div>
     <div class="note">${ic('info')}Documento generado con fines académicos. No tiene validez tributaria.</div>
   </div>`;
-  openModal('Factura '+v.numero, 'Emitida el '+fmtDate(v.fecha), body, `<button class="btn" id="cerrar">Listo</button>`, ()=>$('#cerrar').onclick=closeModal, true);
+  const foot = `${esAdmin()&&!anulada?`<button class="btn danger" id="fv-anular">${ic('ban')}Anular</button>`:''}${anulada?`<button class="btn ghost" id="fv-nc">Nota de crédito</button>`:''}<button class="btn ghost" id="fv-mail">${ic('mail')}Correo</button><button class="btn ghost" id="fv-print">${ic('print')}Ticket 80 mm</button><button class="btn" id="cerrar">Listo</button>`;
+  openModal('Factura '+v.numero, (anulada?'Anulada · ':'')+'Emitida el '+fmtDate(v.fecha), body, foot, ()=>{
+    $('#cerrar').onclick=closeModal;
+    $('#fv-print').onclick=()=>imprimirTicket(v.numero);
+    $('#fv-mail').onclick=()=>formCorreo(v.numero);
+    const a=$('#fv-anular'); if(a) a.onclick=()=>formAnular(v.numero);
+    const n=$('#fv-nc'); if(n) n.onclick=()=>verNotaCredito(v.numero);
+  }, true);
 }
+const estadoPill = v => activa(v) ? `<span class="pill ok">Emitida</span>` : `<span class="pill bad">Anulada</span>`;
 
 /* ---------- Comportamiento de cada vista ---------- */
 let cart = [];
@@ -981,7 +1054,7 @@ const binders = {
         return (!invState.cat||p.categoria===invState.cat)&&(!invState.est||e===invState.est)&&(p.nombre.toLowerCase().includes(q)||p.codigo.toLowerCase().includes(q));
       }).sort((a,b)=>{ const x=a[invState.k], y=b[invState.k]; return (typeof x==='string'?x.localeCompare(y,'es'):x-y)*invState.dir; });
       $$('th.sort').forEach(th=>{ const on=th.dataset.k===invState.k; th.classList.toggle('active',on); th.querySelector('.arr').textContent = on?(invState.dir>0?'↑':'↓'):'↕'; });
-      const row = p=>{ const [bg,fg]=catColor(p.categoria); return `<tr><td class="code">${p.codigo}</td><td><div class="person"><span class="avatar" style="background:${bg};color:${fg};border-radius:8px">${initials(p.nombre)}</span><div class="cell-main">${esc(p.nombre)}</div></div></td><td class="num">${money(p.precio)}</td><td class="num"><div class="cell-main">${p.stock}</div><div class="cell-sub">mín. ${p.minimo}</div></td><td>${estado(p)}</td><td><div class="rowactions"><button class="btn ghost sm" data-edit="${p.codigo}">Editar</button><button class="btn danger sm" data-del="${p.codigo}">Eliminar</button></div></td></tr>`; };
+      const row = p=>{ const [bg,fg]=catColor(p.categoria); return `<tr><td class="code">${p.codigo}</td><td><div class="person"><span class="avatar" style="background:${bg};color:${fg};border-radius:8px">${initials(p.nombre)}</span><div class="cell-main">${esc(p.nombre)}</div></div></td><td class="num"><div class="cell-main">${money(p.precio)}</div><div class="cell-sub">costo ${money(p.costo)} · ${margen(p).toFixed(0)}%</div></td><td class="num"><div class="cell-main">${p.stock}</div><div class="cell-sub">mín. ${p.minimo}</div></td><td>${estado(p)}</td><td><div class="rowactions"><button class="btn ghost sm" data-edit="${p.codigo}">Editar</button><button class="btn danger sm" data-del="${p.codigo}">Eliminar</button></div></td></tr>`; };
       const grupos = [...new Set(list.map(p=>p.categoria))].sort(catSort);
       $('#rows').innerHTML = list.length ? grupos.map(c=>{ const ps=list.filter(p=>p.categoria===c), [bg,fg]=catColor(c);
         return `<tr class="grp"><td colspan="6"><div class="grp-in"><span class="cc-ic sm" style="background:${bg};color:${fg}">${catIc(c)}</span><b>${esc(c)}</b><span class="cell-sub">${ps.length} ${ps.length===1?'producto':'productos'} · ${ps.reduce((a,p)=>a+p.stock,0)} u. · ${money(ps.reduce((a,p)=>a+p.precio*p.stock,0))}</span></div></td></tr>${ps.map(row).join('')}`; }).join('') : `<tr><td colspan="6">${empty('search','Ningún producto coincide con los filtros.')}</td></tr>`;
@@ -994,6 +1067,11 @@ const binders = {
     $$('#est button').forEach(b=>b.onclick=()=>{ invState.est=b.dataset.v; $$('#est button').forEach(x=>x.classList.toggle('on',x===b)); draw(); });
     $$('th.sort').forEach(th=>th.onclick=()=>{ if(invState.k===th.dataset.k) invState.dir*=-1; else { invState.k=th.dataset.k; invState.dir=1; } draw(); });
     $('#add').onclick=()=>formProducto(null); draw();
+    const filasInv = ()=> db.productos.slice().sort((a,b)=>catSort(a.categoria,b.categoria)||a.codigo.localeCompare(b.codigo));
+    const estTxt = p => p.stock<=0?'Agotado':p.stock<=p.minimo?'Stock bajo':'Disponible';
+    $('#inv-xls').onclick=()=>exportarExcel('Inventario '+hoyTxt(), [{nombre:'Inventario', filas:[['Código','Producto','Categoría','Costo','Precio sin IVA','Margen %','Stock','Mínimo','Estado','Valor a costo','Valor a precio'], ...filasInv().map(p=>[p.codigo,p.nombre,p.categoria,p.costo,p.precio,r2(margen(p)),p.stock,p.minimo,estTxt(p),r2(p.costo*p.stock),r2(p.precio*p.stock)]), ['','Total','','','','',db.productos.reduce((a,p)=>a+p.stock,0),'','',r2(db.productos.reduce((a,p)=>a+p.costo*p.stock,0)),r2(db.productos.reduce((a,p)=>a+p.precio*p.stock,0))]]}]);
+    $('#inv-pdf').onclick=()=>imprimirDoc('Inventario', docA4('Inventario de productos', `${db.productos.length} productos · valor a costo ${money(db.productos.reduce((a,p)=>a+p.costo*p.stock,0))} · valor a precio ${money(db.productos.reduce((a,p)=>a+p.precio*p.stock,0))}`,
+      pdfTabla(['Código','Producto','Categoría','Costo','Precio','Margen','Stock','Mín.','Estado'], filasInv().map(p=>[p.codigo,p.nombre,p.categoria,money(p.costo),money(p.precio),margen(p).toFixed(1)+'%',p.stock,p.minimo,estTxt(p)]), [3,4,5,6,7])));
   },
   venta(){
     $$('#vtabs button').forEach(b=>b.onclick=()=>{ ventaTab=b.dataset.t; route(); });
@@ -1013,7 +1091,8 @@ const binders = {
     $('#cli').onchange=e=>{ cliSel=e.target.value; };
     $('#newcli').onclick=()=>formCliente(id=>{ cliSel=id; });
     let catSel = '';
-    const totalCart = ()=> { const s=r2(cart.reduce((a,c)=>a+c.precio*c.cant,0)); return r2(s + r2(s*IVA)); };
+    const calc = ()=> calcFactura(cart, descFact);
+    const totalCart = ()=> calc().total;
     const drawProds = ()=>{
       const q = $('#pq').value.toLowerCase();
       const list = db.productos.filter(p=>(!catSel||p.categoria===catSel)&&(p.nombre.toLowerCase().includes(q)||p.codigo.toLowerCase().includes(q)));
@@ -1021,22 +1100,32 @@ const binders = {
         const enCarro = (cart.find(c=>c.codigo===p.codigo)||{}).cant||0, disp=p.stock-enCarro, [bg,fg]=catColor(p.categoria);
         return `<button class="prod" data-add="${p.codigo}" ${disp<=0?'disabled':''}><span class="thumb" style="background:${bg};color:${fg}">${initials(p.nombre)}</span><b>${esc(p.nombre)}</b><span class="row"><span class="p">${money(p.precio)}</span><span class="s">${disp<=0?'Sin stock':disp+' disp.'}</span></span></button>`;
       }).join('') || `<div style="grid-column:1/-1">${empty('search','Sin resultados.')}</div>`;
-      $$('[data-add]').forEach(b=>b.onclick=()=>{ const p=db.productos.find(x=>x.codigo===b.dataset.add); const c=cart.find(x=>x.codigo===p.codigo); if(c) c.cant++; else cart.push({codigo:p.codigo,nombre:p.nombre,precio:p.precio,cant:1}); drawAll(); });
+      $$('[data-add]').forEach(b=>b.onclick=()=>{ const p=db.productos.find(x=>x.codigo===b.dataset.add); const c=cart.find(x=>x.codigo===p.codigo); if(c) c.cant++; else cart.push({codigo:p.codigo,nombre:p.nombre,precio:p.precio,cant:1,desc:0}); drawAll(); });
     };
+    const forma = ()=> document.querySelector('input[name=pago]:checked').value;
     const drawCambio = ()=>{
-      const efectivo = document.querySelector('input[name=pago]:checked').value==='Efectivo';
-      $('#efectivo').hidden = !efectivo;
-      const rec = parseFloat($('#recibido').value)||0, t = totalCart();
+      const f = forma(), t = totalCart();
+      $('#efectivo').hidden = f!=='Efectivo'; $('#mixto').hidden = f!=='Mixto';
+      const rec = parseFloat($('#recibido').value)||0;
       $('#cambio').textContent = rec>=t && t>0 ? money(rec-t) : '$0.00';
+      if(f==='Mixto'){
+        const tar = parseFloat($('#mix-tar').value)||0, tra = parseFloat($('#mix-tra').value)||0, ef = r2(t-tar-tra);
+        $('#mix-ef').textContent = ef<0 ? 'Excede en '+money(-ef) : money(ef);
+        $('#mix-ef').classList.toggle('bad-t', ef<0);
+      }
     };
+    const limitar = (el)=>{ let v = parseFloat(el.value)||0; if(v<0) v=0;
+      if(v>maxDesc()){ toast(`Como cajero puedes aplicar hasta ${maxDesc()}% de descuento. Un descuento mayor lo debe registrar un administrador.`, true); v=maxDesc(); }
+      el.value = v||''; return v; };
     const drawCart = ()=>{
-      $('#cart').innerHTML = cart.length ? cart.map(c=>`<div class="cart-line"><div style="min-width:0"><div class="cell-main">${esc(c.nombre)}</div><div class="cell-sub">${money(c.precio)} c/u</div></div><div class="qty"><button data-m="${c.codigo}" aria-label="Quitar uno">−</button><span>${c.cant}</span><button data-p="${c.codigo}" aria-label="Agregar uno">+</button></div><div class="num cell-main">${money(c.precio*c.cant)}</div></div>`).join('') : empty('venta','Agrega productos desde el catálogo.');
-      const sub = r2(cart.reduce((a,c)=>a+c.precio*c.cant,0));
-      $('#tot').innerHTML = `<div><span>Subtotal 15%</span><span class="num">${money(sub)}</span></div><div><span>IVA 15%</span><span class="num">${money(r2(sub*IVA))}</span></div><div class="grand"><span>Total</span><span>${money(totalCart())}</span></div>`;
+      $('#cart').innerHTML = cart.length ? cart.map(c=>`<div class="cart-line"><div style="min-width:0"><div class="cell-main">${esc(c.nombre)}</div><div class="cell-sub">${money(c.precio)} c/u <label class="dsc" title="Descuento de esta línea">· desc. <input type="number" min="0" max="${maxDesc()}" step="1" data-d="${c.codigo}" value="${c.desc||''}" placeholder="0" aria-label="Descuento en porcentaje">%</label></div></div><div class="qty"><button data-m="${c.codigo}" aria-label="Quitar uno">−</button><span>${c.cant}</span><button data-p="${c.codigo}" aria-label="Agregar uno">+</button></div><div class="num cell-main">${c.desc?`<s class="cell-sub">${money(c.precio*c.cant)}</s><br>`:''}${money(lineaTotal(c))}</div></div>`).join('') : empty('venta','Agrega productos desde el catálogo.');
+      const k = calc();
+      $('#tot').innerHTML = `${k.descuento>0?`<div><span>Subtotal sin descuento</span><span class="num">${money(k.bruto)}</span></div><div><span>Descuento</span><span class="num bad-t">−${money(k.descuento)}</span></div>`:''}<div><span>Subtotal 15%</span><span class="num">${money(k.sub)}</span></div><div><span>IVA 15%</span><span class="num">${money(k.iva)}</span></div><div class="grand"><span>Total</span><span>${money(k.total)}</span></div>`;
       $('#cobrar').disabled = !cart.length;
-      $('#cobrar').textContent = cart.length ? 'Emitir factura · '+money(totalCart()) : 'Emitir factura';
+      $('#cobrar').textContent = cart.length ? 'Emitir factura · '+money(k.total) : 'Emitir factura';
       $$('[data-m]').forEach(b=>b.onclick=()=>{ const c=cart.find(x=>x.codigo===b.dataset.m); c.cant--; if(c.cant<=0) cart=cart.filter(x=>x!==c); drawAll(); });
       $$('[data-p]').forEach(b=>b.onclick=()=>{ const c=cart.find(x=>x.codigo===b.dataset.p); const p=db.productos.find(x=>x.codigo===c.codigo); if(c.cant<p.stock){ c.cant++; drawAll(); } else toast('No hay más stock de este producto', true); });
+      $$('[data-d]').forEach(i=>i.onchange=()=>{ const c=cart.find(x=>x.codigo===i.dataset.d); c.desc=limitar(i); drawCart(); });
       drawCambio();
     };
     const drawAll = ()=>{ drawProds(); drawCart(); };
@@ -1044,37 +1133,54 @@ const binders = {
     $('#pq').oninput=drawProds;
     $$('#chips .chip').forEach(b=>b.onclick=()=>{ catSel=b.dataset.c; $$('#chips .chip').forEach(x=>x.classList.toggle('on',x===b)); drawProds(); });
     $$('input[name=pago]').forEach(r=>r.onchange=drawCambio);
-    $('#recibido').oninput=drawCambio;
-    $('#clear').onclick=()=>{ cart=[]; drawAll(); };
+    $('#recibido').oninput=drawCambio; $('#mix-tar').oninput=drawCambio; $('#mix-tra').oninput=drawCambio;
+    $('#descg').value = descFact||''; $('#descg').onchange=()=>{ descFact=limitar($('#descg')); drawCart(); };
+    $('#clear').onclick=()=>{ cart=[]; descFact=0; $('#descg').value=''; drawAll(); };
     const bAb=$('#abrir-desde-venta'); if(bAb) bAb.onclick=()=>formAbrirCaja();
     $('#cobrar').onclick=async()=>{
       if(!cart.length) return;
       if(!cajaAbierta(sesion.usuario)){ toast('Abre tu caja antes de emitir facturas.', true); formAbrirCaja(); return; }
       const cli = db.clientes.find(c=>c.id===$('#cli').value);
-      const total = totalCart();
-      const pago = document.querySelector('input[name=pago]:checked').value;
+      const k = calc(), total = k.total, f = forma();
       if(cli.id==='9999999999999' && total>50){ toast('Una factura a consumidor final no puede superar $50. Selecciona un cliente.', true); return; }
-      if(pago==='Efectivo' && $('#recibido').value!=='' && parseFloat($('#recibido').value)<total){ toast('El efectivo recibido es menor que el total', true); return; }
+      if(cart.some(c=>(c.desc||0)>maxDesc()) || descFact>maxDesc()){ toast(`El descuento máximo para tu usuario es ${maxDesc()}%.`, true); return; }
+      let pagos;
+      if(f==='Mixto'){
+        const tar = r2(parseFloat($('#mix-tar').value)||0), tra = r2(parseFloat($('#mix-tra').value)||0), ef = r2(total-tar-tra);
+        if(tar<0||tra<0||ef<0){ toast('Los montos de tarjeta y transferencia no pueden superar el total.', true); return; }
+        pagos = [{forma:'Efectivo',monto:ef},{forma:'Tarjeta',monto:tar},{forma:'Transferencia',monto:tra}].filter(p=>p.monto>0);
+        if(pagos.length<2){ toast('En pago mixto escribe al menos un monto con tarjeta o transferencia y deja un saldo para otra forma de pago.', true); return; }
+      } else {
+        if(f==='Efectivo' && $('#recibido').value!=='' && parseFloat($('#recibido').value)<total){ toast('El efectivo recibido es menor que el total', true); return; }
+        pagos = [{forma:f, monto:total}];
+      }
       if(nube){
         const btn=$('#cobrar'); btn.disabled=true; btn.textContent='Emitiendo factura…';
-        const { data, error } = await sb.rpc('registrar_venta', { p_cliente:{id:cli.id, nombre:cli.nombre}, p_items:cart.map(c=>({codigo:c.codigo, cant:c.cant})), p_pago:pago, p_vendedor:sesion.usuario });
+        const { data, error } = await sb.rpc('emitir_factura', { p_cliente:{id:cli.id, nombre:cli.nombre}, p_items:cart.map(c=>({codigo:c.codigo, cant:c.cant, desc:c.desc||0})), p_pagos:pagos, p_desc:descFact||0, p_vendedor:sesion.usuario });
         if(error){
           const m = error.message||'';
           if(m.startsWith('STOCK_INSUFICIENTE')){ const [,prod,quedan]=m.split('|'); toast(`Stock insuficiente: ${prod} (quedan ${quedan}). Otro vendedor acaba de venderlo.`, true); }
           else if(m.startsWith('CONSUMIDOR_FINAL_50')) toast('Una factura a consumidor final no puede superar $50. Selecciona un cliente.', true);
           else if(m.startsWith('PRODUCTO_NO_EXISTE')) toast('Uno de los productos ya no existe en el inventario.', true);
           else if(m.startsWith('CAJA_CERRADA')) toast('Tu caja está cerrada. Ábrela para seguir facturando.', true);
+          else if(m.startsWith('DESCUENTO_NO_AUTORIZADO')) toast('El descuento supera el 10% permitido para cajeros.', true);
+          else if(m.startsWith('PAGO_INCOMPLETO')||m.startsWith('PAGO_INVALIDO')) toast('Los montos de pago no suman el total de la factura.', true);
+          else if(faltaBD(error)) toast('Falta actualizar la base de datos (archivo 04-completo.sql).', true);
           else toast('No se pudo emitir la factura. Revisa tu conexión e intenta de nuevo.', true);
           try{ await cargarNube(); }catch(e){}
           cart = cart.map(c=>{ const p=db.productos.find(x=>x.codigo===c.codigo); return p ? {...c, cant:Math.min(c.cant,p.stock)} : null; }).filter(c=>c&&c.cant>0);
           drawAll(); return;
         }
+        bitacora('Emitió factura', `${data.numero} · ${cli.nombre} · ${money(data.total)} · ${pagos.map(p=>p.forma).join(' + ')}${num(data.descuento)>0?' · desc. '+money(num(data.descuento)):''}`);
         try{ await cargarNube(); }catch(e){}
-        cart=[]; toast('Factura '+data.numero+' emitida'); route(); verFactura(data.numero); return;
+        cart=[]; descFact=0; toast('Factura '+data.numero+' emitida'); route(); verFactura(data.numero); return;
       }
-      cart.forEach(c=>{ db.productos.find(p=>p.codigo===c.codigo).stock -= c.cant; });
-      db.seq++; const v = makeVenta(db.seq, cli, cart, new Date().toISOString()); v.vendedor = sesion.usuario; v.pago = pago; v.caja_id = cajaAbierta(sesion.usuario).id;
-      db.ventas.push(v); save(); cart=[]; toast('Factura '+v.numero+' emitida'); route(); verFactura(v.numero);
+      db.seq++; const items = cart.map(c=>({...c, costo:db.productos.find(p=>p.codigo===c.codigo).costo}));
+      const v = makeVenta(db.seq, cli, items, new Date().toISOString(), descFact||0);
+      v.vendedor = sesion.usuario; v.pagos = pagos; v.pago = pagos.length===1 ? pagos[0].forma : 'Mixto'; v.caja_id = cajaAbierta(sesion.usuario).id;
+      cart.forEach(c=>{ const p=db.productos.find(p=>p.codigo===c.codigo); p.stock -= c.cant; movLocal(p.codigo,'Venta',v.numero,-c.cant,p.stock,p.costo,''); });
+      db.ventas.push(normVenta(v)); await bitacora('Emitió factura', `${v.numero} · ${cli.nombre} · ${money(v.total)} · ${pagos.map(p=>p.forma).join(' + ')}${v.descuento>0?' · desc. '+money(v.descuento):''}`);
+      save(); cart=[]; descFact=0; toast('Factura '+v.numero+' emitida'); route(); verFactura(v.numero);
     };
     drawAll();
   },
@@ -1091,7 +1197,7 @@ const binders = {
     let page = 0; const PER = 8;
     const draw = ()=>{
       const q = $('#hq').value.toLowerCase(), p = $('#hp').value;
-      const list = [...db.ventas].reverse().filter(v=>(!p||(v.pago||'Efectivo')===p)&&(v.numero.includes(q)||v.cliente.nombre.toLowerCase().includes(q)));
+      const list = [...db.ventas].reverse().filter(v=>(!p||(p==='Anulada'?!activa(v):pagosDe(v).some(x=>x.forma===p)))&&(v.numero.includes(q)||v.cliente.nombre.toLowerCase().includes(q)));
       const pages = Math.max(1, Math.ceil(list.length/PER)); page = Math.min(page, pages-1);
       $('#hrows').innerHTML = tablaVentas(list.slice(page*PER, page*PER+PER));
       $('#hpager').innerHTML = `<span>${list.length?`${page*PER+1}–${Math.min(list.length,(page+1)*PER)} de ${list.length} facturas`:'0 facturas'}</span><div><button class="btn ghost sm" id="prev" ${page===0?'disabled':''}>Anterior</button><button class="btn ghost sm" id="next" ${page>=pages-1?'disabled':''}>Siguiente</button></div>`;
@@ -1117,21 +1223,26 @@ function formProducto(p){
       <label for="f-cat">Categoría<input type="text" id="f-cat" list="cats" value="${p?esc(p.categoria):''}"><datalist id="cats">${cats.map(c=>`<option value="${esc(c)}">`).join('')}</datalist></label>
       <label class="full" for="f-nom">Nombre del producto<input type="text" id="f-nom" value="${p?esc(p.nombre):''}"></label>
       <label for="f-pre">Precio sin IVA<input type="number" id="f-pre" step="0.01" min="0" value="${p?p.precio:''}"><span class="help">En dólares. El IVA 15% se suma al facturar.</span></label>
+      <label for="f-cos">Costo unitario<input type="number" id="f-cos" step="0.01" min="0" value="${p?p.costo:''}"><span class="help">Lo que te cuesta. Las compras lo actualizan (costo promedio).</span></label>
       <label for="f-stk">Stock actual<input type="number" id="f-stk" step="1" min="0" value="${p?p.stock:''}"></label>
       <label for="f-min">Stock mínimo<input type="number" id="f-min" step="1" min="0" value="${p?p.minimo:5}"><span class="help">Debajo de este número se genera una alerta.</span></label>
       <div class="err full" id="f-err"></div></form>`, FOOT, ()=>{
       $('#f-can').onclick=closeModal;
       $('#fm').onsubmit=async e=>{
         e.preventDefault();
-        const d = {codigo:$('#f-cod').value.trim().toUpperCase(), categoria:$('#f-cat').value.trim(), nombre:$('#f-nom').value.trim(), precio:parseFloat($('#f-pre').value), stock:parseInt($('#f-stk').value,10), minimo:parseInt($('#f-min').value,10)};
+        const d = {codigo:$('#f-cod').value.trim().toUpperCase(), categoria:$('#f-cat').value.trim(), nombre:$('#f-nom').value.trim(), precio:parseFloat($('#f-pre').value), costo:parseFloat($('#f-cos').value), stock:parseInt($('#f-stk').value,10), minimo:parseInt($('#f-min').value,10)};
         let err='';
         if(!d.codigo||!d.nombre||!d.categoria) err='Completa código, nombre y categoría.';
         else if(nuevo && db.productos.some(x=>x.codigo===d.codigo)) err='Ya existe un producto con ese código.';
         else if(!(d.precio>0)) err='El precio debe ser mayor que 0.';
         else if(!(d.stock>=0)||!(d.minimo>=0)) err='El stock y el mínimo deben ser números enteros desde 0.';
+        else if(!(d.costo>=0)) err='Escribe el costo unitario (puede ser 0).';
+        else if(d.costo>d.precio) err='El costo no puede ser mayor que el precio de venta.';
         if(err){ $('#f-err').textContent=err; return; }
+        const antes = p ? p.stock : 0;
         if(nuevo) db.productos.push(d); else Object.assign(p,d);
-        closeModal(); if(await guardar('productos','guardar',d)){ toast(nuevo?'Producto agregado':'Producto actualizado'); route(); }
+        if(!nube){ if(nuevo) movLocal(d.codigo,'Stock inicial','Alta de producto',d.stock,d.stock,d.costo,''); else if(d.stock!==antes) movLocal(d.codigo,'Ajuste','Ajuste de inventario',d.stock-antes,d.stock,d.costo,''); }
+        closeModal(); if(await guardar('productos','guardar',nuevo?d:p,'codigo',nuevo?'Creó producto':(d.stock!==antes?`Editó producto (stock ${antes} → ${d.stock})`:'Editó producto'))){ toast(nuevo?'Producto agregado':'Producto actualizado'); route(); }
       };
     });
 }
@@ -1139,7 +1250,8 @@ function formCliente(onSaved){
   openModal('Agregar cliente', 'La identificación se valida con su dígito verificador.', `<form class="form" id="fm" novalidate>
       <label class="full" for="c-id">Cédula o RUC<input type="text" id="c-id" inputmode="numeric" maxlength="13"><span class="help">10 dígitos para cédula, 13 para RUC.</span></label>
       <label class="full" for="c-nom">Nombre o razón social<input type="text" id="c-nom"></label>
-      <label class="full" for="c-tel">Teléfono<input type="text" id="c-tel" inputmode="tel"></label>
+      <label for="c-tel">Teléfono<input type="text" id="c-tel" inputmode="tel"></label>
+      <label for="c-mail">Correo electrónico<input type="email" id="c-mail" placeholder="opcional"></label>
       <div class="err full" id="c-err"></div></form>`, FOOT, ()=>{
       $('#f-can').onclick=closeModal;
       $('#fm').onsubmit=async e=>{
@@ -1150,7 +1262,9 @@ function formCliente(onSaved){
         else if(db.clientes.some(c=>c.id===id)) err='Ese cliente ya está registrado.';
         else if(nombre.length<3) err='Escribe el nombre completo del cliente.';
         if(err){ $('#c-err').textContent=err; return; }
-        const nc={id,nombre,telefono}; db.clientes.push(nc); closeModal(); if(!(await guardar('clientes','guardar',nc))) return; if(onSaved) onSaved(id); toast('Cliente agregado'); route();
+        const correo=$('#c-mail').value.trim();
+        if(correo && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(correo)){ $('#c-err').textContent='El correo no es válido.'; return; }
+        const nc={id,nombre,telefono,correo}; db.clientes.push(nc); closeModal(); if(!(await guardar('clientes','guardar',nc))) return; if(onSaved) onSaved(id); toast('Cliente agregado'); route();
       };
     });
 }
@@ -1283,7 +1397,29 @@ function verArqueo(id){
       <tr class="tot"><td>Resultado del arqueo</td><td class="num">${difTxt(c.diferencia)}</td></tr>
     </tbody></table>
     ${c.observacion?`<div class="note">${ic('info')}${esc(c.observacion)}</div>`:''}
-  </div>`, `<button class="btn" id="cerrar">Listo</button>`, ()=>$('#cerrar').onclick=closeModal, true);
+  </div>`, `<button class="btn ghost" id="aq-xls">${ic('excel')}Excel</button><button class="btn ghost" id="aq-pdf">${ic('print')}PDF</button><button class="btn" id="cerrar">Listo</button>`, ()=>{
+    $('#cerrar').onclick=closeModal;
+    const filas = [['Fondo inicial',c.monto_inicial],['Ventas en efectivo',c.efectivo],['Ventas con tarjeta',c.tarjeta],['Ventas por transferencia',c.transferencia],['Total vendido',c.ventas_total],['Efectivo esperado',c.efectivo_esperado],['Efectivo contado',c.efectivo_contado],['Diferencia',c.diferencia]];
+    const facts = db.ventas.filter(v=>v.caja_id===c.id);
+    $('#aq-xls').onclick=()=>exportarExcel(`Cierre de caja ${c.id} ${c.usuario}`, [{nombre:'Arqueo', filas:[['Cierre de caja N.º '+c.id,''],['Usuario',c.usuario],['Apertura',fmtDate(c.apertura)+' '+fmtTime(c.apertura)],['Cierre',fmtDate(c.cierre)+' '+fmtTime(c.cierre)],['Facturas',c.num_facturas],['',''],...filas,['Observación',c.observacion||'']]},
+      {nombre:'Facturas', filas:[['Factura','Hora','Cliente','Estado','Efectivo','Tarjeta','Transferencia','Total'], ...facts.map(v=>{ const ps=pagosDe(v), m=f=>ps.filter(p=>p.forma===f).reduce((a,p)=>a+p.monto,0); return [v.numero, fmtTime(v.fecha), v.cliente.nombre, activa(v)?'Emitida':'Anulada', m('Efectivo'), m('Tarjeta'), m('Transferencia'), v.total]; })]}]);
+    $('#aq-pdf').onclick=()=>imprimirDoc('Cierre de caja '+c.id, docA4('Cierre de caja N.º '+String(c.id).padStart(6,'0'), `${esc(u?u.nombre:c.usuario)} · apertura ${fmtDate(c.apertura)} ${fmtTime(c.apertura)} · cierre ${fmtDate(c.cierre)} ${fmtTime(c.cierre)} · ${c.num_facturas} facturas`,
+      pdfTabla(['Concepto','Valor'], filas.map(([a,b])=>[a,money(b)]), [1]) + (c.observacion?`<p><b>Observación:</b> ${esc(c.observacion)}</p>`:'') +
+      '<h2>Facturas de la caja</h2>' + pdfTabla(['Factura','Hora','Cliente','Estado','Forma de pago','Total'], facts.map(v=>[v.numero, fmtTime(v.fecha), v.cliente.nombre, activa(v)?'Emitida':'Anulada', pagoTxt(v), money(v.total)]), [5])));
+  }, true);
+}
+function exportReporte(){
+  const titulo = `Ventas del ${fechaDia(repState.fecha).toLocaleDateString('es-EC',{day:'numeric',month:'long',year:'numeric'})}`;
+  const base = db.ventas.filter(v=>(esAdmin() ? (!repState.vendedor || v.vendedor===repState.vendedor) : v.vendedor===sesion.usuario) && isoDia(v.fecha)===repState.fecha);
+  const d = desglose(base), quien = esAdmin() ? (repState.vendedor||'Todos los vendedores') : sesion.usuario;
+  const m = (v,f) => pagosDe(v).filter(p=>p.forma===f).reduce((a,p)=>a+p.monto,0);
+  $('#rep-xls').onclick=()=>exportarExcel(`Reporte de ventas ${repState.fecha}`, [
+    {nombre:'Resumen', filas:[[titulo,''],['Vendedor',quien],['Facturas',d.n],['Efectivo',d.Efectivo],['Tarjeta',d.Tarjeta],['Transferencia',d.Transferencia],['Total vendido',d.total]]},
+    {nombre:'Facturas', filas:[['Factura','Hora','Cliente','Vendedor','Estado','Efectivo','Tarjeta','Transferencia','Total'], ...base.map(v=>[v.numero, fmtTime(v.fecha), v.cliente.nombre, v.vendedor, activa(v)?'Emitida':'Anulada', m(v,'Efectivo'), m(v,'Tarjeta'), m(v,'Transferencia'), v.total])]}]);
+  $('#rep-pdf').onclick=()=>imprimirDoc('Reporte de ventas', docA4('Reporte de ventas diarias', `${titulo} · ${esc(quien)}`,
+    pdfKpis([['Total vendido',money(d.total)],['Facturas',d.n],['Efectivo',money(d.Efectivo)],['Tarjeta',money(d.Tarjeta)],['Transferencia',money(d.Transferencia)]]) +
+    pdfTabla(['Factura','Hora','Cliente','Vendedor','Estado','Efectivo','Tarjeta','Transf.','Total'], base.map(v=>[v.numero, fmtTime(v.fecha), v.cliente.nombre, v.vendedor, activa(v)?'Emitida':'Anulada', money(m(v,'Efectivo')), money(m(v,'Tarjeta')), money(m(v,'Transferencia')), money(v.total)]), [5,6,7,8],
+      ['Total','','','','',money(d.Efectivo),money(d.Tarjeta),money(d.Transferencia),money(d.total)])));
 }
 const isoDia = d => { const x=new Date(d); return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0'); };
 const fechaDia = s => { const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d,12); };
@@ -1307,7 +1443,7 @@ views.reporte = function(){
     : {t:'Ventas del día por hora', s:'Facturas agrupadas por hora de emisión', h: tabla(filasH,'Hora',x=>`${String(x.h).padStart(2,'0')}:00 – ${String(x.h).padStart(2,'0')}:59`)};
   return `<div class="pagehead"><div><h1>Reporte de ventas diarias</h1><p>${esAdmin()?'Ventas de la tienda':'Tus ventas'} del <b style="text-transform:capitalize">${titulo}</b>, con el desglose por forma de pago.</p></div>
     <div class="head-actions">${esAdmin()?`<select id="rep-ven" aria-label="Vendedor"><option value="">Todos los vendedores</option>${db.usuarios.map(u=>`<option value="${esc(u.usuario)}" ${repState.vendedor===u.usuario?'selected':''}>${esc(u.nombre)}</option>`).join('')}</select>`:''}
-    <div class="daynav"><button type="button" class="btn ghost sm" id="rep-prev" aria-label="Día anterior">‹</button><input type="date" id="rep-fecha" value="${repState.fecha}" max="${hoyIso}" aria-label="Fecha del reporte"><button type="button" class="btn ghost sm" id="rep-next" aria-label="Día siguiente" ${esHoy?'disabled':''}>›</button>${esHoy?'':'<button type="button" class="btn ghost sm" id="rep-hoy">Hoy</button>'}</div></div></div>
+    <div class="daynav"><button type="button" class="btn ghost sm" id="rep-prev" aria-label="Día anterior">‹</button><input type="date" id="rep-fecha" value="${repState.fecha}" max="${hoyIso}" aria-label="Fecha del reporte"><button type="button" class="btn ghost sm" id="rep-next" aria-label="Día siguiente" ${esHoy?'disabled':''}>›</button>${esHoy?'':'<button type="button" class="btn ghost sm" id="rep-hoy">Hoy</button>'}</div>${btnExport('rep')}</div></div>
     <div class="kpis" style="grid-template-columns:repeat(3,minmax(0,1fr))">
       <div class="card kpi"><div class="lbl">${ic('money')}Total vendido ${esHoy?'hoy':'en el día'}</div><div class="val">${money(d.total)}</div><div class="foot"><span>con IVA</span></div></div>
       <div class="card kpi"><div class="lbl">${ic('historial')}Facturas del día</div><div class="val">${d.n}</div></div>
@@ -1320,7 +1456,7 @@ views.reporte = function(){
     </div>
     <div class="card"><div class="card-h bordered"><div><h2>Facturas del día</h2><div class="sub">Filtra por forma de pago</div></div>
       <div class="seg" id="rep-pago">${[['','Todas'],...PAGOS.map(p=>[p,p])].map(([v,t])=>`<button type="button" data-v="${v}" class="${repState.pago===v?'on':''}">${t}</button>`).join('')}</div></div>
-      <div class="card-b flush">${tablaVentas([...base].filter(v=>!repState.pago||(v.pago||'Efectivo')===repState.pago).reverse())}</div></div>`;
+      <div class="card-b flush">${tablaVentas([...base].filter(v=>!repState.pago||pagosDe(v).some(x=>x.forma===repState.pago)).reverse())}</div></div>`;
 };
 binders.reporte = function(){
   const mover = n => { const x=fechaDia(repState.fecha); x.setDate(x.getDate()+n); repState.fecha=isoDia(x); route(); };
@@ -1329,6 +1465,7 @@ binders.reporte = function(){
   const h=$('#rep-hoy'); if(h) h.onclick=()=>{ repState.fecha=isoDia(Date.now()); route(); };
   $('#rep-fecha').onchange=e=>{ if(e.target.value){ repState.fecha=e.target.value; route(); } };
   $$('#rep-pago button').forEach(b=>b.onclick=()=>{ repState.pago=b.dataset.v; route(); });
+  exportReporte();
   const s=$('#rep-ven'); if(s) s.onchange=()=>{ repState.vendedor=s.value; route(); };
   $$('[data-ver]').forEach(b=>b.onclick=()=>verFactura(b.dataset.ver));
 };
@@ -1389,7 +1526,7 @@ async function enviarSri(numero, silencioso){
 views.sri = function(){
   const all = db.ventas.map(normSri);
   const c = e => all.filter(v=>v.sri_estado===e).length;
-  const pend = all.filter(v=>v.sri_estado!=='Autorizada').length;
+  const pend = all.filter(v=>v.sri_estado!=='Autorizada'&&activa(v)).length;
   const kpi = (lab, icn, n, sub, est) => `<button type="button" class="card kpi kpi-btn ${sriState.est===est?'on':''}" data-est="${est}"><div class="lbl">${ic(icn)}${lab}</div><div class="val">${n}</div><div class="foot"><span>${sub}</span></div></button>`;
   return `<div class="pagehead"><div><h1>Estado de facturas</h1><p>Emisión de cada factura y su estado de autorización en el SRI.</p></div>
     <div class="head-actions"><button class="btn" id="sri-todas" ${pend?'':'disabled'}>${ic('arrow')}Enviar pendientes al SRI${pend?` (${pend})`:''}</button></div></div>
@@ -1417,10 +1554,10 @@ binders.sri = function(){
     $('#srows').innerHTML = rows.length ? `<div class="tablewrap"><table><thead><tr><th>Factura</th><th>Cliente</th><th>Emisión</th><th>Estado de la factura</th><th>Autorización SRI</th><th class="num">Total</th><th></th></tr></thead><tbody>
       ${rows.map(v=>`<tr><td class="code">${v.numero}</td><td><div class="cell-main">${esc(v.cliente.nombre)}</div><div class="cell-sub mono">${v.cliente.id}</div></td>
         <td><div>${fmtDate(v.fecha)}</div><div class="cell-sub">${fmtTime(v.fecha)}</div></td>
-        <td><span class="pill ok">${ic('check')}${esc(v.estado)}</span></td>
+        <td>${estadoPill(v)}${activa(v)?'':`<div class="cell-sub">NC ${v.nc_numero}</div>`}</td>
         <td>${sriPill(v)}<div class="cell-sub">${v.sri_estado==='Autorizada'&&v.sri_fecha?`${fmtDate(v.sri_fecha)} · ${fmtTime(v.sri_fecha)}`:v.sri_estado==='Devuelta'?esc(v.sri_mensaje):v.sri_estado==='Recibida'?'Esperando respuesta':'Sin enviar'}</div></td>
         <td class="num cell-main">${money(v.total)}</td>
-        <td><div class="rowactions">${v.sri_estado==='Autorizada'?'':`<button class="btn sm" data-env="${v.numero}">${v.sri_estado==='Recibida'?'Consultar':v.sri_estado==='Devuelta'?'Reenviar':'Enviar al SRI'}</button>`}<button class="btn ghost sm" data-det="${v.numero}">Detalle</button></div></td></tr>`).join('')}
+        <td><div class="rowactions">${v.sri_estado==='Autorizada'||!activa(v)?'':`<button class="btn sm" data-env="${v.numero}">${v.sri_estado==='Recibida'?'Consultar':v.sri_estado==='Devuelta'?'Reenviar':'Enviar al SRI'}</button>`}<button class="btn ghost sm" data-det="${v.numero}">Detalle</button></div></td></tr>`).join('')}
       </tbody></table></div>` : empty('search','No hay facturas con esos filtros.');
     $('#spager').innerHTML = `<span>${list.length?`${sriState.page*PER+1}–${Math.min(list.length,(sriState.page+1)*PER)} de ${list.length} facturas`:'0 facturas'}</span><div><button class="btn ghost sm" id="prev" ${sriState.page===0?'disabled':''}>Anterior</button><button class="btn ghost sm" id="next" ${sriState.page>=pages-1?'disabled':''}>Siguiente</button></div>`;
     $('#prev').onclick=()=>{ sriState.page--; draw(); }; $('#next').onclick=()=>{ sriState.page++; draw(); };
@@ -1431,7 +1568,7 @@ binders.sri = function(){
   $('#se').onchange=e=>{ sriState.est=e.target.value; sriState.page=0; route(); };
   $$('[data-est]').forEach(b=>b.onclick=()=>{ sriState.est = sriState.est===b.dataset.est ? '' : b.dataset.est; sriState.page=0; route(); });
   const bt=$('#sri-todas'); if(bt) bt.onclick=async()=>{
-    const lista = db.ventas.filter(v=>v.sri_estado!=='Autorizada').map(v=>v.numero);
+    const lista = db.ventas.filter(v=>v.sri_estado!=='Autorizada'&&activa(v)).map(v=>v.numero);
     bt.disabled=true; let ok=0, dev=0;
     for(let i=0;i<lista.length;i++){ bt.textContent=`Enviando ${i+1} de ${lista.length}…`; const v=await enviarSri(lista[i], true); if(v&&v.sri_estado==='Autorizada') ok++; else if(v&&v.sri_estado==='Devuelta') dev++; }
     toast(`${ok} ${ok===1?'factura autorizada':'facturas autorizadas'}${dev?` · ${dev} devuelta${dev>1?'s':''}`:''}`, dev>0); route();
@@ -1444,7 +1581,7 @@ function verSri(numero){
   const paso = (ok, cur, t, s) => `<li class="${ok?'done':cur?'cur':''}"><i>${ok?ic('check'):''}</i><div><b>${t}</b><span>${s}</span></div></li>`;
   const e = v.sri_estado, rec = e==='Recibida'||e==='Autorizada';
   openModal('Autorización de la factura', `${v.numero} · ${esc(v.cliente.nombre)}`, `<div class="stack">
-    <div class="meta"><div><span>Estado de la factura</span><span class="pill ok">${ic('check')}${esc(v.estado)}</span></div><div><span>Estado en el SRI</span>${sriPill(v)}</div>
+    <div class="meta"><div><span>Estado de la factura</span>${estadoPill(v)}</div><div><span>Estado en el SRI</span>${sriPill(v)}</div>
       <div><span>Fecha de emisión</span>${fmtDate(v.fecha)} · ${fmtTime(v.fecha)}</div><div><span>Fecha de autorización</span>${e==='Autorizada'&&v.sri_fecha?fmtDate(v.sri_fecha)+' · '+fmtTime(v.sri_fecha):'—'}</div>
       <div><span>Ambiente</span>Pruebas</div><div><span>Tipo de emisión</span>Normal</div></div>
     <div><div class="cell-sub" style="margin-bottom:4px">Clave de acceso / N.º de autorización (49 dígitos)</div><div class="clave mono">${claveFmt(clave)}</div></div>
@@ -1454,11 +1591,413 @@ function verSri(numero){
       ${paso(e==='Autorizada', e==='Recibida', 'Autorización', e==='Autorizada'?'AUTORIZADO · '+fmtDate(v.sri_fecha)+' '+fmtTime(v.sri_fecha):'Esperando autorización')}
     </ol>
     ${e==='Devuelta'?`<div class="note bad">${ic('alert')}${esc(v.sri_mensaje)}. Corrige el comprobante y vuelve a enviarlo.</div>`:''}
-  </div>`, `${e==='Autorizada'?'':`<button class="btn ghost" id="s-env">${e==='Recibida'?'Consultar autorización':e==='Devuelta'?'Reenviar al SRI':'Enviar al SRI'}</button>`}<button class="btn ghost" id="s-fac">Ver factura</button><button class="btn" id="cerrar">Listo</button>`, ()=>{
+  </div>`, `${e==='Autorizada'||!activa(v)?'':`<button class="btn ghost" id="s-env">${e==='Recibida'?'Consultar autorización':e==='Devuelta'?'Reenviar al SRI':'Enviar al SRI'}</button>`}<button class="btn ghost" id="s-fac">Ver factura</button><button class="btn" id="cerrar">Listo</button>`, ()=>{
     $('#cerrar').onclick=closeModal; $('#s-fac').onclick=()=>verFactura(v.numero);
     const b=$('#s-env'); if(b) b.onclick=async()=>{ b.disabled=true; b.textContent='Enviando…'; await enviarSri(v.numero); closeModal(); route(); verSri(v.numero); };
   });
 }
+
+/* ---------- Operación: descuentos, pagos, anulación, kardex, bitácora ---------- */
+function activa(v){ return v.estado !== 'Anulada'; }
+function maxDesc(){ return esAdmin() ? 100 : 10; }
+function lineaTotal(i){ return r2(i.precio * i.cant * (1 - (i.desc||0)/100)); }
+// Mismo cálculo que la función emitir_factura de la base de datos
+function calcFactura(items, pct){
+  let bruto = 0, lineas = 0;
+  items.forEach(i=>{ bruto += i.precio*i.cant; lineas = r2(lineas + lineaTotal(i)); });
+  const descG = r2(lineas * (pct||0) / 100), sub = r2(lineas - descG), iva = r2(sub * IVA);
+  return {bruto:r2(bruto), lineas, descLineas:r2(bruto-lineas), descG, sub, iva, total:r2(sub+iva), descuento:r2(bruto-sub)};
+}
+function pagosDe(v){ return (Array.isArray(v.pagos) && v.pagos.length) ? v.pagos : [{forma:v.pago||'Efectivo', monto:v.total}]; }
+function pagoTxt(v){ return pagosDe(v).length===1 ? pagosDe(v)[0].forma : pagosDe(v).map(p=>`${p.forma} ${money(p.monto)}`).join(' + '); }
+function normVenta(v){
+  normSri(v);
+  v.pagos = pagosDe(v).map(p=>({forma:p.forma, monto:num(p.monto)}));
+  v.descuento = num(v.descuento); v.desc_pct = num(v.desc_pct);
+  v.anulada_motivo = v.anulada_motivo||''; v.anulada_por = v.anulada_por||''; v.nc_numero = v.nc_numero||'';
+  v.items.forEach(i=>{ i.desc = num(i.desc); i.costo = (i.costo===undefined||i.costo===null) ? r2(i.precio*0.72) : num(i.costo); });
+  return v;
+}
+function normProducto(p){ p.costo = (p.costo===undefined||p.costo===null) ? r2(p.precio*0.72) : num(p.costo); if(p.modificado_por===undefined) p.modificado_por=''; return p; }
+function margen(p){ return p.precio>0 ? (p.precio-p.costo)/p.precio*100 : 0; }
+
+// Bitácora de auditoría
+async function bitacora(accion, detalle){
+  const fila = {fecha:new Date().toISOString(), usuario:sesion?sesion.usuario:'—', accion, detalle:detalle||''};
+  if(nube){ try{ await sb.from('bitacora').insert({usuario:fila.usuario, accion, detalle:fila.detalle}); }catch(e){} return; }
+  db.bitacora.push({id:(db.bitacora.length?db.bitacora[db.bitacora.length-1].id:0)+1, ...fila}); save();
+}
+// Kardex (modo local; en la nube lo registra la base de datos)
+function movLocal(codigo, tipo, documento, cantidad, saldo, costo, detalle){
+  db.movimientos.push({id:(db.movimientos.length?db.movimientos[db.movimientos.length-1].id:0)+1, fecha:new Date().toISOString(), codigo, tipo, documento, cantidad, saldo, costo:r2(costo||0), usuario:sesion?sesion.usuario:'', detalle:detalle||''});
+}
+function kardexInicial(){
+  const movs = []; let id = 0;
+  const lineas = []; db.ventas.forEach(v=>v.items.forEach(i=>lineas.push({fecha:v.fecha, numero:v.numero, vendedor:v.vendedor, codigo:i.codigo, cant:i.cant})));
+  lineas.sort((a,b)=>new Date(a.fecha)-new Date(b.fecha) || a.numero.localeCompare(b.numero));
+  const ini = new Date(Math.min(Date.now(), ...db.ventas.map(v=>new Date(v.fecha).getTime())) - 864e5).toISOString();
+  db.productos.forEach(p=>{
+    const mias = lineas.filter(l=>l.codigo===p.codigo); let saldo = p.stock + mias.reduce((a,l)=>a+l.cant,0);
+    movs.push({id:++id, fecha:ini, codigo:p.codigo, tipo:'Stock inicial', documento:'Inventario inicial', cantidad:saldo, saldo, costo:p.costo, usuario:'pgarces', detalle:''});
+    mias.forEach(l=>{ saldo -= l.cant; movs.push({id:++id, fecha:l.fecha, codigo:p.codigo, tipo:'Venta', documento:l.numero, cantidad:-l.cant, saldo, costo:p.costo, usuario:l.vendedor||'', detalle:''}); });
+  });
+  return movs.sort((a,b)=>new Date(a.fecha)-new Date(b.fecha) || a.id-b.id).map((m,k)=>({...m, id:k+1}));
+}
+const faltaBD = e => { const m=(e&&e.message)||''; return e && (e.code==='PGRST202' || e.code==='42883' || /schema cache|does not exist|Could not find/i.test(m)); };
+
+/* ---------- Anulación y nota de crédito ---------- */
+async function anularFactura(numero, motivo){
+  if(nube){
+    const { error } = await sb.rpc('anular_factura', { p_numero:numero, p_motivo:motivo, p_usuario:sesion.usuario });
+    if(error){
+      const m = error.message||'';
+      if(faltaBD(error)) toast('Falta actualizar la base de datos (archivo 04-completo.sql).', true);
+      else if(m.startsWith('YA_ANULADA')) toast('Esa factura ya estaba anulada.', true);
+      else if(m.startsWith('NO_AUTORIZADO')) toast('Solo un administrador puede anular facturas.', true);
+      else if(m.startsWith('MOTIVO_REQUERIDO')) toast('Escribe el motivo de la anulación.', true);
+      else toast('No se pudo anular la factura. Intenta de nuevo.', true);
+      try{ await cargarNube(); }catch(e){} return false;
+    }
+    try{ await cargarNube(); }catch(e){} return true;
+  }
+  const v = db.ventas.find(x=>x.numero===numero); if(!v || !activa(v)) return false;
+  db.ncSeq = (db.ncSeq||0) + 1; const nc = '001-001-'+String(db.ncSeq).padStart(9,'0');
+  v.items.forEach(i=>{ const p = db.productos.find(x=>x.codigo===i.codigo); if(p){ p.stock += i.cant; movLocal(p.codigo,'Anulación','NC '+nc,i.cant,p.stock,i.costo,'Anula factura '+numero); } });
+  Object.assign(v, {estado:'Anulada', anulada_motivo:motivo, anulada_por:sesion.usuario, anulada_fecha:new Date().toISOString(), nc_numero:nc});
+  await bitacora('Anuló factura', `${numero} · NC ${nc} · ${motivo}`); save(); return true;
+}
+function formAnular(numero){
+  const v = db.ventas.find(x=>x.numero===numero); if(!v) return;
+  const unidades = v.items.reduce((a,i)=>a+i.cant,0);
+  openModal('Anular factura', `${v.numero} · ${esc(v.cliente.nombre)} · ${money(v.total)}`, `<form id="fm" novalidate class="stack">
+      <div class="note bad">${ic('alert')}Esta acción no se puede deshacer. Se devolverán ${unidades} ${unidades===1?'unidad':'unidades'} al inventario y se emitirá una nota de crédito por ${money(v.total)}.</div>
+      <label class="field" for="an-mot">Motivo de la anulación<textarea id="an-mot" rows="3" placeholder="Ej.: el cliente devolvió el producto, error en el cliente facturado…"></textarea></label>
+      <div class="err" id="an-err"></div></form>`,
+    `<button type="button" class="btn ghost" id="f-can">Cancelar</button><button class="btn danger-solid" type="submit" form="fm">${ic('ban')}Anular y emitir nota de crédito</button>`, ()=>{
+    $('#f-can').onclick=closeModal;
+    $('#fm').onsubmit=async e=>{ e.preventDefault();
+      const m = $('#an-mot').value.trim();
+      if(m.length<5){ $('#an-err').textContent='Escribe el motivo (al menos 5 caracteres).'; return; }
+      closeModal(); if(await anularFactura(numero, m)){ toast('Factura anulada. Nota de crédito emitida.'); route(); verNotaCredito(numero); } };
+  });
+}
+function docEncabezado(tipo, numero){
+  return `<div class="ride-h"><div class="em">${LOGO_SVG}<div><b>${EMPRESA.razon}</b><div class="cell-sub">RUC ${EMPRESA.ruc}</div><div class="cell-sub">${EMPRESA.dir}</div></div></div>
+      <div class="doc"><div class="t">${tipo}</div><div class="code">No. ${numero}</div><div class="cell-sub">Ambiente: Pruebas</div></div></div>`;
+}
+function tablaItems(v){
+  const conDesc = v.items.some(i=>i.desc>0);
+  return `<div class="tablewrap"><table><thead><tr><th>Cód.</th><th>Descripción</th><th class="num">Cant.</th><th class="num">P. unit.</th>${conDesc?'<th class="num">Desc.</th>':''}<th class="num">Total</th></tr></thead><tbody>
+    ${v.items.map(i=>`<tr><td class="code">${i.codigo}</td><td>${esc(i.nombre)}</td><td class="num">${i.cant}</td><td class="num">${money(i.precio)}</td>${conDesc?`<td class="num">${i.desc?i.desc+'%':'—'}</td>`:''}<td class="num">${money(lineaTotal(i))}</td></tr>`).join('')}
+    </tbody></table></div>`;
+}
+function sumaDoc(v){
+  const c = calcFactura(v.items, v.desc_pct);
+  const desc = v.descuento || c.descuento;
+  return `<div class="sum">${desc>0?`<div><span>Subtotal sin descuento</span><span>${money(r2(v.subtotal+desc))}</span></div><div><span>Descuento${v.desc_pct?` (${v.desc_pct}% factura)`:''}</span><span>−${money(desc)}</span></div>`:''}
+    <div><span>Subtotal 15%</span><span>${money(v.subtotal)}</span></div><div><span>Subtotal 0%</span><span>$0.00</span></div><div><span>IVA 15%</span><span>${money(v.iva)}</span></div><div class="g"><span>Valor total</span><span>${money(v.total)}</span></div></div>`;
+}
+function verNotaCredito(numero){
+  const v = db.ventas.find(x=>x.numero===numero); if(!v || activa(v)) return;
+  const body = `<div class="ride">${docEncabezado('NOTA DE CRÉDITO', v.nc_numero)}
+    <div class="meta">
+      <div><span>Cliente</span>${esc(v.cliente.nombre)}</div><div><span>Identificación</span><span class="mono" style="color:var(--ink);font-size:.82rem">${v.cliente.id}</span></div>
+      <div><span>Fecha de emisión</span>${fmtDate(v.anulada_fecha)} · ${fmtTime(v.anulada_fecha)}</div><div><span>Documento modificado</span>Factura ${v.numero} del ${fmtDate(v.fecha)}</div>
+      <div><span>Motivo</span>${esc(v.anulada_motivo)}</div><div><span>Emitida por</span>${esc(v.anulada_por)}</div>
+    </div>${tablaItems(v)}${sumaDoc(v)}
+    <div class="note">${ic('info')}Las unidades de esta nota de crédito regresaron al inventario (ver Kardex).</div></div>`;
+  openModal('Nota de crédito '+v.nc_numero, 'Anula la factura '+v.numero, body, `<button class="btn ghost" id="nc-pdf">${ic('print')}Imprimir / PDF</button><button class="btn ghost" id="nc-fac">Ver factura</button><button class="btn" id="cerrar">Listo</button>`, ()=>{
+    $('#cerrar').onclick=closeModal; $('#nc-fac').onclick=()=>verFactura(v.numero);
+    $('#nc-pdf').onclick=()=>imprimirDoc('Nota de crédito '+v.nc_numero, docA4('NOTA DE CRÉDITO N.º '+v.nc_numero, `Modifica la factura ${v.numero} · ${fmtDate(v.anulada_fecha)}`,
+      `<p><b>Cliente:</b> ${esc(v.cliente.nombre)} · ${v.cliente.id}<br><b>Motivo:</b> ${esc(v.anulada_motivo)}</p>`+pdfTabla(['Código','Descripción','Cant.','P. unit.','Total'], v.items.map(i=>[i.codigo,i.nombre,i.cant,money(i.precio),money(lineaTotal(i))]), [2,3,4], ['','Total nota de crédito (IVA incluido)','','',money(v.total)])));
+  }, true);
+}
+
+/* ---------- Impresión: ticket 80 mm y documentos A4 (Guardar como PDF) ---------- */
+const CSS_TICKET = `@page{size:80mm auto;margin:3mm}body{font:11px/1.35 "Courier New",monospace;width:72mm;margin:0 auto;color:#000}.c{text-align:center}.b{font-weight:bold}hr{border:0;border-top:1px dashed #000;margin:5px 0}table{width:100%;border-collapse:collapse}td{vertical-align:top;padding:1px 0}.r{text-align:right;white-space:nowrap}.big{font-size:14px;font-weight:bold}.an{border:2px solid #000;text-align:center;font-weight:bold;padding:3px;margin:5px 0}.clave{word-break:break-all;font-size:9.5px}`;
+const CSS_A4 = `@page{size:A4;margin:14mm}*{box-sizing:border-box}body{font:11px/1.45 Arial,Helvetica,sans-serif;color:#15171f;margin:0}.head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #3341a8;padding-bottom:8px;margin-bottom:14px}.head b{font-size:14px;color:#3341a8}.head small{display:block;color:#555}h1{font-size:17px;margin:0 0 2px}.sub{color:#555;margin:0 0 12px}table{width:100%;border-collapse:collapse;margin:6px 0 16px}th,td{border-bottom:1px solid #dde;padding:5px 6px;text-align:left}th{background:#eef0fb;color:#2a3592;font-size:9.5px;text-transform:uppercase;letter-spacing:.03em}.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}tr.tot td{font-weight:bold;background:#f3f4f8}.kp{display:flex;gap:8px;margin:6px 0 14px}.kp div{flex:1;border:1px solid #dde;border-radius:6px;padding:8px}.kp span{color:#555;font-size:10px;display:block}.kp b{font-size:15px}h2{font-size:12.5px;margin:12px 0 4px;color:#2a3592}.pie{margin-top:18px;color:#777;font-size:9.5px;border-top:1px solid #dde;padding-top:6px}`;
+function imprimirDoc(titulo, html, ticket){
+  const f = document.createElement('iframe');
+  f.setAttribute('aria-hidden','true'); f.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0;visibility:hidden';
+  document.body.appendChild(f);
+  const d = f.contentDocument || (f.contentWindow && f.contentWindow.document); if(!d){ f.remove(); return; }
+  d.open(); d.write(`<!doctype html><html lang="es"><head><meta charset="utf-8"><title>${esc(titulo)}</title><style>${ticket?CSS_TICKET:CSS_A4}</style></head><body>${html}</body></html>`); d.close();
+  setTimeout(()=>{ try{ f.contentWindow.focus(); f.contentWindow.print(); }catch(e){ toast('Tu navegador no permitió abrir la impresión.', true); } setTimeout(()=>f.remove(), 60000); }, 300);
+}
+function docA4(titulo, subtitulo, contenido){
+  return `<div class="head"><div><b>${EMPRESA.razon}</b><small>RUC ${EMPRESA.ruc} · ${EMPRESA.dir}</small></div><small>Generado el ${fmtDate(new Date())} ${fmtTime(new Date())}<br>por ${esc(sesion?sesion.nombre:'')}</small></div>
+    <h1>${titulo}</h1><p class="sub">${subtitulo}</p>${contenido}<div class="pie">Comercial Nova · Sistema de gestión comercial · Documento generado con fines académicos.</div>`;
+}
+function pdfTabla(cabeceras, filas, numCols, total){
+  const nc = new Set(numCols||[]);
+  const celda = (x,k,tag) => `<${tag}${nc.has(k)?' class="num"':''}>${esc(String(x??''))}</${tag}>`;
+  return `<table><thead><tr>${cabeceras.map((h,k)=>celda(h,k,'th')).join('')}</tr></thead><tbody>${filas.map(f=>`<tr>${f.map((x,k)=>celda(x,k,'td')).join('')}</tr>`).join('')}${total?`<tr class="tot">${total.map((x,k)=>celda(x,k,'td')).join('')}</tr>`:''}</tbody></table>`;
+}
+const pdfKpis = l => `<div class="kp">${l.map(([a,b])=>`<div><span>${esc(a)}</span><b>${esc(String(b))}</b></div>`).join('')}</div>`;
+function ticketHTML(v){
+  const c = calcFactura(v.items, v.desc_pct), desc = v.descuento || c.descuento;
+  const fila = (a,b,cl) => `<tr${cl?` class="${cl}"`:''}><td>${a}</td><td class="r">${b}</td></tr>`;
+  return `<div class="c b">${EMPRESA.razon}</div><div class="c">RUC ${EMPRESA.ruc}</div><div class="c">${EMPRESA.dir}</div><hr>
+    <div class="b">FACTURA ${v.numero}</div><div>Fecha: ${fmtDate(v.fecha)} ${fmtTime(v.fecha)}</div><div>Cliente: ${esc(v.cliente.nombre)}</div><div>CI/RUC: ${v.cliente.id}</div><div>Cajero: ${esc(v.vendedor||'—')}</div>
+    ${activa(v)?'':`<div class="an">ANULADA · NC ${v.nc_numero}</div>`}<hr>
+    <table>${v.items.map(i=>`<tr><td colspan="2">${esc(i.nombre)}</td></tr>${fila(`&nbsp;${i.cant} x ${money(i.precio)}${i.desc?` -${i.desc}%`:''}`, money(lineaTotal(i)))}`).join('')}</table><hr>
+    <table>${desc>0?fila('Descuento','-'+money(desc)):''}${fila('Subtotal 15%',money(v.subtotal))}${fila('IVA 15%',money(v.iva))}${fila('<span class="big">TOTAL</span>',`<span class="big">${money(v.total)}</span>`)}</table><hr>
+    <table>${pagosDe(v).map(p=>fila(p.forma, money(p.monto))).join('')}</table><hr>
+    <div>Clave de acceso / Autorización:</div><div class="clave">${claveAcceso(v)}</div><div>Estado SRI: ${SRI_TXT[v.sri_estado]||v.sri_estado}</div><hr>
+    <div class="c">¡Gracias por su compra!</div><div class="c">Documento académico sin validez tributaria</div>`;
+}
+const imprimirTicket = numero => { const v=db.ventas.find(x=>x.numero===numero); if(v) imprimirDoc('Ticket '+v.numero, ticketHTML(v), true); };
+function formCorreo(numero){
+  const v = db.ventas.find(x=>x.numero===numero); if(!v) return;
+  const cli = db.clientes.find(c=>c.id===v.cliente.id);
+  openModal('Enviar factura por correo', `${v.numero} · ${esc(v.cliente.nombre)}`, `<form id="fm" class="stack" novalidate>
+      <label class="field" for="ml-to">Correo del cliente<input type="email" id="ml-to" value="${esc(cli&&cli.correo||'')}" placeholder="cliente@correo.com"></label>
+      ${cli && !cli.fija ? `<label class="check"><input type="checkbox" id="ml-save" checked> Guardar este correo en la ficha del cliente</label>` : ''}
+      <div class="note">${ic('info')}Se abrirá tu aplicación de correo con el detalle de la factura listo para enviar.</div>
+      <div class="err" id="ml-err"></div></form>`,
+    `<button type="button" class="btn ghost" id="f-can">Cancelar</button><button class="btn" type="submit" form="fm">${ic('mail')}Abrir correo</button>`, ()=>{
+    $('#f-can').onclick=closeModal;
+    $('#fm').onsubmit=async e=>{ e.preventDefault();
+      const to = $('#ml-to').value.trim();
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(to)){ $('#ml-err').textContent='Escribe un correo válido.'; return; }
+      if(cli && !cli.fija && $('#ml-save') && $('#ml-save').checked && cli.correo!==to){ cli.correo = to; guardar('clientes','guardar',cli,'id','Actualizó correo de cliente'); }
+      const lineas = v.items.map(i=>`- ${i.cant} x ${i.nombre}: ${money(lineaTotal(i))}`).join('\n');
+      const cuerpo = `Estimado/a ${v.cliente.nombre}:\n\nGracias por su compra en ${EMPRESA.razon}.\n\nFactura N.º ${v.numero}\nFecha: ${fmtDate(v.fecha)} ${fmtTime(v.fecha)}\n\n${lineas}\n\nSubtotal 15%: ${money(v.subtotal)}\nIVA 15%: ${money(v.iva)}\nTOTAL: ${money(v.total)}\nForma de pago: ${pagoTxt(v)}\n\nClave de acceso: ${claveAcceso(v)}\nEstado SRI: ${SRI_TXT[v.sri_estado]||v.sri_estado}\n\nAtentamente,\n${EMPRESA.razon}\nRUC ${EMPRESA.ruc}`;
+      bitacora('Envió factura por correo', `${v.numero} → ${to}`);
+      closeModal(); location.href = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent('Factura '+v.numero+' · '+EMPRESA.razon)}&body=${encodeURIComponent(cuerpo)}`;
+      toast('Abriendo tu aplicación de correo…'); };
+  });
+}
+
+/* ---------- Exportar a Excel ---------- */
+function cargarScript(src){ return new Promise((ok,mal)=>{ const s=document.createElement('script'); s.src=src; s.onload=ok; s.onerror=mal; setTimeout(()=>mal(new Error('timeout')),10000); document.head.appendChild(s); }); }
+async function exportarExcel(archivo, hojas){
+  archivo = archivo.replace(/[\\/:*?"<>|]/g,'-');
+  try{
+    if(!window.XLSX) await cargarScript('https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js');
+    const wb = XLSX.utils.book_new();
+    hojas.forEach(h=>{ const ws = XLSX.utils.aoa_to_sheet(h.filas);
+      ws['!cols'] = (h.filas[0]||[]).map((_,i)=>({wch:Math.min(48, Math.max(9, ...h.filas.map(r=>String(r[i]??'').length+2)))}));
+      XLSX.utils.book_append_sheet(wb, ws, h.nombre.slice(0,31)); });
+    XLSX.writeFile(wb, archivo+'.xlsx'); toast('Descargado: '+archivo+'.xlsx');
+  }catch(e){
+    const csv = hojas[0].filas.map(r=>r.map(x=>{ const s=String(x??''); return /[",;\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s; }).join(';')).join('\r\n');
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'})); a.download = archivo+'.csv'; document.body.appendChild(a); a.click(); a.remove();
+    toast('No se pudo generar el Excel; se descargó en formato CSV.', true);
+  }
+}
+const btnExport = (id) => `<button type="button" class="btn ghost" id="${id}-xls">${ic('excel')}Excel</button><button type="button" class="btn ghost" id="${id}-pdf">${ic('print')}PDF</button>`;
+const hoyTxt = () => isoDia(Date.now());
+
+/* ---------- Compras a proveedores ---------- */
+async function registrarCompra(prov, factura, items){
+  if(nube){
+    const { data, error } = await sb.rpc('registrar_compra', { p_proveedor:prov, p_factura:factura, p_items:items, p_usuario:sesion.usuario });
+    if(error){ toast(faltaBD(error) ? 'Falta actualizar la base de datos (archivo 04-completo.sql).' : (error.message||'').startsWith('NO_AUTORIZADO') ? 'Solo un administrador puede registrar compras.' : 'No se pudo registrar la compra. Intenta de nuevo.', true); try{ await cargarNube(); }catch(e){} return null; }
+    try{ await cargarNube(); }catch(e){} return data.numero;
+  }
+  db.compraSeq = (db.compraSeq||0) + 1; const numero = 'CMP-'+String(db.compraSeq).padStart(6,'0'); let total = 0; const out = [];
+  items.forEach(it=>{ const p = db.productos.find(x=>x.codigo===it.codigo); if(!p) return;
+    p.costo = p.stock+it.cant>0 ? r2((p.stock*p.costo + it.cant*it.costo)/(p.stock+it.cant)) : it.costo; p.stock += it.cant;
+    movLocal(p.codigo, 'Compra', numero, it.cant, p.stock, it.costo, prov.nombre+(factura?' · Fact. '+factura:''));
+    total += it.cant*it.costo; out.push({codigo:p.codigo, nombre:p.nombre, cant:it.cant, costo:it.costo}); });
+  db.compras.push({id:db.compraSeq, numero, fecha:new Date().toISOString(), proveedor:prov, factura_proveedor:factura||'', items:out, total:r2(total), usuario:sesion.usuario});
+  await bitacora('Registró compra', `${numero} · ${prov.nombre} · ${money(total)}`); save(); return numero;
+}
+views.compras = function(){
+  const lista = [...db.compras].sort((a,b)=>new Date(b.fecha)-new Date(a.fecha)), now = new Date();
+  const mes = lista.filter(c=>{ const d=new Date(c.fecha); return d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear(); });
+  return `<div class="pagehead"><div><h1>Compras a proveedores</h1><p>Entrada de mercadería: suma stock al inventario y actualiza el costo promedio.</p></div>
+    <div class="head-actions"><button type="button" class="btn ghost" id="cp-xls">${ic('excel')}Excel</button><button class="btn" id="cp-new">${ic('plus')}Nueva compra</button></div></div>
+    <div class="kpis" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+      <div class="card kpi"><div class="lbl">${ic('compras')}Compras del mes</div><div class="val">${money(mes.reduce((a,c)=>a+c.total,0))}</div><div class="foot"><span>${mes.length} ${mes.length===1?'compra':'compras'}</span></div></div>
+      <div class="card kpi"><div class="lbl">${ic('inventario')}Unidades ingresadas en el mes</div><div class="val">${mes.reduce((a,c)=>a+c.items.reduce((s,i)=>s+i.cant,0),0)}</div></div>
+      <div class="card kpi"><div class="lbl">${ic('alert')}Productos por reponer</div><div class="val">${db.productos.filter(p=>p.stock<=p.minimo).length}</div><div class="foot"><span>Stock en el mínimo o menos</span></div></div>
+    </div>
+    <div class="card"><div class="card-h bordered"><div><h2>Historial de compras</h2><div class="sub">${lista.length} ${lista.length===1?'compra registrada':'compras registradas'}</div></div></div>
+    <div class="card-b flush">${lista.length?`<div class="tablewrap"><table><thead><tr><th>Compra</th><th>Fecha</th><th>Proveedor</th><th>Factura proveedor</th><th class="num">Unidades</th><th class="num">Total</th><th>Registró</th><th></th></tr></thead><tbody>
+      ${lista.map(c=>`<tr><td class="code">${c.numero}</td><td><div>${fmtDate(c.fecha)}</div><div class="cell-sub">${fmtTime(c.fecha)}</div></td><td><div class="cell-main">${esc(c.proveedor.nombre)}</div><div class="cell-sub mono">${esc(c.proveedor.ruc||'')}</div></td><td class="code">${esc(c.factura_proveedor||'—')}</td><td class="num">${c.items.reduce((a,i)=>a+i.cant,0)}</td><td class="num cell-main">${money(c.total)}</td><td class="code">${esc(c.usuario)}</td><td><div class="rowactions"><button class="btn ghost sm" data-cp="${c.numero}">Ver</button></div></td></tr>`).join('')}
+    </tbody></table></div>`:empty('compras','Aún no hay compras. Registra la primera con "Nueva compra".')}</div></div>`;
+};
+binders.compras = function(){
+  $('#cp-new').onclick=()=>formCompra();
+  $$('[data-cp]').forEach(b=>b.onclick=()=>verCompra(b.dataset.cp));
+  $('#cp-xls').onclick=()=>exportarExcel('Compras '+hoyTxt(), [
+    {nombre:'Compras', filas:[['Compra','Fecha','Proveedor','RUC','Factura proveedor','Unidades','Total','Registró'], ...db.compras.map(c=>[c.numero, fmtDate(c.fecha)+' '+fmtTime(c.fecha), c.proveedor.nombre, c.proveedor.ruc||'', c.factura_proveedor||'', c.items.reduce((a,i)=>a+i.cant,0), c.total, c.usuario])]},
+    {nombre:'Detalle', filas:[['Compra','Código','Producto','Cantidad','Costo unitario','Subtotal'], ...db.compras.flatMap(c=>c.items.map(i=>[c.numero, i.codigo, i.nombre, i.cant, i.costo, r2(i.cant*i.costo)]))]}]);
+};
+function formCompra(){
+  const provs = [...new Map(db.compras.map(c=>[c.proveedor.nombre, c.proveedor])).values()];
+  const opts = db.productos.slice().sort((a,b)=>a.nombre.localeCompare(b.nombre,'es')).map(p=>`<option value="${p.codigo}">${esc(p.nombre)} · ${p.codigo} (stock ${p.stock})</option>`).join('');
+  let lineas = [];
+  const p0 = db.productos.slice().sort((a,b)=>(a.stock-a.minimo)-(b.stock-b.minimo))[0];
+  if(p0) lineas.push({codigo:p0.codigo, cant:Math.max(1,p0.minimo*2-p0.stock), costo:p0.costo});
+  openModal('Nueva compra', 'Las unidades se suman al inventario y quedan en el kardex.', `<form id="fm" novalidate class="stack">
+      <div class="form" style="padding:0">
+        <label for="cp-nom">Proveedor<input type="text" id="cp-nom" list="provs" placeholder="Nombre o razón social"><datalist id="provs">${provs.map(p=>`<option value="${esc(p.nombre)}">`).join('')}</datalist></label>
+        <label for="cp-ruc">RUC del proveedor<input type="text" id="cp-ruc" inputmode="numeric" maxlength="13" placeholder="13 dígitos"></label>
+        <label class="full" for="cp-fac">N.º de factura del proveedor<input type="text" id="cp-fac" placeholder="001-001-000000123 (opcional)"></label>
+      </div>
+      <div><div class="cpl-h"><span>Producto</span><span>Cant.</span><span>Costo unit.</span><span class="num">Subtotal</span><span></span></div><div id="cp-lines"></div>
+        <button type="button" class="btn ghost sm" id="cp-add" style="margin-top:8px">${ic('plus')}Agregar producto</button></div>
+      <div class="change"><span>Total de la compra (sin IVA)</span><b id="cp-tot">$0.00</b></div>
+      <div class="err" id="cp-err"></div></form>`,
+    `<button type="button" class="btn ghost" id="f-can">Cancelar</button><button class="btn" type="submit" form="fm">${ic('check')}Registrar compra</button>`, ()=>{
+    $('#f-can').onclick=closeModal;
+    $('#cp-nom').oninput=()=>{ const p=provs.find(x=>x.nombre===$('#cp-nom').value); if(p && !$('#cp-ruc').value) $('#cp-ruc').value=p.ruc||''; };
+    const total = ()=>{ $('#cp-tot').textContent = money(lineas.reduce((a,l)=>a+(l.cant||0)*(l.costo||0),0)); };
+    const draw = ()=>{
+      $('#cp-lines').innerHTML = lineas.map((l,k)=>`<div class="cpl"><select data-k="${k}" data-f="codigo" aria-label="Producto">${opts.replace(`value="${l.codigo}"`,`value="${l.codigo}" selected`)}</select>
+        <input type="number" min="1" step="1" data-k="${k}" data-f="cant" value="${l.cant}" aria-label="Cantidad"><input type="number" min="0" step="0.01" data-k="${k}" data-f="costo" value="${l.costo}" aria-label="Costo unitario">
+        <span class="num" id="cps-${k}">${money(l.cant*l.costo)}</span><button type="button" class="x" data-rm="${k}" aria-label="Quitar">${ic('x')}</button></div>`).join('') || `<div class="cell-sub" style="padding:8px 0">Agrega al menos un producto.</div>`;
+      $$('#cp-lines [data-f]').forEach(el=>el.oninput=el.onchange=()=>{ const l=lineas[+el.dataset.k], f=el.dataset.f;
+        if(f==='codigo'){ l.codigo=el.value; l.costo=db.productos.find(p=>p.codigo===el.value).costo; draw(); return; }
+        l[f] = f==='cant' ? parseInt(el.value,10) : parseFloat(el.value); $('#cps-'+el.dataset.k).textContent = money((l.cant||0)*(l.costo||0)); total(); });
+      $$('#cp-lines [data-rm]').forEach(b=>b.onclick=()=>{ lineas.splice(+b.dataset.rm,1); draw(); });
+      total();
+    };
+    $('#cp-add').onclick=()=>{ const usados=new Set(lineas.map(l=>l.codigo)); const p=db.productos.find(x=>!usados.has(x.codigo))||db.productos[0]; lineas.push({codigo:p.codigo, cant:1, costo:p.costo}); draw(); };
+    draw();
+    $('#fm').onsubmit=async e=>{ e.preventDefault();
+      const nombre=$('#cp-nom').value.trim(), ruc=$('#cp-ruc').value.trim(), fac=$('#cp-fac').value.trim();
+      const agrupadas = {}; lineas.forEach(l=>{ if(agrupadas[l.codigo]) agrupadas[l.codigo].cant += l.cant; else agrupadas[l.codigo]={...l}; });
+      const items = Object.values(agrupadas).map(l=>({codigo:l.codigo, cant:l.cant, costo:r2(l.costo)}));
+      let err='';
+      if(nombre.length<3) err='Escribe el nombre del proveedor.';
+      else if(ruc && !/^\d{13}$/.test(ruc)) err='El RUC del proveedor debe tener 13 dígitos.';
+      else if(!items.length) err='Agrega al menos un producto.';
+      else if(items.some(i=>!(i.cant>=1) || !(i.costo>=0) || isNaN(i.costo))) err='Revisa las cantidades (enteros desde 1) y los costos.';
+      if(err){ $('#cp-err').textContent=err; return; }
+      closeModal(); const n = await registrarCompra({ruc, nombre}, fac, items);
+      if(n){ toast('Compra '+n+' registrada · stock actualizado'); route(); verCompra(n); } };
+  }, true);
+}
+function verCompra(numero){
+  const c = db.compras.find(x=>x.numero===numero); if(!c) return;
+  openModal('Compra '+c.numero, `${esc(c.proveedor.nombre)} · ${fmtDate(c.fecha)}`, `<div class="ride">${docEncabezado('COMPRA', c.numero)}
+    <div class="meta"><div><span>Proveedor</span>${esc(c.proveedor.nombre)}</div><div><span>RUC</span><span class="mono" style="color:var(--ink)">${esc(c.proveedor.ruc||'—')}</span></div>
+      <div><span>Factura del proveedor</span>${esc(c.factura_proveedor||'—')}</div><div><span>Registró</span>${esc(c.usuario)} · ${fmtDate(c.fecha)} ${fmtTime(c.fecha)}</div></div>
+    <div class="tablewrap"><table><thead><tr><th>Cód.</th><th>Producto</th><th class="num">Cant.</th><th class="num">Costo unit.</th><th class="num">Subtotal</th></tr></thead><tbody>
+      ${c.items.map(i=>`<tr><td class="code">${i.codigo}</td><td>${esc(i.nombre)}</td><td class="num">${i.cant}</td><td class="num">${money(i.costo)}</td><td class="num">${money(i.cant*i.costo)}</td></tr>`).join('')}</tbody></table></div>
+    <div class="sum"><div class="g"><span>Total (sin IVA)</span><span>${money(c.total)}</span></div></div></div>`, `<button class="btn" id="cerrar">Listo</button>`, ()=>$('#cerrar').onclick=closeModal, true);
+}
+
+/* ---------- Kardex ---------- */
+const kxState = {codigo:''};
+const KX_PILL = {'Stock inicial':'plain', Venta:'brand', Compra:'ok', 'Anulación':'warn', Ajuste:'bad'};
+function kardexDe(codigo){ return db.movimientos.filter(m=>m.codigo===codigo).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha) || a.id-b.id); }
+views.kardex = function(){
+  if(!db.productos.some(p=>p.codigo===kxState.codigo)) kxState.codigo = (db.productos[0]||{}).codigo||'';
+  const p = db.productos.find(x=>x.codigo===kxState.codigo);
+  const movs = kardexDe(kxState.codigo);
+  const ent = movs.filter(m=>m.cantidad>0 && m.tipo!=='Stock inicial').reduce((a,m)=>a+m.cantidad,0), sal = movs.filter(m=>m.cantidad<0).reduce((a,m)=>a-m.cantidad,0);
+  const cats = [...new Set(db.productos.map(x=>x.categoria))].sort(catSort);
+  return `<div class="pagehead"><div><h1>Kardex</h1><p>Historial de entradas y salidas de cada producto, con el saldo después de cada movimiento.</p></div>
+    <div class="head-actions">${btnExport('kx')}</div></div>
+    <div class="card" style="margin-bottom:16px"><div class="toolbar"><label class="field" for="kx-p" style="flex:1;min-width:240px">Producto<select id="kx-p">${cats.map(c=>`<optgroup label="${esc(c)}">${db.productos.filter(x=>x.categoria===c).map(x=>`<option value="${x.codigo}" ${x.codigo===kxState.codigo?'selected':''}>${x.codigo} · ${esc(x.nombre)}</option>`).join('')}</optgroup>`).join('')}</select></label></div></div>
+    ${p?`<div class="kpis">
+      <div class="card kpi"><div class="lbl">${ic('inventario')}Stock actual</div><div class="val">${p.stock}</div><div class="foot"><span>mínimo ${p.minimo}</span></div></div>
+      <div class="card kpi"><div class="lbl">${ic('compras')}Entradas</div><div class="val">${ent}</div><div class="foot"><span>compras y anulaciones</span></div></div>
+      <div class="card kpi"><div class="lbl">${ic('venta')}Salidas</div><div class="val">${sal}</div><div class="foot"><span>ventas y ajustes</span></div></div>
+      <div class="card kpi"><div class="lbl">${ic('money')}Costo promedio</div><div class="val">${money(p.costo)}</div><div class="foot"><span>precio ${money(p.precio)} · margen ${margen(p).toFixed(1)}%</span></div></div>
+    </div>`:''}
+    <div class="card"><div class="card-h bordered"><div><h2>Movimientos${p?' · '+esc(p.nombre):''}</h2><div class="sub">${movs.length} ${movs.length===1?'movimiento':'movimientos'} en orden cronológico</div></div></div>
+    <div class="card-b flush">${movs.length?`<div class="tablewrap"><table><thead><tr><th>Fecha</th><th>Tipo</th><th>Documento</th><th>Usuario · detalle</th><th class="num">Entrada</th><th class="num">Salida</th><th class="num">Saldo</th><th class="num">Costo unit.</th></tr></thead><tbody>
+      ${movs.map(m=>`<tr><td><div>${fmtDate(m.fecha)}</div><div class="cell-sub">${fmtTime(m.fecha)}</div></td><td><span class="pill ${KX_PILL[m.tipo]||'plain'}">${esc(m.tipo)}</span></td>
+        <td class="code">${/^001-001-/.test(m.documento)&&db.ventas.some(v=>v.numero===m.documento)?`<a href="#" data-ver="${m.documento}">${m.documento}</a>`:esc(m.documento)}</td>
+        <td><div>${esc(m.usuario||'—')}</div>${m.detalle?`<div class="cell-sub">${esc(m.detalle)}</div>`:''}</td>
+        <td class="num ok-t">${m.cantidad>0?m.cantidad:''}</td><td class="num bad-t">${m.cantidad<0?-m.cantidad:''}</td><td class="num cell-main">${m.saldo}</td><td class="num">${money(m.costo)}</td></tr>`).join('')}
+    </tbody></table></div>`:empty('kardex','Este producto aún no tiene movimientos.')}</div></div>`;
+};
+binders.kardex = function(){
+  $('#kx-p').onchange=e=>{ kxState.codigo=e.target.value; route(); };
+  $$('a[data-ver]').forEach(a=>a.onclick=e=>{ e.preventDefault(); verFactura(a.dataset.ver); });
+  const p = db.productos.find(x=>x.codigo===kxState.codigo); if(!p) return;
+  const movs = kardexDe(p.codigo);
+  $('#kx-xls').onclick=()=>exportarExcel(`Kardex ${p.codigo} ${hoyTxt()}`, [{nombre:'Kardex '+p.codigo, filas:[['Fecha','Tipo','Documento','Usuario','Detalle','Entrada','Salida','Saldo','Costo unitario'], ...movs.map(m=>[fmtDate(m.fecha)+' '+fmtTime(m.fecha), m.tipo, m.documento, m.usuario, m.detalle, m.cantidad>0?m.cantidad:'', m.cantidad<0?-m.cantidad:'', m.saldo, m.costo])]}]);
+  $('#kx-pdf').onclick=()=>imprimirDoc('Kardex '+p.codigo, docA4(`Kardex · ${esc(p.nombre)}`, `Código ${p.codigo} · ${esc(p.categoria)} · stock actual ${p.stock} · costo promedio ${money(p.costo)}`,
+    pdfTabla(['Fecha','Tipo','Documento','Usuario','Entrada','Salida','Saldo','Costo'], movs.map(m=>[fmtDate(m.fecha)+' '+fmtTime(m.fecha), m.tipo, m.documento, m.usuario, m.cantidad>0?m.cantidad:'', m.cantidad<0?-m.cantidad:'', m.saldo, money(m.costo)]), [4,5,6,7])));
+};
+
+/* ---------- Productos más vendidos y margen de ganancia ---------- */
+const rtState = {periodo:'mes', orden:'unidades'};
+function rentabilidad(){
+  const now = new Date();
+  const ok = v => { const f=new Date(v.fecha);
+    if(rtState.periodo==='hoy') return dayKey(f)===dayKey(now);
+    if(rtState.periodo==='7d') return now-f < 7*864e5;
+    if(rtState.periodo==='mes') return f.getMonth()===now.getMonth() && f.getFullYear()===now.getFullYear();
+    return true; };
+  const ventas = db.ventas.filter(v=>activa(v) && ok(v)); const por = {};
+  ventas.forEach(v=>v.items.forEach(i=>{ const neto = r2(lineaTotal(i)*(1-(v.desc_pct||0)/100)), costo = r2(i.costo*i.cant);
+    const r = por[i.codigo] = por[i.codigo] || {codigo:i.codigo, nombre:i.nombre, categoria:(db.productos.find(p=>p.codigo===i.codigo)||{}).categoria||'—', unidades:0, ventas:0, costo:0, facturas:0};
+    r.unidades += i.cant; r.ventas = r2(r.ventas+neto); r.costo = r2(r.costo+costo); r.facturas++; }));
+  const filas = Object.values(por).map(r=>({...r, utilidad:r2(r.ventas-r.costo), margen: r.ventas? (r.ventas-r.costo)/r.ventas*100 : 0}));
+  const k = rtState.orden; filas.sort((a,b)=>b[k]-a[k] || b.ventas-a.ventas);
+  const t = filas.reduce((a,r)=>({ventas:a.ventas+r.ventas, costo:a.costo+r.costo, unidades:a.unidades+r.unidades}),{ventas:0,costo:0,unidades:0});
+  t.utilidad = r2(t.ventas-t.costo); t.margen = t.ventas? t.utilidad/t.ventas*100 : 0;
+  return {filas, t, nFact:ventas.length, sinVenta: db.productos.filter(p=>!por[p.codigo])};
+}
+const RT_PER = {hoy:'Hoy', '7d':'Últimos 7 días', mes:'Este mes', todo:'Todo'};
+views.rentabilidad = function(){
+  const {filas, t, nFact, sinVenta} = rentabilidad(), top = filas.slice(0,8), maxU = top.reduce((m,r)=>Math.max(m,r[rtState.orden]),0)||1;
+  const mClass = m => m>=25?'ok':m>=12?'warn':'bad';
+  return `<div class="pagehead"><div><h1>Más vendidos y margen</h1><p>Unidades vendidas, utilidad y margen de ganancia por producto (valores sin IVA, después de descuentos).</p></div>
+    <div class="head-actions"><div class="seg" id="rt-per">${Object.entries(RT_PER).map(([v,l])=>`<button type="button" data-v="${v}" class="${rtState.periodo===v?'on':''}">${l}</button>`).join('')}</div>${btnExport('rt')}</div></div>
+    <div class="kpis">
+      <div class="card kpi"><div class="lbl">${ic('money')}Ventas netas</div><div class="val">${money(t.ventas)}</div><div class="foot"><span>${nFact} facturas · ${t.unidades} unidades</span></div></div>
+      <div class="card kpi"><div class="lbl">${ic('compras')}Costo de lo vendido</div><div class="val">${money(t.costo)}</div></div>
+      <div class="card kpi"><div class="lbl">${ic('rentabilidad')}Utilidad bruta</div><div class="val">${money(t.utilidad)}</div></div>
+      <div class="card kpi"><div class="lbl">${ic('reporte')}Margen promedio</div><div class="val">${t.margen.toFixed(1)}%</div><div class="foot"><span>utilidad ÷ ventas netas</span></div></div>
+    </div>
+    <div class="grid2">
+      <div class="card"><div class="card-h"><div><h2>Top 8 · ${rtState.orden==='unidades'?'unidades vendidas':rtState.orden==='ventas'?'ventas netas':'utilidad'}</h2><div class="sub">${RT_PER[rtState.periodo]}</div></div></div><div class="card-b">${top.length?`<div class="rank">${top.map(r=>`<div><div class="r1"><span>${esc(r.nombre)}</span><span class="num">${rtState.orden==='unidades'?r.unidades+' u.':money(r[rtState.orden])}</span></div><div class="track"><i style="width:${Math.max(2,r[rtState.orden]/maxU*100)}%"></i></div></div>`).join('')}</div>`:empty('rentabilidad','No hay ventas en este periodo.')}</div></div>
+      <div class="card"><div class="card-h"><div><h2>Sin ventas en el periodo</h2><div class="sub">${sinVenta.length} ${sinVenta.length===1?'producto':'productos'}</div></div></div><div class="card-b">${sinVenta.length?`<div class="taglist">${sinVenta.map(p=>`<span class="pill plain">${esc(p.nombre)}</span>`).join('')}</div>`:'<span class="cell-sub">Todos los productos tuvieron al menos una venta.</span>'}</div></div>
+    </div>
+    <div class="card"><div class="card-h bordered"><div><h2>Rentabilidad por producto</h2><div class="sub">Ordenar por</div></div>
+      <div class="seg" id="rt-ord">${[['unidades','Unidades'],['ventas','Ventas'],['utilidad','Utilidad'],['margen','Margen']].map(([v,l])=>`<button type="button" data-v="${v}" class="${rtState.orden===v?'on':''}">${l}</button>`).join('')}</div></div>
+    <div class="card-b flush">${filas.length?`<div class="tablewrap"><table><thead><tr><th>#</th><th>Producto</th><th class="num">Unidades</th><th class="num">Ventas netas</th><th class="num">Costo</th><th class="num">Utilidad</th><th class="num">Margen</th></tr></thead><tbody>
+      ${filas.map((r,k)=>`<tr><td class="code">${k+1}</td><td><div class="cell-main">${esc(r.nombre)}</div><div class="cell-sub">${r.codigo} · ${esc(r.categoria)}</div></td><td class="num">${r.unidades}</td><td class="num">${money(r.ventas)}</td><td class="num">${money(r.costo)}</td><td class="num cell-main">${money(r.utilidad)}</td><td class="num"><span class="pill ${mClass(r.margen)}">${r.margen.toFixed(1)}%</span></td></tr>`).join('')}
+      <tr class="totrow"><td></td><td>Total</td><td class="num">${t.unidades}</td><td class="num">${money(t.ventas)}</td><td class="num">${money(t.costo)}</td><td class="num">${money(t.utilidad)}</td><td class="num">${t.margen.toFixed(1)}%</td></tr>
+    </tbody></table></div>`:empty('rentabilidad','No hay ventas en este periodo.')}</div></div>`;
+};
+binders.rentabilidad = function(){
+  $$('#rt-per button').forEach(b=>b.onclick=()=>{ rtState.periodo=b.dataset.v; route(); });
+  $$('#rt-ord button').forEach(b=>b.onclick=()=>{ rtState.orden=b.dataset.v; route(); });
+  const {filas, t, nFact} = rentabilidad(), per = RT_PER[rtState.periodo];
+  $('#rt-xls').onclick=()=>exportarExcel('Rentabilidad '+per+' '+hoyTxt(), [{nombre:'Rentabilidad', filas:[['#','Código','Producto','Categoría','Unidades','Ventas netas','Costo','Utilidad','Margen %'], ...filas.map((r,k)=>[k+1, r.codigo, r.nombre, r.categoria, r.unidades, r.ventas, r.costo, r.utilidad, r2(r.margen)]), ['','','Total','',t.unidades, r2(t.ventas), r2(t.costo), t.utilidad, r2(t.margen)]]}]);
+  $('#rt-pdf').onclick=()=>imprimirDoc('Rentabilidad', docA4('Productos más vendidos y margen de ganancia', `${per} · ${nFact} facturas · valores sin IVA`,
+    pdfKpis([['Ventas netas',money(t.ventas)],['Costo',money(t.costo)],['Utilidad bruta',money(t.utilidad)],['Margen',t.margen.toFixed(1)+'%']]) +
+    pdfTabla(['#','Producto','Unidades','Ventas','Costo','Utilidad','Margen'], filas.map((r,k)=>[k+1, r.nombre, r.unidades, money(r.ventas), money(r.costo), money(r.utilidad), r.margen.toFixed(1)+'%']), [0,2,3,4,5,6], ['','Total',t.unidades,money(t.ventas),money(t.costo),money(t.utilidad),t.margen.toFixed(1)+'%'])));
+};
+
+/* ---------- Bitácora de auditoría ---------- */
+const btState = {q:'', usuario:'', page:0};
+views.bitacora = function(){
+  const usuarios = [...new Set(db.bitacora.map(b=>b.usuario))].sort();
+  return `<div class="pagehead"><div><h1>Bitácora de auditoría</h1><p>Quién hizo qué y cuándo: ingresos, facturas, anulaciones, compras, cambios de inventario, clientes y usuarios.</p></div>
+    <div class="head-actions"><button type="button" class="btn ghost" id="bt-xls">${ic('excel')}Excel</button></div></div>
+    <div class="card"><div class="toolbar"><div class="search">${ic('search')}<input type="search" id="bt-q" placeholder="Buscar acción o detalle" aria-label="Buscar en la bitácora" value="${esc(btState.q)}"></div>
+      <select id="bt-u" aria-label="Usuario"><option value="">Todos los usuarios</option>${usuarios.map(u=>`<option value="${esc(u)}" ${btState.usuario===u?'selected':''}>${esc(u)}</option>`).join('')}</select></div>
+      <div id="bt-rows"></div><div class="pager" id="bt-pager"></div></div>`;
+};
+const btLista = () => { const q=btState.q.toLowerCase(); return [...db.bitacora].sort((a,b)=>new Date(b.fecha)-new Date(a.fecha) || b.id-a.id).filter(b=>(!btState.usuario||b.usuario===btState.usuario)&&(b.accion.toLowerCase().includes(q)||b.detalle.toLowerCase().includes(q))); };
+binders.bitacora = function(){
+  const PER = 20;
+  const draw = ()=>{
+    const list = btLista(), pages = Math.max(1, Math.ceil(list.length/PER)); btState.page = Math.min(btState.page, pages-1);
+    const rows = list.slice(btState.page*PER, btState.page*PER+PER);
+    $('#bt-rows').innerHTML = rows.length ? `<div class="tablewrap"><table><thead><tr><th>Fecha</th><th>Usuario</th><th>Acción</th><th>Detalle</th></tr></thead><tbody>
+      ${rows.map(b=>`<tr><td><div>${fmtDate(b.fecha)}</div><div class="cell-sub">${fmtTime(b.fecha)}</div></td><td class="code">${esc(b.usuario)}</td><td class="cell-main">${esc(b.accion)}</td><td class="cell-sub" style="color:var(--ink)">${esc(b.detalle)}</td></tr>`).join('')}
+      </tbody></table></div>` : empty('bitacora', db.bitacora.length?'Ningún registro coincide con el filtro.':'Aún no hay registros. Se irán guardando a medida que se use el sistema.');
+    $('#bt-pager').innerHTML = `<span>${list.length?`${btState.page*PER+1}–${Math.min(list.length,(btState.page+1)*PER)} de ${list.length} registros`:'0 registros'}</span><div><button class="btn ghost sm" id="prev" ${btState.page===0?'disabled':''}>Anterior</button><button class="btn ghost sm" id="next" ${btState.page>=pages-1?'disabled':''}>Siguiente</button></div>`;
+    $('#prev').onclick=()=>{ btState.page--; draw(); }; $('#next').onclick=()=>{ btState.page++; draw(); };
+  };
+  $('#bt-q').oninput=e=>{ btState.q=e.target.value; btState.page=0; draw(); };
+  $('#bt-u').onchange=e=>{ btState.usuario=e.target.value; btState.page=0; draw(); };
+  $('#bt-xls').onclick=()=>exportarExcel('Bitacora '+hoyTxt(), [{nombre:'Bitácora', filas:[['Fecha','Hora','Usuario','Acción','Detalle'], ...btLista().map(b=>[fmtDate(b.fecha), fmtTime(b.fecha), b.usuario, b.accion, b.detalle])]}]);
+  draw();
+};
 
 /* ---------- Búsqueda global (Ctrl K) ---------- */
 function openPalette(){
@@ -1532,8 +2071,8 @@ $('#scrim').onclick=()=>document.body.classList.remove('nav-open');
 $('#cmdk').onclick=openPalette;
 $('#bell').onclick=e=>{ e.stopPropagation(); togglePop(); };
 $('#theme').onclick=()=>setTheme(isDark()?'light':'dark');
-$('#logout').onclick=()=>{ memUser=null; ventaTab='nueva'; cliSel='9999999999999'; try{ sessionStorage.removeItem('cn-sesion'); }catch(e){} cart=[]; history.replaceState(null,'',location.pathname+location.search); route(); };
-function resetDatos(){ if(nube) return; const keep=db.usuarios; db=seed(); db.usuarios=keep; save(); cart=[]; toast('Datos de ejemplo restaurados'); route(); }
+$('#logout').onclick=()=>{ if(sesion) bitacora('Cerró sesión', sesion.nombre); memUser=null; ventaTab='nueva'; cliSel='9999999999999'; try{ sessionStorage.removeItem('cn-sesion'); }catch(e){} cart=[]; history.replaceState(null,'',location.pathname+location.search); route(); };
+function resetDatos(){ if(nube) return; const keep=db.usuarios; db=seed(); db.usuarios=keep; normalizarDB(); save(); cart=[]; toast('Datos de ejemplo restaurados'); route(); }
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){ closeModal(); $('#pop').innerHTML=''; document.body.classList.remove('nav-open'); }
   if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='k'){ e.preventDefault(); openPalette(); }
@@ -1586,6 +2125,7 @@ $('#flogin').addEventListener('submit', async e=>{
   $('#l-pass').value=''; goBtn('idle');
   memUser = u.usuario; try{ sessionStorage.setItem('cn-sesion', u.usuario); }catch(e){}
   save(); sesion = getSesion(); ventaTab='nueva'; location.hash = '#'+inicio(); route();
+  bitacora('Inicio de sesión', u.nombre+' · '+(u.rol==='admin'?'Administrador':'Cajero'));
   toast('Sesión iniciada como ' + u.nombre);
 });
 
@@ -1600,5 +2140,5 @@ function drawPreview(){
   drawThemeBtn(); startSlides();
   setTimeout(()=>{ const f = $('#l-user').value ? $('#l-pass') : $('#l-user'); if(!$('#login').hidden && document.activeElement===document.body) f.focus(); }, 60);
 }
-(async()=>{ await conectarNube(); $('#l-online').textContent = nube ? 'Conectado a la base de datos' : 'Modo sin conexión (este navegador)'; route(); })();
+(async()=>{ await conectarNube(); if(!nube) normalizarDB(); $('#l-online').textContent = nube ? 'Conectado a la base de datos' : 'Modo sin conexión (este navegador)'; route(); })();
 </script>
