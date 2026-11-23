@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="es">
+<!-- [H-00] Cabecera: codificación, vista en celular, ícono, título, tipografías Geist y librería de Supabase -->
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -14,6 +15,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <style>
 /* Layout: SaaS claro — menú lateral blanco fijo, barra superior con búsqueda global y acciones, contenido en tarjetas con aire */
+/* [C-01] Variables de color del tema claro: paleta, sombras y tipografías */
 :root{
   --bg:#f6f7fb; --surface:#ffffff; --surface-2:#f9fafc; --hover:#f2f3f8; --ink:#11142a; --muted:#5d6379; --faint:#8a90a6; --line:#e6e8f0; --line-strong:#d5d8e3;
   --brand:#3341a8; --brand-hover:#2a378f; --brand-ink:#ffffff; --brand-soft:#eef0fb; --brand-softer:#f6f7fd;
@@ -24,6 +26,7 @@
   --sans:"Geist","Segoe UI",system-ui,-apple-system,sans-serif;
   --mono:"Geist Mono",ui-monospace,Consolas,monospace;
 }
+/* [C-02] Tema oscuro automático según la configuración del sistema */
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0b0d17; --surface:#12152a; --surface-2:#0f1223; --hover:#1a1e36; --ink:#e8eaf4; --muted:#9aa0b9; --faint:#6f7591; --line:#22263f; --line-strong:#2e3352;
   --brand:#8c99f3; --brand-hover:#a2adf6; --brand-ink:#0b0d17; --brand-soft:#1d2246; --brand-softer:#161a35;
@@ -31,6 +34,7 @@
   --ok:#6fcf97; --okbg:#13301f; --warn:#f0b75a; --warnbg:#2f250e; --bad:#f08a8a; --badbg:#36191b;
   --c1:#8c99f3; --c2:#f3b54c; --c3:#5ccbbb;
   --shadow-sm:none; --shadow:0 1px 2px rgba(0,0,0,.35); --shadow-lg:0 18px 48px rgba(0,0,0,.5); color-scheme:dark}}
+/* [C-03] Tema oscuro elegido manualmente con el botón de luna */
 :root[data-theme="dark"]{
   --bg:#0b0d17; --surface:#12152a; --surface-2:#0f1223; --hover:#1a1e36; --ink:#e8eaf4; --muted:#9aa0b9; --faint:#6f7591; --line:#22263f; --line-strong:#2e3352;
   --brand:#8c99f3; --brand-hover:#a2adf6; --brand-ink:#0b0d17; --brand-soft:#1d2246; --brand-softer:#161a35;
@@ -38,6 +42,7 @@
   --ok:#6fcf97; --okbg:#13301f; --warn:#f0b75a; --warnbg:#2f250e; --bad:#f08a8a; --badbg:#36191b;
   --c1:#8c99f3; --c2:#f3b54c; --c3:#5ccbbb;
   --shadow-sm:none; --shadow:0 1px 2px rgba(0,0,0,.35); --shadow-lg:0 18px 48px rgba(0,0,0,.5); color-scheme:dark}
+/* [C-04] Reglas base: tamaño de cajas, fuente, enlaces, íconos SVG, foco y animaciones */
 *{box-sizing:border-box}
 html,body{height:100%}
 body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--sans);-webkit-font-smoothing:antialiased;font-feature-settings:"ss01"}
@@ -50,12 +55,15 @@ svg.i{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-widt
 @keyframes pop{from{opacity:.001;transform:scale(.97)}to{opacity:1;transform:none}}
 
 /* ---------- Estructura ---------- */
+/* [C-05] Estructura general con CSS Grid: menú lateral y área de trabajo */
 .app{display:grid;grid-template-columns:252px minmax(0,1fr);min-height:100%}
 .sidebar{background:var(--surface);border-right:1px solid var(--line);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;height:100dvh;padding-block:16px 12px;padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:12px;gap:18px;z-index:15}
+/* [C-06] Logo y nombre de la empresa en el menú lateral */
 .brandmark{display:flex;align-items:center;gap:10px;padding:4px 8px}
 .brandmark svg{width:32px;height:32px;flex:none}
 .brandmark .name{font-weight:700;font-size:.98rem;letter-spacing:-.015em;line-height:1.15}
 .brandmark .name small{display:block;font-weight:500;font-size:.72rem;color:var(--faint);letter-spacing:0}
+/* [C-07] Menú de módulos agrupados y contador de alertas */
 nav{display:flex;flex-direction:column;gap:16px;overflow-y:auto}
 .navgroup{display:flex;flex-direction:column;gap:1px}
 .navlabel{font-size:.7rem;font-weight:600;color:var(--faint);padding:0 10px 6px;letter-spacing:.02em}
@@ -63,6 +71,7 @@ nav a{display:flex;align-items:center;gap:10px;text-decoration:none;padding:7px 
 nav a:hover{background:var(--hover);color:var(--ink)}
 nav a.on{background:var(--brand-soft);color:var(--brand)}
 nav a .badge{margin-left:auto;font-size:.68rem;font-weight:600;background:var(--badbg);color:var(--bad);padding:1px 7px;border-radius:99px}
+/* [C-08] Tarjeta inferior del menú: estado de conexión y usuario actual */
 .sidecard{margin-top:auto;display:flex;flex-direction:column;gap:10px}
 .demo{border:1px dashed var(--line-strong);border-radius:9px;padding:10px 12px;font-size:.76rem;color:var(--muted);display:flex;flex-direction:column;gap:7px}
 .demo .conn{display:flex;gap:8px;align-items:flex-start;color:var(--ok)}
@@ -74,6 +83,7 @@ nav a .badge{margin-left:auto;font-size:.68rem;font-weight:600;background:var(--
 .me .who span{font-size:.74rem;color:var(--muted)}
 .avatar{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:600;font-size:.74rem;background:var(--brand-soft);color:var(--brand);flex:none;letter-spacing:.02em}
 .avatar.lg{width:38px;height:38px}
+/* [C-09] Barra superior: búsqueda Ctrl K, tema, notificaciones y salir */
 .workspace{display:flex;flex-direction:column;min-width:0}
 .topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding-block:10px;padding-left:28px;padding-right:max(28px,env(safe-area-inset-right,0px))}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:11;background:var(--bg)}
@@ -94,17 +104,20 @@ kbd{font-family:var(--mono);font-size:.7rem;border:1px solid var(--line);border-
 .popover .item .ic.bad{background:var(--badbg);color:var(--bad)} .popover .item .ic.warn{background:var(--warnbg);color:var(--warn)}
 .popover .item .ic svg{width:15px;height:15px}
 .rel{position:relative}
+/* [C-10] Área de contenido y pie de página */
 main{padding-block:26px 40px;padding-left:28px;padding-right:max(28px,env(safe-area-inset-right,0px));min-width:0;flex:1;width:100%;max-width:1400px}
 main > *{animation:fadeUp .22s ease-out both}
 .pagefoot{padding-block:14px;padding-left:28px;padding-right:max(28px,env(safe-area-inset-right,0px));font-size:.74rem;color:var(--faint);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;border-top:1px solid var(--line)}
 
 /* ---------- Encabezado de página ---------- */
+/* [C-11] Encabezado de cada módulo: título, descripción y botones */
 .pagehead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
 .pagehead h1{font-size:1.55rem;font-weight:700;letter-spacing:-.025em;margin:0;line-height:1.2;text-wrap:balance}
 .pagehead p{margin:4px 0 0;color:var(--muted);max-width:65ch}
 .head-actions{display:flex;gap:8px;flex-wrap:wrap}
 
 /* ---------- Tarjetas ---------- */
+/* [C-12] Tarjetas e indicadores (KPI) con mini gráficos */
 .card{background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);min-width:0}
 .card-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 20px 0}
 .card-h.bordered{padding-bottom:14px;border-bottom:1px solid var(--line)}
@@ -122,6 +135,7 @@ main > *{animation:fadeUp .22s ease-out both}
 .spark{width:88px;height:32px;flex:none}
 .delta{display:inline-flex;align-items:center;gap:2px;font-weight:600;font-size:.72rem;padding:1px 6px;border-radius:99px;font-variant-numeric:tabular-nums}
 .delta.up{color:var(--ok);background:var(--okbg)} .delta.down{color:var(--bad);background:var(--badbg)}
+/* [C-13] Rejillas de dos columnas y gráficos: líneas, leyenda, dona y ranking */
 .grid2{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:16px;margin-bottom:16px}
 .grid2.even{grid-template-columns:repeat(2,minmax(0,1fr))}
 .chartwrap{position:relative}
@@ -142,6 +156,7 @@ main > *{animation:fadeUp .22s ease-out both}
 .rank .track i{display:block;height:100%;background:var(--brand);border-radius:3px}
 
 /* ---------- Tablas ---------- */
+/* [C-14] Tablas: encabezados ordenables, filas, celdas y números alineados */
 .tablewrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:.875rem}
 th{text-align:left;font-size:.75rem;color:var(--muted);font-weight:500;padding:10px 20px;background:var(--surface-2);border-bottom:1px solid var(--line);border-top:1px solid var(--line);white-space:nowrap}
@@ -158,11 +173,13 @@ tbody tr:last-child td{border-bottom:0}
 .cell-main{font-weight:500}
 .cell-sub{font-size:.76rem;color:var(--muted)}
 .person{display:flex;gap:10px;align-items:center}
+/* [C-15] Etiquetas de estado de colores (pills) */
 .pill{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;font-weight:500;padding:2px 9px 2px 8px;border-radius:99px;white-space:nowrap;border:1px solid transparent}
 .pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
 .pill.ok{background:var(--okbg);color:var(--ok)} .pill.warn{background:var(--warnbg);color:var(--warn)} .pill.bad{background:var(--badbg);color:var(--bad)} .pill.brand{background:var(--brand-soft);color:var(--brand)}
 .pill.plain{background:var(--surface);border-color:var(--line);color:var(--muted)} .pill.plain::before{display:none}
 .rowactions{display:flex;gap:6px;justify-content:flex-end}
+/* [C-16] Tarjetas de categorías del inventario y filas de grupo */
 .catgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:10px;margin-bottom:16px}
 .catcard{display:flex;align-items:center;gap:11px;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:11px 12px;cursor:pointer;text-align:left;box-shadow:var(--shadow-sm);position:relative;transition:border-color .12s,box-shadow .12s}
 .catcard:hover{border-color:var(--line-strong)}
@@ -179,6 +196,7 @@ tr.grp td{background:var(--surface-2);padding-top:9px;padding-bottom:9px;border-
 tr.grp:hover{background:none}
 .grp-in{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .grp-in b{font-weight:600;font-size:.86rem}
+/* [C-17] Caja: aviso de caja abierta o cerrada y tarjeta principal */
 .cajabar{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;margin-bottom:16px;font-size:.86rem;flex-wrap:wrap}
 .cajabar>span{flex:1;min-width:200px}
 .cajabar.ok{background:var(--okbg);color:var(--ok)} .cajabar.bad{background:var(--badbg);color:var(--bad)}
@@ -191,6 +209,7 @@ tr.grp:hover{background:none}
 .caja-hero .ch-r{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:6px;text-align:right}
 .caja-hero .lbl{font-size:.78rem;color:var(--muted)}
 .caja-hero .big{font-size:1.9rem;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums;margin-bottom:6px}
+/* [C-18] Tarjetas de desglose por forma de pago con barra de porcentaje */
 .pagos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:16px}
 .pago-card{padding:16px 18px;display:flex;flex-direction:column;gap:10px}
 .pc-top{display:flex;align-items:center;gap:10px;font-weight:600;font-size:.9rem}
@@ -202,6 +221,7 @@ tr.grp:hover{background:none}
 .pc-bar i{display:block;height:100%;border-radius:3px}
 .pc-bar i.pc-efectivo{background:var(--c1)} .pc-bar i.pc-tarjeta{background:var(--c2)} .pc-bar i.pc-transferencia{background:var(--c3)}
 .pago-card .foot{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted)}
+/* [C-19] Tabla del arqueo de caja, fila de totales y áreas de texto */
 table.arqueo{border:1px solid var(--line);border-radius:10px;overflow:hidden}
 table.arqueo td{padding:9px 14px}
 table.arqueo tr.tot td{font-weight:600;background:var(--surface-2)}
@@ -209,8 +229,10 @@ tr.totrow td{font-weight:600;background:var(--surface-2)}
 textarea{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 11px;font:inherit;color:inherit;resize:vertical;box-shadow:var(--shadow-sm)}
 textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
 @media (max-width:760px){.pagos{grid-template-columns:1fr}.caja-hero .ch-r{align-items:flex-start;text-align:left}}
+/* [C-20] Selector de fecha del reporte de ventas diarias */
 .daynav{display:flex;align-items:center;gap:6px}
 .daynav input[type=date]{height:32px;padding:0 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:inherit;font:inherit;font-size:.85rem}
+/* [C-21] Estado de facturas: tarjetas que filtran, clave de acceso y pasos del SRI */
 .kpi-btn{text-align:left;font:inherit;color:inherit;cursor:pointer;transition:border-color .15s,box-shadow .15s}
 .kpi-btn:hover{border-color:var(--brand)} .kpi-btn.on{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
 .clave{font-size:.82rem;letter-spacing:.04em;padding:10px 12px;background:var(--surface-2);border:1px solid var(--line);border-radius:8px;word-break:break-all;color:var(--ink)}
@@ -224,6 +246,7 @@ textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(-
 .sri-steps i svg{width:13px;height:13px}
 .sri-steps b{display:block;font-size:.88rem} .sri-steps span{font-size:.8rem;color:var(--muted)}
 .note.bad{background:var(--badbg);color:var(--bad)}
+/* [C-22] Punto de venta: pago mixto y casillas de descuento */
 .paygrid.four{grid-template-columns:repeat(4,1fr)}
 .mixgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-bottom:8px}
 .mixgrid .field{min-width:0}.mixgrid input{width:100%;min-width:0;box-sizing:border-box}
@@ -234,6 +257,7 @@ textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(-
 .dsc input{width:46px;height:24px;padding:0 4px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:inherit;font:inherit;font-size:.78rem;text-align:right}
 .dscrow{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.84rem;color:var(--muted);padding:2px 0}
 .dscrow .dsc input{width:56px;height:30px;font-size:.86rem}
+/* [C-23] Anulación: textos en rojo, botón de peligro, franja y marca de agua ANULADA */
 .bad-t{color:var(--bad)!important} .ok-t{color:var(--ok)!important}
 .btn.danger-solid{background:var(--bad);border-color:var(--bad);color:#fff}
 .btn.danger-solid:hover{filter:brightness(.95)}
@@ -242,6 +266,7 @@ textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(-
 .ride.is-anulada{position:relative}
 .ride.is-anulada::after{content:"ANULADA";position:absolute;top:45%;left:50%;transform:translate(-50%,-50%) rotate(-18deg);font-size:4.5rem;font-weight:800;letter-spacing:.1em;color:var(--bad);opacity:.09;pointer-events:none}
 tr.row-anulada td{opacity:.62} tr.row-anulada td:first-child,tr.row-anulada td:last-child{opacity:1}
+/* [C-24] Compras: casilla de verificación y líneas de productos del formulario */
 label.check{display:flex;align-items:center;gap:8px;font-size:.86rem;cursor:pointer}
 .cpl-h,.cpl{display:grid;grid-template-columns:minmax(0,1fr) 70px 96px 88px 30px;gap:8px;align-items:center}
 .cpl-h{font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding-bottom:4px;border-bottom:1px solid var(--line)}
@@ -251,11 +276,13 @@ label.check{display:flex;align-items:center;gap:8px;font-size:.86rem;cursor:poin
 .cpl .x:hover{background:var(--hover);color:var(--bad)} .cpl .x svg{width:15px;height:15px}
 .taglist{display:flex;flex-wrap:wrap;gap:6px}
 @media (max-width:600px){.paygrid.four{grid-template-columns:repeat(2,1fr)}.cpl-h{display:none}.cpl{grid-template-columns:1fr 1fr;}.cpl select{grid-column:1/-1}}
+/* [C-25] Oculta los elementos marcados con hidden y paginador de tablas */
 [hidden]{display:none!important}
 .pager{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 20px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted);flex-wrap:wrap}
 .pager div{display:flex;gap:6px}
 
 /* ---------- Controles ---------- */
+/* [C-26] Botones: principal, secundario, peligro, bloque y deshabilitado */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:var(--brand);color:var(--brand-ink);border:1px solid var(--brand);border-radius:8px;padding:8px 14px;font-weight:500;cursor:pointer;text-decoration:none;font-size:.86rem;white-space:nowrap;box-shadow:var(--shadow-sm);transition:background .12s,border-color .12s}
 .btn:hover{background:var(--brand-hover);border-color:var(--brand-hover)}
 .btn svg.i{width:16px;height:16px}
@@ -267,6 +294,7 @@ label.check{display:flex;align-items:center;gap:8px;font-size:.86rem;cursor:poin
 .btn.danger.armed{background:var(--bad);color:#fff;border-color:var(--bad)}
 .btn.block{width:100%;padding:10px}
 .btn:disabled{opacity:.45;cursor:not-allowed}
+/* [C-27] Barra de búsqueda, campos de formulario, errores y selector segmentado */
 .toolbar{display:flex;gap:10px;flex-wrap:wrap;padding:14px 20px}
 .search{position:relative;flex:1 1 240px;display:flex}
 .search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--faint);width:16px;height:16px}
@@ -286,6 +314,7 @@ input:focus,select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0
 .seg button.on{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
 
 /* ---------- Modal y paleta de comandos ---------- */
+/* [C-28] Ventanas modales: fondo, cabecera, cuerpo y pie */
 .modal-bg{position:fixed;inset:0;background:rgba(11,13,23,.45);display:flex;align-items:center;justify-content:center;padding:16px;z-index:30;backdrop-filter:blur(3px)}
 .modal{background:var(--surface);border-radius:14px;width:100%;max-width:520px;max-height:92vh;overflow:auto;border:1px solid var(--line);box-shadow:var(--shadow-lg);animation:pop .16s ease-out}
 .modal.wide{max-width:680px}
@@ -296,6 +325,7 @@ input:focus,select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0
 .modal-f{display:flex;gap:8px;justify-content:flex-end;padding:14px 22px;border-top:1px solid var(--line);flex-wrap:wrap}
 .x{background:none;border:0;cursor:pointer;color:var(--faint);padding:4px;border-radius:6px;display:flex}
 .x:hover{color:var(--ink);background:var(--hover)}
+/* [C-29] Paleta de búsqueda global (Ctrl K) */
 .palette{align-items:flex-start;padding-top:12vh}
 .palette .modal{max-width:580px}
 .pal-in{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line)}
@@ -312,6 +342,7 @@ input:focus,select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0
 .pal-foot{display:flex;gap:14px;padding:9px 16px;border-top:1px solid var(--line);font-size:.74rem;color:var(--faint)}
 
 /* ---------- Punto de venta ---------- */
+/* [C-30] Punto de venta: catálogo, carrito, cantidades, totales y formas de pago */
 .pos{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:16px;align-items:start}
 .chips{display:flex;gap:6px;flex-wrap:wrap;padding:0 20px 4px}
 .chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:4px 11px;font-size:.78rem;font-weight:500;color:var(--muted);cursor:pointer}
@@ -349,6 +380,7 @@ input:focus,select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0
 .divider{height:1px;background:var(--line)}
 
 /* ---------- Factura (RIDE) ---------- */
+/* [C-31] Factura en pantalla (RIDE): encabezado, datos, detalle y totales */
 .ride{font-size:.82rem}
 .ride-h{display:grid;grid-template-columns:1fr auto;gap:14px;padding-bottom:16px}
 .ride-h .em{display:flex;gap:12px;align-items:flex-start}
@@ -369,6 +401,7 @@ input:focus,select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0
 .ride .note{margin-top:16px;font-size:.72rem;color:var(--faint);display:flex;gap:6px;align-items:center}
 
 /* ---------- Login ---------- */
+/* [C-32] Inicio de sesión: columnas, formulario y campos con ícono */
 .login{min-height:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);background:var(--surface)}
 .login-side{display:flex;flex-direction:column;gap:28px;padding-block:28px;padding-left:max(40px,env(safe-area-inset-left,0px));padding-right:40px}
 .login-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
@@ -396,6 +429,7 @@ input:focus,select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0
 .check input{width:16px;height:16px;accent-color:var(--brand);margin:0}
 .linkbtn{background:none;border:0;padding:0;color:var(--brand);font-weight:500;cursor:pointer;font-size:.84rem}
 .linkbtn:hover{text-decoration:underline}
+/* [C-33] Avisos del inicio de sesión y botón con animación de carga */
 .notice{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:9px;font-size:.82rem;line-height:1.45}
 .notice svg{width:16px;height:16px;margin-top:1px}
 .notice.info{background:var(--brand-softer);border:1px solid var(--brand-soft);color:var(--ink)}
@@ -405,6 +439,7 @@ input:focus,select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0
 .btn.login-go.ok{background:var(--ok);border-color:var(--ok)}
 .spin{width:16px;height:16px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:rot .7s linear infinite}
 @keyframes rot{to{transform:rotate(360deg)}}
+/* [C-34] Acceso de prueba y pie del inicio de sesión */
 .or{display:flex;align-items:center;gap:12px;font-size:.74rem;color:var(--faint)}
 .or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
 .quick{display:flex;align-items:center;gap:12px;width:100%;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 12px;cursor:pointer;text-align:left;transition:border-color .12s,background .12s}
@@ -416,6 +451,7 @@ input:focus,select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0
 .login-foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:.75rem;color:var(--faint)}
 .login-foot span{display:inline-flex;align-items:center;gap:6px}
 .login-foot svg{width:14px;height:14px}
+/* [C-35] Panel azul de presentación: diapositivas, ventajas y estadísticas */
 .showcase{position:relative;overflow:hidden;color:#fff;background:#141a4a;background-image:radial-gradient(60% 50% at 80% 10%,rgba(124,140,255,.45),transparent 70%),radial-gradient(50% 45% at 10% 95%,rgba(233,161,43,.35),transparent 70%),linear-gradient(160deg,#1b2370,#0f1438);padding-block:44px;padding-left:52px;padding-right:max(52px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;justify-content:space-between;gap:30px}
 .showcase::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1px,transparent 1px);background-size:22px 22px;mask-image:linear-gradient(180deg,rgba(0,0,0,.9),transparent 85%);-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.9),transparent 85%)}
 .showcase > *{position:relative}
@@ -438,12 +474,14 @@ input:focus,select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0
 .show-stats{display:flex;gap:30px;flex-wrap:wrap;font-size:.78rem;color:rgba(255,255,255,.7)}
 .show-stats b{display:block;font-size:1.35rem;font-weight:700;color:#fff;letter-spacing:-.02em}
 
+/* [C-36] Mensaje flotante de confirmación o error (toast) */
 .toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));right:max(20px,env(safe-area-inset-right,0px));background:var(--surface);color:var(--ink);border:1px solid var(--line);padding:11px 14px;border-radius:10px;font-weight:500;z-index:40;display:flex;gap:9px;align-items:center;box-shadow:var(--shadow-lg);font-size:.86rem;animation:fadeUp .18s ease-out}
 .toast .tic{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--okbg);color:var(--ok)}
 .toast .tic.bad{background:var(--badbg);color:var(--bad)}
 .toast .tic svg{width:13px;height:13px;stroke-width:2.5}
 .scrim{display:none}
 
+/* [C-37] Diseño adaptable para tablet y celular */
 @media (max-width:1180px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.pos{grid-template-columns:minmax(0,1fr) 340px}}
 @media (max-width:960px){
   .login-side{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
@@ -460,14 +498,17 @@ input:focus,select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0
   .showcase{display:none}
 }
 @media (max-width:560px){.kpis{grid-template-columns:1fr}.form{grid-template-columns:1fr}.ride .meta{grid-template-columns:1fr}.ride-h{grid-template-columns:1fr}.ride-h .doc{text-align:left}th,td{padding-left:14px;padding-right:14px}.cmdk span{font-size:.8rem}}
+/* [C-38] Quita las animaciones si el usuario lo prefiere */
 @media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
+<!-- [H-01] Pantalla de inicio de sesión (oculta hasta saber si hay sesión) -->
 <div class="login" id="login" hidden>
   <div class="login-side">
     <div class="login-top"><div class="brandmark" data-logo><div class="name">Comercial Nova<small>Tecnología · Sistema de gestión</small></div></div><button class="icon-btn" id="ltheme" type="button" aria-label="Cambiar tema"></button></div>
     <div class="login-main">
+      <!-- [H-02] Formulario: usuario, contraseña, recordar usuario, mensajes y botón -->
       <form class="login-box" id="flogin" novalidate>
         <span class="eyebrow"><i></i><span id="l-online">Conectando…</span></span>
         <h2>Inicia sesión en tu cuenta</h2>
@@ -482,12 +523,14 @@ input:focus,select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0
         <div class="login-row"><label class="check" for="l-rem"><input type="checkbox" id="l-rem">Recordar mi usuario</label><button type="button" class="linkbtn" id="l-forgot">¿Olvidaste tu contraseña?</button></div>
         <div id="l-msg" role="alert"></div>
         <button class="btn login-go" type="submit" id="l-go">Iniciar sesión</button>
+        <!-- [H-03] Acceso rápido de prueba con el usuario cajero -->
         <div class="or">Acceso de prueba</div>
         <button type="button" class="quick" id="l-demo"><span class="avatar" style="background:var(--okbg);color:var(--ok)">C1</span><span class="who"><b>Caja 1</b><span>Rol cajero · usuario cajero</span></span><span id="ic-arrow"></span></button>
       </form>
     </div>
     <div class="login-foot"><span id="l-secure"></span><span>© 2026 Comercial Nova S.A. · v1.0</span></div>
   </div>
+  <!-- [H-04] Panel de presentación con diapositivas, ventajas y estadísticas -->
   <div class="showcase" aria-hidden="true">
     <div>
       <div class="slides" id="slides">
@@ -508,7 +551,9 @@ input:focus,select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0
   </div>
 </div>
 
+<!-- [H-05] Aplicación: se muestra después de iniciar sesión -->
 <div class="app" id="app" hidden>
+  <!-- [H-06] Menú lateral: logo, módulos (los dibuja route) y usuario actual -->
   <aside class="sidebar" id="sidebar">
     <div class="brandmark" data-logo><div class="name">Comercial Nova<small>Tecnología · Sistema de gestión</small></div></div>
     <nav id="nav" aria-label="Módulos"></nav>
@@ -519,6 +564,7 @@ input:focus,select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0
   </aside>
   <div class="scrim" id="scrim"></div>
   <div class="workspace">
+    <!-- [H-07] Barra superior: menú en celular, búsqueda, tema, notificaciones y salir -->
     <header class="topbar">
       <button class="icon-btn menu-btn" id="menu" type="button" aria-label="Abrir menú"></button>
       <button class="cmdk" id="cmdk" type="button"><span id="cmdk-ic"></span><span>Buscar productos, clientes o facturas…</span><kbd>Ctrl K</kbd></button>
@@ -528,15 +574,18 @@ input:focus,select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0
         <button class="icon-btn" id="logout" type="button" aria-label="Cerrar sesión" title="Cerrar sesión"></button>
       </div>
     </header>
+    <!-- [H-08] Contenido del módulo activo (lo llena route) y pie de página -->
     <main id="main"></main>
     <footer class="pagefoot"><span>Comercial Nova S.A. · RUC 0993381245001</span><span>Proyecto integrador · Lenguajes de Programación · UEES</span></footer>
   </div>
 </div>
+<!-- [H-09] Contenedores de las ventanas modales y del mensaje flotante -->
 <div id="modal"></div>
 <div id="toast" class="toast" hidden></div>
 
 <script>
 /* ---------- Íconos y logo ---------- */
+// [J-001] IC: dibujos SVG de todos los íconos del sistema
 const IC = {
   panel:'<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>',
   venta:'<circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.7 12.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6"/>',
@@ -572,13 +621,16 @@ const IC = {
   ticket:'<path d="M3 7a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v10a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2z"/><path d="M9 9h6M9 13h4"/>',
   arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>', user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>', lock:'<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>', shield:'<path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/>', info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>'
 };
+// [J-002] ic(): devuelve el SVG de un ícono; LOGO_SVG: logo de la estrella
 const ic = (n,cls='i') => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${IC[n]}</svg>`;
 const LOGO_SVG = `<svg viewBox="0 0 48 48" role="img" aria-label="Logo de Comercial Nova"><rect width="48" height="48" rx="12" fill="#3341a8"/><path d="M24 8c1.5 9 7 14.5 16 16-9 1.5-14.5 7-16 16-1.5-9-7-14.5-16-16 9-1.5 14.5-7 16-16z" fill="#f3c25b"/><path d="M37 8.5c.45 2.4 1.7 3.65 4.1 4.1-2.4.45-3.65 1.7-4.1 4.1-.45-2.4-1.7-3.65-4.1-4.1 2.4-.45 3.65-1.7 4.1-4.1z" fill="#ffffff"/></svg>`;
 document.querySelectorAll('[data-logo]').forEach(el=>el.insertAdjacentHTML('afterbegin', LOGO_SVG));
 
+// [J-003] Datos de la empresa, IVA 15 % y nombre del almacenamiento local
 const EMPRESA = {razon:'COMERCIAL NOVA S.A.', ruc:'0993381245001', dir:'Av. Francisco de Orellana y Justino Cornejo, Guayaquil'};
 const IVA = 0.15;
 const KEY = 'comercial-nova-v3';
+// [J-004] Atajos para buscar elementos ($, $$), redondeo r2, formato de dinero, escape de HTML y fechas
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
 const r2 = n => Math.round((n + (n>=0?1:-1)*1e-9)*100)/100;
@@ -587,7 +639,9 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':
 const fmtDate = d => new Date(d).toLocaleDateString('es-EC',{day:'2-digit',month:'short',year:'numeric'});
 const fmtTime = d => new Date(d).toLocaleTimeString('es-EC',{hour:'2-digit',minute:'2-digit'});
 const dayKey = d => { const x = new Date(d); return x.getFullYear()+'-'+(x.getMonth()+1)+'-'+x.getDate(); };
+// [J-005] Iniciales de un nombre para los avatares
 const initials = n => n.split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+// [J-006] Colores, orden e íconos de cada categoría de producto
 const CAT_COLORS = {'Laptops':['#eef0fb','#3341a8'],'Celulares':['#e7f5f3','#1f7a6e'],'Audio':['#fbe9f0','#a33461'],'Consolas':['#fbeee6','#a5521c'],'Monitores':['#e8f1fb','#225b9c'],'Accesorios':['#f1ecfa','#6a43a8'],'Almacenamiento':['#fcf2df','#9a6008'],'Redes':['#e6f4ec','#1f7a4a'],'Tablets':['#eef0f4','#4b5168']};
 const catColor = c => CAT_COLORS[c] || ['#eef0f4','#4b5168'];
 const CAT_ORDER = Object.keys(CAT_COLORS);
@@ -596,12 +650,14 @@ const CAT_IC = {Laptops:'<rect x="4" y="4" width="16" height="11" rx="1.5"/><pat
 const catIc = c => `<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${CAT_IC[c]||IC.inventario}</svg>`;
 
 /* ---------- Datos ---------- */
+// [J-007] Usuarios iniciales: pgarces (administrador) y cajero, con claves cifradas
 function usuariosBase(){
   return [
     {usuario:'pgarces', nombre:'Paul Garcés', rol:'admin', hash:'38ddfdc8c43e2900197e5968f31c5f8913f226e7c555d10c8172832cfb119845', fijo:true},
     {usuario:'cajero', nombre:'Caja 1', rol:'cajero', hash:'6e369cc7f76eafc62cd4c4adb5ddb4cd672e6d63c5063a78859bb7d35cccbb35'}
   ];
 }
+// [J-008] Datos de ejemplo: productos con costo, clientes y ventas de los últimos 7 días
 function seed(){
   const productos = [
     ['P001','MacBook Air 13" M5 16 GB / 512 GB','Laptops',1099.00,3,2],
@@ -646,11 +702,13 @@ function seed(){
   const hoy0 = new Date().setHours(0,0,0,0); ventas.forEach(v=>{ if(new Date(v.fecha)<hoy0){ v.sri_estado='Autorizada'; v.sri_fecha=new Date(new Date(v.fecha).getTime()+12e4).toISOString(); } });
   return {productos, clientes, ventas, seq:n, usuarios:usuariosBase(), cajas:[], compras:[], bitacora:[], ncSeq:0, compraSeq:0};
 }
+// [J-009] makeVenta: arma una factura calculando subtotal, descuento, IVA y total
 function makeVenta(seq, cli, items, fecha, pct){
   const its = items.map(i=>({codigo:i.codigo, nombre:i.nombre, precio:i.precio, cant:i.cant, desc:i.desc||0, costo:i.costo!==undefined?i.costo:Math.round(i.precio*72)/100}));
   const k = calcFactura(its, pct||0);
   return {numero:'001-001-'+String(seq).padStart(9,'0'), fecha, cliente:{id:cli.id,nombre:cli.nombre}, items:its, subtotal:k.sub, iva:k.iva, total:k.total, descuento:k.descuento, desc_pct:pct||0, pagos:[], estado:'Emitida', sri_estado:'Pendiente', sri_fecha:null, sri_mensaje:''};
 }
+// [J-010] normalizarDB: completa campos que falten (costo, correo, pagos, kardex)
 function normalizarDB(){
   if(!db.cajas) db.cajas = []; if(!db.compras) db.compras = []; if(!db.bitacora) db.bitacora = [];
   db.productos.forEach(normProducto);
@@ -658,10 +716,12 @@ function normalizarDB(){
   db.ventas.forEach(normVenta);
   if(!db.movimientos) db.movimientos = kardexInicial();
 }
+// [J-011] hashClave: cifra usuario + contraseña con SHA-256
 async function hashClave(usuario, clave){
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(usuario+':'+clave));
   return [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,'0')).join('');
 }
+// [J-012] db: datos en memoria; load y save los leen y guardan en el navegador
 let db;
 function load(){ try{ const raw = localStorage.getItem(KEY); if(raw){ db = JSON.parse(raw); return; } db = seed(); const old = localStorage.getItem('comercial-nova-v2') || localStorage.getItem('comercial-nova-v1'); if(old){ const o = JSON.parse(old); if(o.usuarios) db.usuarios = o.usuarios; } }catch(e){ db = seed(); } }
 function save(){ if(nube) return; try{ localStorage.setItem(KEY, JSON.stringify(db)); }catch(e){} }
@@ -669,10 +729,13 @@ function save(){ if(nube) return; try{ localStorage.setItem(KEY, JSON.stringify(
 /* ---------- Base de datos compartida (Supabase) ---------- */
 // Si SUPA_URL y SUPA_KEY tienen valor, todos los usuarios comparten la misma base de datos en tiempo real.
 // Si están vacías o la conexión falla, el sistema trabaja solo en este navegador (localStorage).
+// [J-013] Dirección y clave pública de la base de datos Supabase
 const SUPA_URL = 'https://vnzhjixamekopqxjcscm.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZuemhqaXhhbWVrb3BxeGpjc2NtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTU0NTUxNjgsImV4cCI6MjExMTAzMTE2OH0.dLPUi5EcRoRoRrh44_Mn0RmqTLeidC0E0kdfcaTBujg'; // clave pública (anon)
+// [J-014] Variables de conexión y conversión de números que llegan como texto
 let sb = null, nube = false, recargaTimer = 0;
 const num = v => v===null||v===undefined ? 0 : Number(v);
+// [J-015] cargarNube: descarga productos, clientes, usuarios, ventas, cajas, kardex, compras y bitácora
 async function cargarNube(){
   const [p,c,u,v,k] = await Promise.all([
     sb.from('productos').select('*').order('codigo'),
@@ -703,6 +766,7 @@ async function cargarNube(){
   db.bitacora = bt.error ? [] : bt.data;
   normalizarDB();
 }
+// [J-016] conectarNube: se conecta y escucha cambios en tiempo real de todas las tablas
 async function conectarNube(){
   if(!SUPA_URL || !SUPA_KEY || !window.supabase) return false;
   try{
@@ -715,6 +779,7 @@ async function conectarNube(){
   }catch(e){ console.warn('Sin conexión a la base de datos', e); sb = null; nube = false; load(); return false; }
 }
 // Guarda un cambio: en la nube si hay conexión; si no, en este navegador
+// [J-017] guardar: guarda o borra un registro y lo anota en la bitácora
 const AUD = {productos:'producto', clientes:'cliente', usuarios:'usuario'};
 async function guardar(tabla, accion, fila, clave, txt){
   if(tabla==='productos' && accion!=='borrar' && sesion) fila.modificado_por = sesion.usuario;
@@ -726,6 +791,7 @@ async function guardar(tabla, accion, fila, clave, txt){
   if(error){ toast('No se pudo guardar en la base de datos. Revisa tu conexión.', true); try{ await cargarNube(); }catch(e){} route(); return false; }
   log(); return true;
 }
+// [J-018] refrescarPantalla: vuelve a dibujar cuando otro usuario cambia algo
 let refrescarVenta = null;
 function refrescarPantalla(){
   if(!sesion){ drawPreview(); return; }
@@ -737,18 +803,21 @@ function refrescarPantalla(){
   if(document.activeElement && document.activeElement.matches('input,select,textarea') && $('#main').contains(document.activeElement)) return;
   const y = window.scrollY; route(); window.scrollTo(0,y);
 }
+// [J-019] Arranque de datos: carga lo guardado y asegura que existan los usuarios base
 load();
 if(!db.usuarios) db.usuarios = usuariosBase();
 
 if(!db.usuarios.some(u=>u.usuario==='pgarces')) db.usuarios.unshift(usuariosBase()[0]);
 
 /* ---------- Tema ---------- */
+// [J-020] Tema claro u oscuro: guardar la preferencia y cambiar el ícono del botón
 function setTheme(t){ if(t) document.documentElement.dataset.theme=t; else delete document.documentElement.dataset.theme; try{ t?localStorage.setItem('cn-theme',t):localStorage.removeItem('cn-theme'); }catch(e){} drawThemeBtn(); }
 function isDark(){ const t=document.documentElement.dataset.theme; return t ? t==='dark' : matchMedia('(prefers-color-scheme: dark)').matches; }
 function drawThemeBtn(){ const lb=$('#ltheme'); if(lb){ lb.innerHTML = ic(isDark()?'sun':'moon'); lb.setAttribute('aria-label', isDark()?'Usar tema claro':'Usar tema oscuro'); } const b=$('#theme'); if(b){ b.innerHTML = ic(isDark()?'sun':'moon'); b.setAttribute('aria-label', isDark()?'Usar tema claro':'Usar tema oscuro'); } }
 try{ const t=localStorage.getItem('cn-theme'); if(t) document.documentElement.dataset.theme=t; }catch(e){}
 
 /* ---------- Sesión y permisos ---------- */
+// [J-021] MODULOS: lista de módulos, su grupo en el menú y qué rol puede verlos
 const MODULOS = [
   {id:'panel', nombre:'Panel general', corto:'Panel', grupo:'General', desc:'Resumen de la operación de hoy y de los últimos siete días.', roles:['admin']},
   {id:'venta', nombre:'Venta y facturación', corto:'Venta y facturación', grupo:'General', desc:'Registra ventas, emite facturas y consulta las facturas emitidas.', roles:['admin','cajero']},
@@ -764,25 +833,30 @@ const MODULOS = [
   {id:'usuarios', nombre:'Usuarios y permisos', corto:'Usuarios', grupo:'Configuración', desc:'Quién puede ingresar al sistema y qué módulos puede usar.', roles:['admin']},
   {id:'bitacora', nombre:'Bitácora de auditoría', corto:'Bitácora', grupo:'Configuración', desc:'Quién hizo qué y cuándo dentro del sistema.', roles:['admin']}
 ];
+// [J-022] Sesión: usuario conectado, permiso por módulo (puede) y módulo de inicio
 let sesion = null, memUser = null;
 function getSesion(){ let u = memUser; try{ u = sessionStorage.getItem('cn-sesion') || memUser; }catch(e){} return db.usuarios.find(x=>x.usuario===u) || null; }
 function puede(mod){ const m = MODULOS.find(x=>x.id===mod); return !!(sesion && m && m.roles.includes(sesion.rol)); }
 const esAdmin = ()=> sesion && sesion.rol==='admin';
 const inicio = ()=> puede('panel') ? 'panel' : 'venta';
+// [J-023] Estado de pantalla: pestaña de venta, cliente elegido, descuento y filtros del reporte
 let ventaTab = 'nueva', cliSel = '9999999999999', descFact = 0;
 const repState = {fecha:'', vendedor:'', pago:''};
 
 /* ---------- Caja: apertura, cierre y desglose por forma de pago ---------- */
+// [J-024] Formas de pago y funciones para encontrar la caja abierta de un usuario
 const PAGOS = ['Efectivo','Tarjeta','Transferencia'];
 const PAGO_IC = {Efectivo:'money', Tarjeta:'card', Transferencia:'transfer'};
 const cajaAbierta = u => (db.cajas||[]).find(c=>c.usuario===u && !c.cierre) || null;
 const ventasDeCaja = c => db.ventas.filter(v=>v.caja_id===c.id);
+// [J-025] desglose: suma ventas por efectivo, tarjeta y transferencia (sin anuladas)
 function desglose(lista){
   const r = {total:0, n:lista.length, Efectivo:0, Tarjeta:0, Transferencia:0, nEfectivo:0, nTarjeta:0, nTransferencia:0};
   r.n = 0;
   lista.filter(activa).forEach(v=>{ r.n++; r.total=r2(r.total+v.total); const ps=pagosDe(v); ps.forEach(p=>{ r[p.forma]=r2(r[p.forma]+num(p.monto)); }); new Set(ps.map(p=>p.forma)).forEach(f=>r['n'+f]++); });
   return r;
 }
+// [J-026] abrirCaja: registra el fondo inicial de la caja
 async function abrirCaja(monto){
   if(nube){
     const { error } = await sb.rpc('abrir_caja', { p_usuario:sesion.usuario, p_monto:monto });
@@ -793,6 +867,7 @@ async function abrirCaja(monto){
   const id = (db.cajas.reduce((m,c)=>Math.max(m,c.id),0))+1;
   db.cajas.push({id, usuario:sesion.usuario, apertura:new Date().toISOString(), monto_inicial:r2(monto), cierre:null, observacion:''}); bitacora('Abrió caja', 'Fondo inicial '+money(monto)); save(); return true;
 }
+// [J-027] cerrarCaja: calcula el arqueo y la diferencia con el efectivo contado
 async function cerrarCaja(contado, obs){
   if(nube){
     const { data, error } = await sb.rpc('cerrar_caja', { p_usuario:sesion.usuario, p_contado:contado, p_obs:obs });
@@ -805,9 +880,11 @@ async function cerrarCaja(contado, obs){
     efectivo_esperado:r2(c.monto_inicial+d.Efectivo), efectivo_contado:r2(contado), diferencia:r2(contado-(c.monto_inicial+d.Efectivo)), observacion:obs||''});
   bitacora('Cerró caja', `Caja ${c.id} · ventas ${money(d.total)} · diferencia ${money(c.diferencia)}`); save(); return c.id;
 }
+// [J-028] difTxt: muestra Cuadra, Faltante o Sobrante
 function difTxt(d){ return Math.abs(d)<0.005 ? '<span class="pill ok">Cuadra</span>' : d<0 ? `<span class="pill bad">Faltante ${money(-d)}</span>` : `<span class="pill warn">Sobrante ${money(d)}</span>`; }
 
 /* ---------- Validación cédula / RUC (Ecuador, módulo 10) ---------- */
+// [J-029] validarCedula: dígito verificador de la cédula (módulo 10)
 function validarCedula(c){
   if(!/^\d{10}$/.test(c)) return false;
   const prov = +c.slice(0,2); if(prov<1 || (prov>24 && prov!==30)) return false;
@@ -816,6 +893,7 @@ function validarCedula(c){
   for(let i=0;i<9;i++){ let v = +c[i] * (i%2===0?2:1); if(v>9) v-=9; suma+=v; }
   return (10 - suma%10) % 10 === +c[9];
 }
+// [J-030] validarId: valida cédula, RUC o consumidor final
 function validarId(id){
   if(id==='9999999999999') return true;
   if(/^\d{10}$/.test(id)) return validarCedula(id);
@@ -824,6 +902,7 @@ function validarId(id){
 }
 
 /* ---------- Utilidades de interfaz ---------- */
+// [J-031] Utilidades de interfaz: mensajes, estado del stock, ventanas modales y confirmación de borrado
 function toast(msg, bad){ const t=$('#toast'); t.innerHTML=`<span class="tic ${bad?'bad':''}">${ic(bad?'x':'check')}</span><span>${esc(msg)}</span>`; t.hidden=false; t.style.animation='none'; t.offsetHeight; t.style.animation=''; clearTimeout(toast.t); toast.t=setTimeout(()=>t.hidden=true,2800); }
 function estado(p){ if(p.stock<=0) return '<span class="pill bad">Agotado</span>'; if(p.stock<=p.minimo) return '<span class="pill warn">Stock bajo</span>'; return '<span class="pill ok">Disponible</span>'; }
 function closeModal(){ $('#modal').innerHTML=''; }
@@ -835,11 +914,13 @@ function openModal(title, sub, body, foot, onReady, wide){
   const first = $('#modal input:not([readonly]), #modal select'); first && first.focus();
 }
 function armDelete(btn, fn){ btn.addEventListener('click',()=>{ if(btn.classList.contains('armed')){ fn(); } else { btn.classList.add('armed'); btn.textContent='¿Confirmar?'; setTimeout(()=>{ if(btn.isConnected){ btn.classList.remove('armed'); btn.textContent='Eliminar'; } },3000);} }); }
+// [J-032] Ayudas de gráficos: escala, variación porcentual, estado vacío, suma de ventas y serie de 7 días
 function niceMax(v){ if(v<=0) return 10; const p=Math.pow(10,Math.floor(Math.log10(v))); const m=v/p; return (m<=1?1:m<=2?2:m<=2.5?2.5:m<=5?5:10)*p; }
 function delta(a,b){ if(!b) return ''; const d=(a-b)/b*100; return `<span class="delta ${d>=0?'up':'down'}">${d>=0?'↑':'↓'} ${Math.abs(d).toFixed(1)}%</span>`; }
 function empty(icon, text){ return `<div class="empty">${ic(icon)}<span>${text}</span></div>`; }
 const sum = l => l.reduce((a,v)=>a+(v.estado==='Anulada'?0:v.total),0);
 function serie7(fn){ return [...Array(7)].map((_,i)=>{ const d=new Date(Date.now()-(6-i)*864e5); const k=dayKey(d); return {d, v: fn(db.ventas.filter(x=>dayKey(x.fecha)===k))}; }); }
+// [J-033] sparkline: mini gráfico de línea de los indicadores
 function sparkline(vals){
   const W=88,H=32, max=Math.max(...vals,1), min=Math.min(...vals,0);
   const pts = vals.map((v,i)=>[i*(W/(vals.length-1)), H-3-(v-min)/(max-min||1)*(H-6)]);
@@ -848,6 +929,7 @@ function sparkline(vals){
 }
 
 /* ---------- Gráficos ---------- */
+// [J-034] areaChart: gráfico de área de ventas diarias
 function areaChart(dias){
   const W=640,H=250,L=48,R=12,T=16,B=30, max=niceMax(Math.max(...dias.map(d=>d.v),1));
   const iw=W-L-R, ih=H-T-B, step=iw/(dias.length-1);
@@ -863,6 +945,7 @@ function areaChart(dias){
   dias.forEach((d,i)=>{ g+=`<rect data-i="${i}" x="${X(i)-step/2}" y="${T}" width="${step}" height="${ih}" fill="transparent"/>`; });
   return {svg:`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Ventas diarias de los últimos 7 días">${g}</svg>`, X, Y, W};
 }
+// [J-035] bindAreaTip: muestra el valor al pasar el mouse sobre el gráfico
 function bindAreaTip(wrap, dias, ch){
   const svg = wrap.querySelector('svg'), tip = document.createElement('div'); tip.className='tip'; tip.hidden=true; wrap.appendChild(tip);
   const hv = svg.querySelector('#hv');
@@ -874,6 +957,7 @@ function bindAreaTip(wrap, dias, ch){
     r.addEventListener('mouseleave',()=>{ tip.hidden=true; hv.setAttribute('opacity',0); });
   });
 }
+// [J-036] donut: gráfico circular de formas de pago
 function donut(parts){
   const total = parts.reduce((a,p)=>a+p.v,0)||1, R=52, C=2*Math.PI*R; let off=0;
   const segs = parts.map(p=>{ const len=p.v/total*C; const s=`<circle r="${R}" cx="66" cy="66" fill="none" stroke="${p.c}" stroke-width="16" stroke-dasharray="${Math.max(len-2,0)} ${C}" stroke-dashoffset="${-off}" transform="rotate(-90 66 66)"/>`; off+=len; return s; }).join('');
@@ -881,7 +965,9 @@ function donut(parts){
 }
 
 /* ---------- Vistas ---------- */
+// [J-037] views: cada función devuelve el HTML de un módulo
 const views = {
+  // [J-038] Vista Panel: indicadores del día y del mes, gráfico y alertas de stock
   panel(){
     const hoy = dayKey(Date.now()), ayer = dayKey(Date.now()-864e5), now = new Date();
     const vHoy = db.ventas.filter(v=>dayKey(v.fecha)===hoy), vAyer = db.ventas.filter(v=>dayKey(v.fecha)===ayer);
@@ -906,6 +992,7 @@ const views = {
     <div class="card"><div class="card-h bordered"><div><h2>Últimas facturas</h2><div class="sub">Las 5 ventas más recientes</div></div><a href="#historial" class="btn ghost sm">Ver todas ${ic('arrow')}</a></div><div class="card-b flush">${tablaVentas(recientes)}</div></div>`;
   },
 
+  // [J-039] Vista Inventario: categorías, buscador, filtros, tabla con costo y margen
   inventario(){
     const valor = db.productos.reduce((a,p)=>a+p.precio*p.stock,0);
     const cats = [...new Set(db.productos.map(p=>p.categoria))].sort(catSort);
@@ -924,6 +1011,7 @@ const views = {
     </div>`;
   },
 
+  // [J-040] Vista Venta: catálogo, carrito con descuentos, formas de pago incluido Mixto
   venta(){
     const mias = db.ventas.filter(v=>esAdmin()||v.vendedor===sesion.usuario);
     const tabs = `<div class="seg" id="vtabs" role="tablist"><button type="button" data-t="nueva" class="${ventaTab==='nueva'?'on':''}">Nueva factura</button><button type="button" data-t="facturas" class="${ventaTab==='facturas'?'on':''}">Facturas emitidas · ${mias.length}</button></div>`;
@@ -961,12 +1049,14 @@ const views = {
     </div>`;
   },
 
+  // [J-041] Vista Clientes: buscador y tabla de clientes
   clientes(){
     return `<div class="pagehead"><div><h1>Clientes</h1><p>Cédula y RUC validados con el dígito verificador del Registro Civil y el SRI.</p></div><div class="head-actions"><button class="btn" id="addc">${ic('plus')}Agregar cliente</button></div></div>
     <div class="card"><div class="toolbar"><div class="search">${ic('search')}<input type="search" id="cq" placeholder="Buscar por nombre o identificación" aria-label="Buscar cliente"></div></div>
     <div class="tablewrap"><table><thead><tr><th>Cliente</th><th>Identificación</th><th>Teléfono</th><th class="num">Compras</th><th class="num">Total comprado</th><th></th></tr></thead><tbody id="crows"></tbody></table></div></div>`;
   },
 
+  // [J-042] Vista Ventas: totales sin anuladas, más vendidos, formas de pago y lista
   historial(){
     const top = {};
     db.ventas.filter(activa).forEach(v=>v.items.forEach(i=>{ top[i.codigo]=top[i.codigo]||{nombre:i.nombre,cant:0,total:0}; top[i.codigo].cant+=i.cant; top[i.codigo].total+=i.precio*i.cant; }));
@@ -993,6 +1083,7 @@ const views = {
       <div id="hrows"></div><div class="pager" id="hpager"></div></div>`;
   },
 
+  // [J-043] Vista Usuarios: lista de usuarios y tabla de permisos por rol
   usuarios(){
     return `<div class="pagehead"><div><h1>Usuarios y permisos</h1><p>Quién puede ingresar al sistema y qué módulos puede usar.</p></div><div class="head-actions"><button class="btn" id="addu">${ic('plus')}Agregar usuario</button></div></div>
     <div class="card" style="margin-bottom:16px"><div class="tablewrap"><table><thead><tr><th>Usuario</th><th>Rol</th><th class="num">Ventas registradas</th><th></th></tr></thead><tbody>
@@ -1004,6 +1095,7 @@ const views = {
   }
 };
 
+// [J-044] tablaVentas: tabla de facturas con estado Anulada y forma de pago
 function tablaVentas(list){
   if(!list.length) return empty('historial','No hay facturas que coincidan.');
   const pagoIc = {Efectivo:'money',Tarjeta:'card',Transferencia:'transfer',Mixto:'mixto'};
@@ -1012,6 +1104,7 @@ function tablaVentas(list){
   </tbody></table></div>`;
 }
 
+// [J-045] verFactura: muestra la factura con botones Anular, Nota de crédito, Correo y Ticket
 function verFactura(num){
   const v = db.ventas.find(x=>x.numero===num); if(!v) return;
   const anulada = !activa(v);
@@ -1036,16 +1129,21 @@ function verFactura(num){
     const n=$('#fv-nc'); if(n) n.onclick=()=>verNotaCredito(v.numero);
   }, true);
 }
+// [J-046] estadoPill: etiqueta Emitida o Anulada
 const estadoPill = v => activa(v) ? `<span class="pill ok">Emitida</span>` : `<span class="pill bad">Anulada</span>`;
 
 /* ---------- Comportamiento de cada vista ---------- */
+// [J-047] Carrito de la venta y filtros del inventario
 let cart = [];
 const invState = {q:'', cat:'', est:'', k:'codigo', dir:1};
+// [J-048] binders: conecta los botones y campos de cada vista con su función
 const binders = {
+  // [J-049] Panel: dibuja el gráfico de área
   panel(){
     const dias = serie7(l=>sum(l)).map((x,i,arr)=>({...x, n: serie7(l=>l.length)[i].v}));
     const ch = areaChart(dias); $('#area').innerHTML = ch.svg; bindAreaTip($('#area'), dias, ch);
   },
+  // [J-050] Inventario: filtrar, ordenar, editar, eliminar y exportar a Excel o PDF
   inventario(){
     const draw = ()=>{
       const q = invState.q.toLowerCase();
@@ -1073,6 +1171,7 @@ const binders = {
     $('#inv-pdf').onclick=()=>imprimirDoc('Inventario', docA4('Inventario de productos', `${db.productos.length} productos · valor a costo ${money(db.productos.reduce((a,p)=>a+p.costo*p.stock,0))} · valor a precio ${money(db.productos.reduce((a,p)=>a+p.precio*p.stock,0))}`,
       pdfTabla(['Código','Producto','Categoría','Costo','Precio','Margen','Stock','Mín.','Estado'], filasInv().map(p=>[p.codigo,p.nombre,p.categoria,money(p.costo),money(p.precio),margen(p).toFixed(1)+'%',p.stock,p.minimo,estTxt(p)]), [3,4,5,6,7])));
   },
+  // [J-051] Venta: catálogo, carrito, descuentos con límite, pago mixto y emisión de la factura
   venta(){
     $$('#vtabs button').forEach(b=>b.onclick=()=>{ ventaTab=b.dataset.t; route(); });
     if(ventaTab==='facturas'){
@@ -1184,6 +1283,7 @@ const binders = {
     };
     drawAll();
   },
+  // [J-052] Clientes: buscar, agregar y eliminar
   clientes(){
     const draw = ()=>{
       const q = $('#cq').value.toLowerCase();
@@ -1193,6 +1293,7 @@ const binders = {
     };
     $('#cq').oninput=draw; $('#addc').onclick=()=>formCliente(); draw();
   },
+  // [J-053] Ventas: buscar, filtrar por pago o anuladas y paginar
   historial(){
     let page = 0; const PER = 8;
     const draw = ()=>{
@@ -1206,6 +1307,7 @@ const binders = {
     };
     $('#hq').oninput=()=>{ page=0; draw(); }; $('#hp').onchange=()=>{ page=0; draw(); }; draw();
   },
+  // [J-054] Usuarios: agregar, cambiar clave y eliminar
   usuarios(){
     $('#addu').onclick=()=>formUsuario(null);
     $$('[data-clave]').forEach(b=>b.onclick=()=>formUsuario(db.usuarios.find(u=>u.usuario===b.dataset.clave)));
@@ -1213,7 +1315,9 @@ const binders = {
   }
 };
 
+// [J-055] Botones Cancelar y Guardar de los formularios
 const FOOT = `<button type="button" class="btn ghost" id="f-can">Cancelar</button><button class="btn" type="submit" form="fm">Guardar</button>`;
+// [J-056] formProducto: crear o editar producto con costo y ajuste de kardex
 function formProducto(p){
   const nuevo = !p;
   const cats = [...new Set(db.productos.map(x=>x.categoria))].sort();
@@ -1246,6 +1350,7 @@ function formProducto(p){
       };
     });
 }
+// [J-057] formCliente: registrar cliente validando cédula o RUC y correo
 function formCliente(onSaved){
   openModal('Agregar cliente', 'La identificación se valida con su dígito verificador.', `<form class="form" id="fm" novalidate>
       <label class="full" for="c-id">Cédula o RUC<input type="text" id="c-id" inputmode="numeric" maxlength="13"><span class="help">10 dígitos para cédula, 13 para RUC.</span></label>
@@ -1268,6 +1373,7 @@ function formCliente(onSaved){
       };
     });
 }
+// [J-058] formUsuario: crear usuario o cambiar su contraseña
 function formUsuario(u){
   const nuevo = !u;
   openModal(nuevo?'Agregar usuario':'Cambiar clave', nuevo?'El nuevo usuario podrá ingresar de inmediato.':'Usuario: '+esc(u.usuario), `<form class="form" id="fm" novalidate>
@@ -1297,6 +1403,7 @@ function formUsuario(u){
 }
 
 /* ---------- Vistas de Caja y Reporte de ventas ---------- */
+// [J-059] tarjetasPago: tres tarjetas con monto, facturas y porcentaje por forma de pago
 function tarjetasPago(d){
   return `<div class="pagos">${PAGOS.map(p=>{ const pct = d.total ? d[p]/d.total*100 : 0;
     return `<div class="card pago-card"><div class="pc-top"><span class="pc-ic pc-${p.toLowerCase()}">${ic(PAGO_IC[p])}</span><span>${p}</span></div>
@@ -1304,6 +1411,7 @@ function tarjetasPago(d){
       <div class="pc-bar"><i class="pc-${p.toLowerCase()}" style="width:${pct.toFixed(1)}%"></i></div>
       <div class="foot"><span>${d['n'+p]} ${d['n'+p]===1?'factura':'facturas'}</span><span class="num">${pct.toFixed(1)}%</span></div></div>`; }).join('')}</div>`;
 }
+// [J-060] Vista Caja: caja abierta o cerrada, desglose e historial de cierres
 views.caja = function(){
   const c = cajaAbierta(sesion.usuario);
   const historial = [...db.cajas].filter(x=>esAdmin()||x.usuario===sesion.usuario).sort((a,b)=>new Date(b.apertura)-new Date(a.apertura));
@@ -1332,12 +1440,14 @@ views.caja = function(){
       ${historial.map(x=>`<tr><td><div>${fmtDate(x.apertura)}</div><div class="cell-sub">${fmtTime(x.apertura)}</div></td>${esAdmin()?`<td class="code">${esc(x.usuario)}</td>`:''}<td>${x.cierre?`<div>${fmtDate(x.cierre)}</div><div class="cell-sub">${fmtTime(x.cierre)}</div>`:'<span class="pill ok">Abierta</span>'}</td><td class="num">${money(x.monto_inicial)}</td><td class="num">${x.cierre?money(x.ventas_total):money(desglose(ventasDeCaja(x)).total)}</td><td class="num">${x.cierre?money(x.efectivo_esperado):'—'}</td><td class="num">${x.cierre?money(x.efectivo_contado):'—'}</td><td>${x.cierre?difTxt(x.diferencia):'<span class="cell-sub">En curso</span>'}</td><td><div class="rowactions">${x.cierre?`<button class="btn ghost sm" data-arqueo="${x.id}">Ver arqueo</button>`:''}</div></td></tr>`).join('')}
     </tbody></table></div>`:empty('caja','Aún no hay cajas registradas.')}</div></div>`;
 };
+// [J-061] Caja: botones Abrir, Cerrar y Ver arqueo
 binders.caja = function(){
   const a=$('#abrir-caja'); if(a) a.onclick=()=>formAbrirCaja();
   const c=$('#cerrar-caja'); if(c) c.onclick=()=>formCerrarCaja();
   $$('[data-arqueo]').forEach(b=>b.onclick=()=>verArqueo(+b.dataset.arqueo));
   $$('[data-ver]').forEach(b=>b.onclick=()=>verFactura(b.dataset.ver));
 };
+// [J-062] formAbrirCaja: pide el fondo inicial
 function formAbrirCaja(){
   if(cajaAbierta(sesion.usuario)){ location.hash='#caja'; return; }
   openModal('Abrir caja', 'Cuenta el efectivo con el que empiezas el turno.', `<form class="form" id="fm" novalidate>
@@ -1351,6 +1461,7 @@ function formAbrirCaja(){
       closeModal(); if(await abrirCaja(m)){ toast('Caja abierta con '+money(m)); route(); } };
   });
 }
+// [J-063] formCerrarCaja: resumen, efectivo contado y diferencia en vivo
 function formCerrarCaja(){
   const c = cajaAbierta(sesion.usuario); if(!c) return;
   const d = desglose(ventasDeCaja(c)), esperado = r2(c.monto_inicial + d.Efectivo);
@@ -1378,6 +1489,7 @@ function formCerrarCaja(){
       if(id){ toast('Caja cerrada'); route(); verArqueo(id); } };
   }, true);
 }
+// [J-064] verArqueo: comprobante de cierre de caja con exportación a Excel y PDF
 function verArqueo(id){
   const c = db.cajas.find(x=>x.id===id); if(!c || !c.cierre) return;
   const u = db.usuarios.find(x=>x.usuario===c.usuario);
@@ -1408,6 +1520,7 @@ function verArqueo(id){
       '<h2>Facturas de la caja</h2>' + pdfTabla(['Factura','Hora','Cliente','Estado','Forma de pago','Total'], facts.map(v=>[v.numero, fmtTime(v.fecha), v.cliente.nombre, activa(v)?'Emitida':'Anulada', pagoTxt(v), money(v.total)]), [5])));
   }, true);
 }
+// [J-065] exportReporte: Excel y PDF del reporte de ventas del día
 function exportReporte(){
   const titulo = `Ventas del ${fechaDia(repState.fecha).toLocaleDateString('es-EC',{day:'numeric',month:'long',year:'numeric'})}`;
   const base = db.ventas.filter(v=>(esAdmin() ? (!repState.vendedor || v.vendedor===repState.vendedor) : v.vendedor===sesion.usuario) && isoDia(v.fecha)===repState.fecha);
@@ -1421,8 +1534,10 @@ function exportReporte(){
     pdfTabla(['Factura','Hora','Cliente','Vendedor','Estado','Efectivo','Tarjeta','Transf.','Total'], base.map(v=>[v.numero, fmtTime(v.fecha), v.cliente.nombre, v.vendedor, activa(v)?'Emitida':'Anulada', money(m(v,'Efectivo')), money(m(v,'Tarjeta')), money(m(v,'Transferencia')), money(v.total)]), [5,6,7,8],
       ['Total','','','','',money(d.Efectivo),money(d.Tarjeta),money(d.Transferencia),money(d.total)])));
 }
+// [J-066] Conversión de fechas a texto AAAA-MM-DD y de vuelta
 const isoDia = d => { const x=new Date(d); return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0'); };
 const fechaDia = s => { const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d,12); };
+// [J-067] Vista Ventas del día: totales, formas de pago, tabla por vendedor u hora
 views.reporte = function(){
   const hoyIso = isoDia(Date.now());
   if(!repState.fecha || repState.fecha>hoyIso) repState.fecha = hoyIso;
@@ -1458,6 +1573,7 @@ views.reporte = function(){
       <div class="seg" id="rep-pago">${[['','Todas'],...PAGOS.map(p=>[p,p])].map(([v,t])=>`<button type="button" data-v="${v}" class="${repState.pago===v?'on':''}">${t}</button>`).join('')}</div></div>
       <div class="card-b flush">${tablaVentas([...base].filter(v=>!repState.pago||pagosDe(v).some(x=>x.forma===repState.pago)).reverse())}</div></div>`;
 };
+// [J-068] Reporte: cambiar de día, vendedor, forma de pago y exportar
 binders.reporte = function(){
   const mover = n => { const x=fechaDia(repState.fecha); x.setDate(x.getDate()+n); repState.fecha=isoDia(x); route(); };
   $('#rep-prev').onclick=()=>mover(-1);
@@ -1471,11 +1587,13 @@ binders.reporte = function(){
 };
 
 /* ---------- Estado de facturas y autorización del SRI (simulación académica) ---------- */
+// [J-069] Estados del SRI con su texto y color
 const SRI_ESTADOS = ['Pendiente','Recibida','Autorizada','Devuelta'];
 const SRI_TXT = {Pendiente:'Pendiente de envío', Recibida:'Recibida · en proceso', Autorizada:'Autorizada', Devuelta:'Devuelta'};
 const SRI_PILL = {Pendiente:'warn', Recibida:'brand', Autorizada:'ok', Devuelta:'bad'};
 const sriPill = v => `<span class="pill ${SRI_PILL[v.sri_estado]||'plain'}">${SRI_TXT[v.sri_estado]||v.sri_estado}</span>`;
 const sriState = {q:'', est:'', page:0};
+// [J-070] normSri: estado inicial de autorización de cada factura
 function normSri(v){
   if(!v.estado) v.estado = 'Emitida';
   if(!v.sri_estado){ const ant = new Date(v.fecha) < new Date(new Date().setHours(0,0,0,0)); v.sri_estado = ant ? 'Autorizada' : 'Pendiente'; v.sri_fecha = ant ? new Date(new Date(v.fecha).getTime()+12e4).toISOString() : null; }
@@ -1483,6 +1601,7 @@ function normSri(v){
   return v;
 }
 // Clave de acceso de 49 dígitos (formato del SRI) con dígito verificador módulo 11
+// [J-071] claveAcceso: clave de 49 dígitos del SRI con dígito verificador módulo 11
 function claveAcceso(v){
   const f = new Date(v.fecha), sec = v.numero.slice(8);
   const cod = String((parseInt(sec,10)*7919 + 20251) % 1e8).padStart(8,'0');
@@ -1492,6 +1611,7 @@ function claveAcceso(v){
   return base + dv;
 }
 const claveFmt = c => c.match(/.{1,7}/g).join(' ');
+// [J-072] procesarSri: avanza la factura un paso (recibida, autorizada o devuelta)
 async function procesarSri(numero){
   if(nube){
     const { data, error } = await sb.rpc('procesar_sri', { p_numero:numero });
@@ -1514,6 +1634,7 @@ async function procesarSri(numero){
   save(); return v;
 }
 // Envía una factura: recepción y, si fue recibida, consulta de autorización
+// [J-073] enviarSri: recepción y consulta de autorización
 async function enviarSri(numero, silencioso){
   let v = await procesarSri(numero); if(!v) return null;
   if(v.sri_estado==='Recibida'){ await new Promise(r=>setTimeout(r,700)); v = await procesarSri(numero) || v; }
@@ -1523,6 +1644,7 @@ async function enviarSri(numero, silencioso){
   }
   return v;
 }
+// [J-074] Vista Estado de facturas: contadores por estado y tabla
 views.sri = function(){
   const all = db.ventas.map(normSri);
   const c = e => all.filter(v=>v.sri_estado===e).length;
@@ -1544,6 +1666,7 @@ views.sri = function(){
     </div>
     <div class="note" style="margin-top:16px">${ic('info')}Simulación académica del flujo de facturación electrónica del SRI (recepción y autorización en ambiente de pruebas). No se envía información real al SRI.</div>`;
 };
+// [J-075] Estado de facturas: buscar, filtrar, enviar una o todas
 binders.sri = function(){
   const PER = 10;
   const draw = ()=>{
@@ -1575,6 +1698,7 @@ binders.sri = function(){
   };
   draw();
 };
+// [J-076] verSri: detalle con clave de acceso y pasos del flujo del SRI
 function verSri(numero){
   const v = db.ventas.find(x=>x.numero===numero); if(!v) return; normSri(v);
   const clave = claveAcceso(v);
@@ -1598,18 +1722,22 @@ function verSri(numero){
 }
 
 /* ---------- Operación: descuentos, pagos, anulación, kardex, bitácora ---------- */
+// [J-077] Reglas de venta: factura activa, descuento máximo por rol y total de cada línea
 function activa(v){ return v.estado !== 'Anulada'; }
 function maxDesc(){ return esAdmin() ? 100 : 10; }
 function lineaTotal(i){ return r2(i.precio * i.cant * (1 - (i.desc||0)/100)); }
 // Mismo cálculo que la función emitir_factura de la base de datos
+// [J-078] calcFactura: subtotal, descuentos, IVA y total (igual que en la base de datos)
 function calcFactura(items, pct){
   let bruto = 0, lineas = 0;
   items.forEach(i=>{ bruto += i.precio*i.cant; lineas = r2(lineas + lineaTotal(i)); });
   const descG = r2(lineas * (pct||0) / 100), sub = r2(lineas - descG), iva = r2(sub * IVA);
   return {bruto:r2(bruto), lineas, descLineas:r2(bruto-lineas), descG, sub, iva, total:r2(sub+iva), descuento:r2(bruto-sub)};
 }
+// [J-079] pagosDe y pagoTxt: lista y texto de las formas de pago de una factura
 function pagosDe(v){ return (Array.isArray(v.pagos) && v.pagos.length) ? v.pagos : [{forma:v.pago||'Efectivo', monto:v.total}]; }
 function pagoTxt(v){ return pagosDe(v).length===1 ? pagosDe(v)[0].forma : pagosDe(v).map(p=>`${p.forma} ${money(p.monto)}`).join(' + '); }
+// [J-080] normVenta y normProducto: completan pagos, descuentos, costo y margen
 function normVenta(v){
   normSri(v);
   v.pagos = pagosDe(v).map(p=>({forma:p.forma, monto:num(p.monto)}));
@@ -1622,15 +1750,18 @@ function normProducto(p){ p.costo = (p.costo===undefined||p.costo===null) ? r2(p
 function margen(p){ return p.precio>0 ? (p.precio-p.costo)/p.precio*100 : 0; }
 
 // Bitácora de auditoría
+// [J-081] bitacora: anota quién hizo qué y cuándo
 async function bitacora(accion, detalle){
   const fila = {fecha:new Date().toISOString(), usuario:sesion?sesion.usuario:'—', accion, detalle:detalle||''};
   if(nube){ try{ await sb.from('bitacora').insert({usuario:fila.usuario, accion, detalle:fila.detalle}); }catch(e){} return; }
   db.bitacora.push({id:(db.bitacora.length?db.bitacora[db.bitacora.length-1].id:0)+1, ...fila}); save();
 }
 // Kardex (modo local; en la nube lo registra la base de datos)
+// [J-082] movLocal: agrega un movimiento al kardex (modo sin conexión)
 function movLocal(codigo, tipo, documento, cantidad, saldo, costo, detalle){
   db.movimientos.push({id:(db.movimientos.length?db.movimientos[db.movimientos.length-1].id:0)+1, fecha:new Date().toISOString(), codigo, tipo, documento, cantidad, saldo, costo:r2(costo||0), usuario:sesion?sesion.usuario:'', detalle:detalle||''});
 }
+// [J-083] kardexInicial: arma el kardex a partir de las ventas existentes
 function kardexInicial(){
   const movs = []; let id = 0;
   const lineas = []; db.ventas.forEach(v=>v.items.forEach(i=>lineas.push({fecha:v.fecha, numero:v.numero, vendedor:v.vendedor, codigo:i.codigo, cant:i.cant})));
@@ -1643,9 +1774,11 @@ function kardexInicial(){
   });
   return movs.sort((a,b)=>new Date(a.fecha)-new Date(b.fecha) || a.id-b.id).map((m,k)=>({...m, id:k+1}));
 }
+// [J-084] faltaBD: detecta si falta actualizar la base de datos
 const faltaBD = e => { const m=(e&&e.message)||''; return e && (e.code==='PGRST202' || e.code==='42883' || /schema cache|does not exist|Could not find/i.test(m)); };
 
 /* ---------- Anulación y nota de crédito ---------- */
+// [J-085] anularFactura: devuelve stock, genera nota de crédito y registra kardex
 async function anularFactura(numero, motivo){
   if(nube){
     const { error } = await sb.rpc('anular_factura', { p_numero:numero, p_motivo:motivo, p_usuario:sesion.usuario });
@@ -1666,6 +1799,7 @@ async function anularFactura(numero, motivo){
   Object.assign(v, {estado:'Anulada', anulada_motivo:motivo, anulada_por:sesion.usuario, anulada_fecha:new Date().toISOString(), nc_numero:nc});
   await bitacora('Anuló factura', `${numero} · NC ${nc} · ${motivo}`); save(); return true;
 }
+// [J-086] formAnular: pide el motivo de la anulación
 function formAnular(numero){
   const v = db.ventas.find(x=>x.numero===numero); if(!v) return;
   const unidades = v.items.reduce((a,i)=>a+i.cant,0);
@@ -1681,6 +1815,7 @@ function formAnular(numero){
       closeModal(); if(await anularFactura(numero, m)){ toast('Factura anulada. Nota de crédito emitida.'); route(); verNotaCredito(numero); } };
   });
 }
+// [J-087] Partes de los documentos: encabezado, detalle de productos y totales
 function docEncabezado(tipo, numero){
   return `<div class="ride-h"><div class="em">${LOGO_SVG}<div><b>${EMPRESA.razon}</b><div class="cell-sub">RUC ${EMPRESA.ruc}</div><div class="cell-sub">${EMPRESA.dir}</div></div></div>
       <div class="doc"><div class="t">${tipo}</div><div class="code">No. ${numero}</div><div class="cell-sub">Ambiente: Pruebas</div></div></div>`;
@@ -1697,6 +1832,7 @@ function sumaDoc(v){
   return `<div class="sum">${desc>0?`<div><span>Subtotal sin descuento</span><span>${money(r2(v.subtotal+desc))}</span></div><div><span>Descuento${v.desc_pct?` (${v.desc_pct}% factura)`:''}</span><span>−${money(desc)}</span></div>`:''}
     <div><span>Subtotal 15%</span><span>${money(v.subtotal)}</span></div><div><span>Subtotal 0%</span><span>$0.00</span></div><div><span>IVA 15%</span><span>${money(v.iva)}</span></div><div class="g"><span>Valor total</span><span>${money(v.total)}</span></div></div>`;
 }
+// [J-088] verNotaCredito: muestra e imprime la nota de crédito
 function verNotaCredito(numero){
   const v = db.ventas.find(x=>x.numero===numero); if(!v || activa(v)) return;
   const body = `<div class="ride">${docEncabezado('NOTA DE CRÉDITO', v.nc_numero)}
@@ -1714,8 +1850,10 @@ function verNotaCredito(numero){
 }
 
 /* ---------- Impresión: ticket 80 mm y documentos A4 (Guardar como PDF) ---------- */
+// [J-089] Estilos de impresión: ticket de 80 mm y hoja A4
 const CSS_TICKET = `@page{size:80mm auto;margin:3mm}body{font:11px/1.35 "Courier New",monospace;width:72mm;margin:0 auto;color:#000}.c{text-align:center}.b{font-weight:bold}hr{border:0;border-top:1px dashed #000;margin:5px 0}table{width:100%;border-collapse:collapse}td{vertical-align:top;padding:1px 0}.r{text-align:right;white-space:nowrap}.big{font-size:14px;font-weight:bold}.an{border:2px solid #000;text-align:center;font-weight:bold;padding:3px;margin:5px 0}.clave{word-break:break-all;font-size:9.5px}`;
 const CSS_A4 = `@page{size:A4;margin:14mm}*{box-sizing:border-box}body{font:11px/1.45 Arial,Helvetica,sans-serif;color:#15171f;margin:0}.head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #3341a8;padding-bottom:8px;margin-bottom:14px}.head b{font-size:14px;color:#3341a8}.head small{display:block;color:#555}h1{font-size:17px;margin:0 0 2px}.sub{color:#555;margin:0 0 12px}table{width:100%;border-collapse:collapse;margin:6px 0 16px}th,td{border-bottom:1px solid #dde;padding:5px 6px;text-align:left}th{background:#eef0fb;color:#2a3592;font-size:9.5px;text-transform:uppercase;letter-spacing:.03em}.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}tr.tot td{font-weight:bold;background:#f3f4f8}.kp{display:flex;gap:8px;margin:6px 0 14px}.kp div{flex:1;border:1px solid #dde;border-radius:6px;padding:8px}.kp span{color:#555;font-size:10px;display:block}.kp b{font-size:15px}h2{font-size:12.5px;margin:12px 0 4px;color:#2a3592}.pie{margin-top:18px;color:#777;font-size:9.5px;border-top:1px solid #dde;padding-top:6px}`;
+// [J-090] imprimirDoc: imprime en un marco oculto (permite Guardar como PDF)
 function imprimirDoc(titulo, html, ticket){
   const f = document.createElement('iframe');
   f.setAttribute('aria-hidden','true'); f.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0;visibility:hidden';
@@ -1724,6 +1862,7 @@ function imprimirDoc(titulo, html, ticket){
   d.open(); d.write(`<!doctype html><html lang="es"><head><meta charset="utf-8"><title>${esc(titulo)}</title><style>${ticket?CSS_TICKET:CSS_A4}</style></head><body>${html}</body></html>`); d.close();
   setTimeout(()=>{ try{ f.contentWindow.focus(); f.contentWindow.print(); }catch(e){ toast('Tu navegador no permitió abrir la impresión.', true); } setTimeout(()=>f.remove(), 60000); }, 300);
 }
+// [J-091] Plantillas de PDF: encabezado de empresa, tablas e indicadores
 function docA4(titulo, subtitulo, contenido){
   return `<div class="head"><div><b>${EMPRESA.razon}</b><small>RUC ${EMPRESA.ruc} · ${EMPRESA.dir}</small></div><small>Generado el ${fmtDate(new Date())} ${fmtTime(new Date())}<br>por ${esc(sesion?sesion.nombre:'')}</small></div>
     <h1>${titulo}</h1><p class="sub">${subtitulo}</p>${contenido}<div class="pie">Comercial Nova · Sistema de gestión comercial · Documento generado con fines académicos.</div>`;
@@ -1734,6 +1873,7 @@ function pdfTabla(cabeceras, filas, numCols, total){
   return `<table><thead><tr>${cabeceras.map((h,k)=>celda(h,k,'th')).join('')}</tr></thead><tbody>${filas.map(f=>`<tr>${f.map((x,k)=>celda(x,k,'td')).join('')}</tr>`).join('')}${total?`<tr class="tot">${total.map((x,k)=>celda(x,k,'td')).join('')}</tr>`:''}</tbody></table>`;
 }
 const pdfKpis = l => `<div class="kp">${l.map(([a,b])=>`<div><span>${esc(a)}</span><b>${esc(String(b))}</b></div>`).join('')}</div>`;
+// [J-092] ticketHTML: contenido del ticket de 80 mm
 function ticketHTML(v){
   const c = calcFactura(v.items, v.desc_pct), desc = v.descuento || c.descuento;
   const fila = (a,b,cl) => `<tr${cl?` class="${cl}"`:''}><td>${a}</td><td class="r">${b}</td></tr>`;
@@ -1746,7 +1886,9 @@ function ticketHTML(v){
     <div>Clave de acceso / Autorización:</div><div class="clave">${claveAcceso(v)}</div><div>Estado SRI: ${SRI_TXT[v.sri_estado]||v.sri_estado}</div><hr>
     <div class="c">¡Gracias por su compra!</div><div class="c">Documento académico sin validez tributaria</div>`;
 }
+// [J-093] imprimirTicket: imprime el ticket de una factura
 const imprimirTicket = numero => { const v=db.ventas.find(x=>x.numero===numero); if(v) imprimirDoc('Ticket '+v.numero, ticketHTML(v), true); };
+// [J-094] formCorreo: abre el correo con el detalle de la factura
 function formCorreo(numero){
   const v = db.ventas.find(x=>x.numero===numero); if(!v) return;
   const cli = db.clientes.find(c=>c.id===v.cliente.id);
@@ -1770,6 +1912,7 @@ function formCorreo(numero){
 }
 
 /* ---------- Exportar a Excel ---------- */
+// [J-095] exportarExcel: carga SheetJS y descarga el archivo .xlsx (o CSV si falla)
 function cargarScript(src){ return new Promise((ok,mal)=>{ const s=document.createElement('script'); s.src=src; s.onload=ok; s.onerror=mal; setTimeout(()=>mal(new Error('timeout')),10000); document.head.appendChild(s); }); }
 async function exportarExcel(archivo, hojas){
   archivo = archivo.replace(/[\\/:*?"<>|]/g,'-');
@@ -1786,10 +1929,12 @@ async function exportarExcel(archivo, hojas){
     toast('No se pudo generar el Excel; se descargó en formato CSV.', true);
   }
 }
+// [J-096] Botones Excel y PDF y fecha de hoy para nombrar archivos
 const btnExport = (id) => `<button type="button" class="btn ghost" id="${id}-xls">${ic('excel')}Excel</button><button type="button" class="btn ghost" id="${id}-pdf">${ic('print')}PDF</button>`;
 const hoyTxt = () => isoDia(Date.now());
 
 /* ---------- Compras a proveedores ---------- */
+// [J-097] registrarCompra: suma stock, recalcula costo promedio y registra kardex
 async function registrarCompra(prov, factura, items){
   if(nube){
     const { data, error } = await sb.rpc('registrar_compra', { p_proveedor:prov, p_factura:factura, p_items:items, p_usuario:sesion.usuario });
@@ -1804,6 +1949,7 @@ async function registrarCompra(prov, factura, items){
   db.compras.push({id:db.compraSeq, numero, fecha:new Date().toISOString(), proveedor:prov, factura_proveedor:factura||'', items:out, total:r2(total), usuario:sesion.usuario});
   await bitacora('Registró compra', `${numero} · ${prov.nombre} · ${money(total)}`); save(); return numero;
 }
+// [J-098] Vista Compras: indicadores e historial de compras
 views.compras = function(){
   const lista = [...db.compras].sort((a,b)=>new Date(b.fecha)-new Date(a.fecha)), now = new Date();
   const mes = lista.filter(c=>{ const d=new Date(c.fecha); return d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear(); });
@@ -1819,6 +1965,7 @@ views.compras = function(){
       ${lista.map(c=>`<tr><td class="code">${c.numero}</td><td><div>${fmtDate(c.fecha)}</div><div class="cell-sub">${fmtTime(c.fecha)}</div></td><td><div class="cell-main">${esc(c.proveedor.nombre)}</div><div class="cell-sub mono">${esc(c.proveedor.ruc||'')}</div></td><td class="code">${esc(c.factura_proveedor||'—')}</td><td class="num">${c.items.reduce((a,i)=>a+i.cant,0)}</td><td class="num cell-main">${money(c.total)}</td><td class="code">${esc(c.usuario)}</td><td><div class="rowactions"><button class="btn ghost sm" data-cp="${c.numero}">Ver</button></div></td></tr>`).join('')}
     </tbody></table></div>`:empty('compras','Aún no hay compras. Registra la primera con "Nueva compra".')}</div></div>`;
 };
+// [J-099] Compras: nueva compra, ver y exportar
 binders.compras = function(){
   $('#cp-new').onclick=()=>formCompra();
   $$('[data-cp]').forEach(b=>b.onclick=()=>verCompra(b.dataset.cp));
@@ -1826,6 +1973,7 @@ binders.compras = function(){
     {nombre:'Compras', filas:[['Compra','Fecha','Proveedor','RUC','Factura proveedor','Unidades','Total','Registró'], ...db.compras.map(c=>[c.numero, fmtDate(c.fecha)+' '+fmtTime(c.fecha), c.proveedor.nombre, c.proveedor.ruc||'', c.factura_proveedor||'', c.items.reduce((a,i)=>a+i.cant,0), c.total, c.usuario])]},
     {nombre:'Detalle', filas:[['Compra','Código','Producto','Cantidad','Costo unitario','Subtotal'], ...db.compras.flatMap(c=>c.items.map(i=>[c.numero, i.codigo, i.nombre, i.cant, i.costo, r2(i.cant*i.costo)]))]}]);
 };
+// [J-100] formCompra: proveedor, factura y líneas de productos con costo
 function formCompra(){
   const provs = [...new Map(db.compras.map(c=>[c.proveedor.nombre, c.proveedor])).values()];
   const opts = db.productos.slice().sort((a,b)=>a.nombre.localeCompare(b.nombre,'es')).map(p=>`<option value="${p.codigo}">${esc(p.nombre)} · ${p.codigo} (stock ${p.stock})</option>`).join('');
@@ -1872,6 +2020,7 @@ function formCompra(){
       if(n){ toast('Compra '+n+' registrada · stock actualizado'); route(); verCompra(n); } };
   }, true);
 }
+// [J-101] verCompra: comprobante de la compra
 function verCompra(numero){
   const c = db.compras.find(x=>x.numero===numero); if(!c) return;
   openModal('Compra '+c.numero, `${esc(c.proveedor.nombre)} · ${fmtDate(c.fecha)}`, `<div class="ride">${docEncabezado('COMPRA', c.numero)}
@@ -1883,9 +2032,11 @@ function verCompra(numero){
 }
 
 /* ---------- Kardex ---------- */
+// [J-102] Kardex: producto elegido, colores por tipo y movimientos ordenados
 const kxState = {codigo:''};
 const KX_PILL = {'Stock inicial':'plain', Venta:'brand', Compra:'ok', 'Anulación':'warn', Ajuste:'bad'};
 function kardexDe(codigo){ return db.movimientos.filter(m=>m.codigo===codigo).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha) || a.id-b.id); }
+// [J-103] Vista Kardex: stock, entradas, salidas, costo y movimientos
 views.kardex = function(){
   if(!db.productos.some(p=>p.codigo===kxState.codigo)) kxState.codigo = (db.productos[0]||{}).codigo||'';
   const p = db.productos.find(x=>x.codigo===kxState.codigo);
@@ -1909,6 +2060,7 @@ views.kardex = function(){
         <td class="num ok-t">${m.cantidad>0?m.cantidad:''}</td><td class="num bad-t">${m.cantidad<0?-m.cantidad:''}</td><td class="num cell-main">${m.saldo}</td><td class="num">${money(m.costo)}</td></tr>`).join('')}
     </tbody></table></div>`:empty('kardex','Este producto aún no tiene movimientos.')}</div></div>`;
 };
+// [J-104] Kardex: cambiar de producto y exportar
 binders.kardex = function(){
   $('#kx-p').onchange=e=>{ kxState.codigo=e.target.value; route(); };
   $$('a[data-ver]').forEach(a=>a.onclick=e=>{ e.preventDefault(); verFactura(a.dataset.ver); });
@@ -1920,6 +2072,7 @@ binders.kardex = function(){
 };
 
 /* ---------- Productos más vendidos y margen de ganancia ---------- */
+// [J-105] rentabilidad: unidades, ventas, costo, utilidad y margen por producto
 const rtState = {periodo:'mes', orden:'unidades'};
 function rentabilidad(){
   const now = new Date();
@@ -1938,6 +2091,7 @@ function rentabilidad(){
   t.utilidad = r2(t.ventas-t.costo); t.margen = t.ventas? t.utilidad/t.ventas*100 : 0;
   return {filas, t, nFact:ventas.length, sinVenta: db.productos.filter(p=>!por[p.codigo])};
 }
+// [J-106] Vista Más vendidos y margen
 const RT_PER = {hoy:'Hoy', '7d':'Últimos 7 días', mes:'Este mes', todo:'Todo'};
 views.rentabilidad = function(){
   const {filas, t, nFact, sinVenta} = rentabilidad(), top = filas.slice(0,8), maxU = top.reduce((m,r)=>Math.max(m,r[rtState.orden]),0)||1;
@@ -1961,6 +2115,7 @@ views.rentabilidad = function(){
       <tr class="totrow"><td></td><td>Total</td><td class="num">${t.unidades}</td><td class="num">${money(t.ventas)}</td><td class="num">${money(t.costo)}</td><td class="num">${money(t.utilidad)}</td><td class="num">${t.margen.toFixed(1)}%</td></tr>
     </tbody></table></div>`:empty('rentabilidad','No hay ventas en este periodo.')}</div></div>`;
 };
+// [J-107] Más vendidos: periodo, orden y exportar
 binders.rentabilidad = function(){
   $$('#rt-per button').forEach(b=>b.onclick=()=>{ rtState.periodo=b.dataset.v; route(); });
   $$('#rt-ord button').forEach(b=>b.onclick=()=>{ rtState.orden=b.dataset.v; route(); });
@@ -1972,6 +2127,7 @@ binders.rentabilidad = function(){
 };
 
 /* ---------- Bitácora de auditoría ---------- */
+// [J-108] Vista Bitácora: buscador y filtro por usuario
 const btState = {q:'', usuario:'', page:0};
 views.bitacora = function(){
   const usuarios = [...new Set(db.bitacora.map(b=>b.usuario))].sort();
@@ -1981,6 +2137,7 @@ views.bitacora = function(){
       <select id="bt-u" aria-label="Usuario"><option value="">Todos los usuarios</option>${usuarios.map(u=>`<option value="${esc(u)}" ${btState.usuario===u?'selected':''}>${esc(u)}</option>`).join('')}</select></div>
       <div id="bt-rows"></div><div class="pager" id="bt-pager"></div></div>`;
 };
+// [J-109] Bitácora: lista filtrada, paginación y exportar a Excel
 const btLista = () => { const q=btState.q.toLowerCase(); return [...db.bitacora].sort((a,b)=>new Date(b.fecha)-new Date(a.fecha) || b.id-a.id).filter(b=>(!btState.usuario||b.usuario===btState.usuario)&&(b.accion.toLowerCase().includes(q)||b.detalle.toLowerCase().includes(q))); };
 binders.bitacora = function(){
   const PER = 20;
@@ -2000,6 +2157,7 @@ binders.bitacora = function(){
 };
 
 /* ---------- Búsqueda global (Ctrl K) ---------- */
+// [J-110] openPalette: búsqueda global de módulos, productos, clientes y facturas
 function openPalette(){
   if(!sesion) return;
   $('#modal').innerHTML = `<div class="modal-bg palette" id="mbg"><div class="modal" role="dialog" aria-modal="true" aria-label="Búsqueda global"><div class="pal-in">${ic('search')}<input type="text" id="palq" placeholder="Busca un producto, cliente, factura o módulo" autocomplete="off" aria-label="Buscar"><kbd>Esc</kbd></div><div class="pal-list" id="pall"></div><div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> navegar</span><span><kbd>Enter</kbd> abrir</span></div></div></div>`;
@@ -2028,6 +2186,7 @@ function openPalette(){
 }
 
 /* ---------- Notificaciones ---------- */
+// [J-111] Notificaciones de stock bajo
 function drawBell(){
   const bajos = db.productos.filter(p=>p.stock<=p.minimo);
   $('#bell').innerHTML = ic('bell') + (bajos.length?'<span class="dot"></span>':'');
@@ -2040,6 +2199,7 @@ function togglePop(){
 document.addEventListener('click',e=>{ if($('#pop').innerHTML && !e.target.closest('.rel')) $('#pop').innerHTML=''; });
 
 /* ---------- Enrutador ---------- */
+// [J-112] route: el enrutador que muestra el módulo según la dirección (#)
 function route(){
   sesion = getSesion();
   $('#login').hidden = !!sesion;
@@ -2072,6 +2232,7 @@ $('#cmdk').onclick=openPalette;
 $('#bell').onclick=e=>{ e.stopPropagation(); togglePop(); };
 $('#theme').onclick=()=>setTheme(isDark()?'light':'dark');
 $('#logout').onclick=()=>{ if(sesion) bitacora('Cerró sesión', sesion.nombre); memUser=null; ventaTab='nueva'; cliSel='9999999999999'; try{ sessionStorage.removeItem('cn-sesion'); }catch(e){} cart=[]; history.replaceState(null,'',location.pathname+location.search); route(); };
+// [J-113] Restaurar datos de ejemplo y atajos de teclado (Esc, Ctrl K y /)
 function resetDatos(){ if(nube) return; const keep=db.usuarios; db=seed(); db.usuarios=keep; normalizarDB(); save(); cart=[]; toast('Datos de ejemplo restaurados'); route(); }
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){ closeModal(); $('#pop').innerHTML=''; document.body.classList.remove('nav-open'); }
@@ -2080,6 +2241,7 @@ document.addEventListener('keydown',e=>{
 });
 
 /* ---------- Inicio de sesión (3 intentos, luego bloqueo de 30 s) ---------- */
+// [J-114] Inicio de sesión: intentos fallidos, bloqueo y mensajes del formulario
 let fallos = 0, bloqueoHasta = 0, lockTimer = 0;
 $('#ic-user').outerHTML = ic('user'); $('#ic-lock').outerHTML = ic('lock'); $('#ic-arrow').outerHTML = ic('arrow');
 document.querySelectorAll('.feats .fi').forEach(el=>el.innerHTML = ic(el.dataset.ic)); $('#l-secure').innerHTML = ic('shield')+'Contraseñas cifradas con SHA-256';
@@ -2097,6 +2259,7 @@ $('#l-eye').onclick=()=>{ const i=$('#l-pass'), show=i.type==='password'; i.type
 $('#l-pass').addEventListener('keyup',e=>{ $('#l-caps').hidden = !(e.getModifierState && e.getModifierState('CapsLock')); });
 $('#l-forgot').onclick=()=>setMsg('info','Por seguridad, la clave solo la puede restablecer un administrador desde el módulo <b>Usuarios y permisos</b>. Pídele que te asigne una nueva.');
 $('#l-demo').onclick=()=>{ $('#l-user').value='cajero'; $('#l-pass').value='caja123'; setFieldErr('user',''); setFieldErr('pass',''); setMsg(); $('#l-go').focus(); };
+// [J-115] lockCountdown: cuenta regresiva del bloqueo de 30 segundos
 function lockCountdown(){
   clearInterval(lockTimer);
   const tick=()=>{ const s=Math.ceil((bloqueoHasta-Date.now())/1000);
@@ -2104,6 +2267,7 @@ function lockCountdown(){
     setMsg('bad',`Demasiados intentos fallidos. Podrás intentar de nuevo en <b>${s} s</b>.`); $('#l-go').disabled=true; };
   tick(); lockTimer=setInterval(tick,1000);
 }
+// [J-116] Verificación de usuario y contraseña al iniciar sesión
 $('#flogin').addEventListener('submit', async e=>{
   e.preventDefault();
   if(Date.now() < bloqueoHasta){ lockCountdown(); return; }
@@ -2130,15 +2294,18 @@ $('#flogin').addEventListener('submit', async e=>{
 });
 
 /* ---------- Panel visual del login ---------- */
+// [J-117] Panel de presentación: diapositivas automáticas
 let slideIdx = 0, slideTimer = 0;
 function showSlide(i){ slideIdx=i; $$('#slides .slide').forEach((s,k)=>s.classList.toggle('on',k===i)); $$('#dots button').forEach((d,k)=>d.classList.toggle('on',k===i)); }
 $$('#dots button').forEach((d,k)=>d.onclick=()=>{ showSlide(k); });
 function startSlides(){ clearInterval(slideTimer); if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; slideTimer=setInterval(()=>{ if(!$('#login').hidden) showSlide((slideIdx+1)%3); },5200); }
+// [J-118] drawPreview: datos del panel de presentación
 function drawPreview(){
   $('#pv4').textContent = db.productos.length;
   $('#pv5').textContent = new Set(db.productos.map(p=>p.categoria)).size;
   drawThemeBtn(); startSlides();
   setTimeout(()=>{ const f = $('#l-user').value ? $('#l-pass') : $('#l-user'); if(!$('#login').hidden && document.activeElement===document.body) f.focus(); }, 60);
 }
+// [J-119] Arranque: conecta con la base de datos y muestra la pantalla
 (async()=>{ await conectarNube(); if(!nube) normalizarDB(); $('#l-online').textContent = nube ? 'Conectado a la base de datos' : 'Modo sin conexión (este navegador)'; route(); })();
 </script>
